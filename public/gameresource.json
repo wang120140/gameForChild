@@ -1,0 +1,76 @@
+[{
+        "name": "bggame_png",
+        "url": "./img/bggame.jpg"
+    }, {
+        "name": "score_png",
+        "url": "./img/score.png"
+    }, {
+        "name": "time_png",
+        "url": "./img/time.png"
+    }, {
+        "name": "Happy_jpg",
+        "url": "./img/Happy.jpg"
+    }, {
+        "name": "unHappy_jpg",
+        "url": "./img/unHappy.jpg"
+    }, {
+        "name": "track_png",
+        "url": "./img/track.png"
+    }, {
+        "name": "RecyclableLitter",
+        "url": "./img/RecyclableLitter.jpg"
+    }, {
+        "name": "paper",
+        "url": "./img/1-1.png"
+    }, {
+        "name": "cloth",
+        "url": "./img/1-2.png"
+    }, {
+        "name": "glass",
+        "url": "./img/1-3.png"
+    }, {
+        "name": "plastics",
+        "url": "./img/2-1.png"
+    }, {
+        "name": "metal",
+        "url": "./img/2-2.png"
+    }, {
+        "name": "fruitPeels",
+        "url": "./img/2-3.png"
+    }, {
+        "name": "bones",
+        "url": "./img/3-1png"
+    }, {
+        "name": "vegetableLeaves",
+        "url": "./img/3-2.png"
+    }, {
+        "name": "leftovers",
+        "url": "./img/3-3.png"
+    }, {
+        "name": "eggshells",
+        "url": "./img/4-1.png"
+    }, {
+        "name": "medicines",
+        "url": "./img/4-2.png"
+    }, {
+        "name": "batteries",
+        "url": "./img/4-3.png"
+    }, {
+        "name": "thermometers",
+        "url": "./img/5-1.png"
+    }, {
+        "name": "lightBulbs",
+        "url": "./img/5-2.png"
+    }, {
+        "name": "oilPaints",
+        "url": "./img/5-3.png"
+    }, {
+        "name": "wheel_png",
+        "url": "./img/wheel.png"
+    }
+
+
+
+
+
+]
