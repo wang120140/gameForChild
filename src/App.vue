@@ -55,7 +55,7 @@ export default {
       var self = this;
       return new Promise(resolve => {
         self.axios.get("./gameresource.json").then(response => {
-          console.log(response.data);
+          // console.log(response.data);
           this.Waster = response.data;
           PIXI.loader.add(response.data).load(() => {
             resolve();

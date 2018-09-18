@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js'
 //import * as Tink from '../lib/tink.js'
-let bg, Scorebg, ScoreMessage, ScoreNum = 0,
-    Timebg, TimeMessage, TimeNum = 0,
+let
+    Timebg,
     unHappyAnimal, HappyAnimal,
-    track = [],
+
     RecyclableWaste = ['paper', 'cloth', 'glass', 'plastics', 'metal'],
     KitchenWaste = ['fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells'],
     HazardousWaste = ['medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints'],
@@ -15,7 +15,11 @@ let bg, Scorebg, ScoreMessage, ScoreNum = 0,
     RecyclableSprite = [],
     loop;
 
-let wheel;
+let bg, house, wheel, wheelSprite = [],
+    track = [],
+    Flower, Scorebg, ScoreMessage, ScoreNum = 0,
+    Alarm, BtnBackNormal, TimeMessage, TimeNum = 0,
+    Recyclablelitter, RecyclablelitterCap;
 class GameMain extends PIXI.Container {
     constructor() {
         super();
@@ -37,72 +41,80 @@ class GameMain extends PIXI.Container {
         //背景图
         bg = new PIXI.Sprite(PIXI.loader.resources['bggame_png'].texture);
         this.addChild(bg);
-        //轮子背景图
+        //房子图片
+        house = new PIXI.Sprite(PIXI.loader.resources['house_png'].texture);
+        house.position.set(1450, 100);
+        this.addChild(house);
+        //垃圾箱
+        Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitter"].texture);
+        Recyclablelitter.position.set(100, 480);
+        Recyclablelitter.buttonMode = true;
+        Recyclablelitter.interactive = true;
+        Recyclablelitter.on("pointerover", onButtonOver);
 
-        for (let wheelNum = 0; wheelNum <= 50; wheelNum++) {
+        function onButtonOver() {
+            console.log("垃圾箱的事件触发")
+        }
+        this.addChild(Recyclablelitter);
+        //垃圾箱的盖子
+        RecyclablelitterCap = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitterCap"].texture);
+        RecyclablelitterCap.position.set(83, 400)
+        this.addChild(RecyclablelitterCap);
+        //传送带
+        for (let i = 0; i < 2; i++) {
+            let track0 = new PIXI.Sprite(PIXI.loader.resources['track_png'].texture);
+            track0.position.set(i * (-1920), 700);
+            //track0.scale.set(8, 3);
+            track.push(track0);
+            this.addChild(track0);
+        }
+        //轮子背景图
+        for (let wheelNum = 0; wheelNum <= 15; wheelNum++) {
             wheel = new PIXI.Sprite(PIXI.loader.resources['wheel_png'].texture);
-            wheel.position.set(wheelNum * 46, 700);
+            wheel.position.set(wheelNum * 140, 1050);
+            wheel.anchor.set(0.5);
+            wheelSprite.push(wheel);
             this.addChild(wheel);
         }
-
-        //时间背景图片
-        Timebg = new PIXI.Sprite(PIXI.loader.resources['time_png'].texture);
-        Timebg.position.set(1300, 0);
-        Timebg.scale.set(0.5, 0.5);
-        this.addChild(Timebg);
-        //时间
-        TimeMessage = new PIXI.Text("00:00", ScoreStyle);
-        TimeMessage.position.set(1330, 50);
-        this.addChild(TimeMessage);
-
-
-
         //分数背景图片
         Scorebg = new PIXI.Sprite(PIXI.loader.resources['score_png'].texture);
-        Scorebg.position.set(1500, 0);
-        Scorebg.scale.set(0.5, 0.5);
+        Scorebg.position.set(1000, 40);
         this.addChild(Scorebg);
         //在分数背景图下写分数
-        ScoreMessage = new PIXI.Text("X" + ScoreNum, ScoreStyle)
-        ScoreMessage.position.set(1530, 50)
+        ScoreMessage = new PIXI.Text(ScoreNum, ScoreStyle)
+        ScoreMessage.position.set(1670, 100)
         this.addChild(ScoreMessage);
+        //时间
+        TimeMessage = new PIXI.Text("00:00", ScoreStyle);
+        TimeMessage.position.set(1200, 100);
+        this.addChild(TimeMessage);
+        //花的图片
+        Flower = new PIXI.Sprite(PIXI.loader.resources["flower_png"].texture);
+        Flower.position.set(1500, 95);
+        this.addChild(Flower);
+        //时间的图片
+        Alarm = new PIXI.Sprite(PIXI.loader.resources["alarm_png"].texture);
+        Alarm.position.set(1050, 95);
+        this.addChild(Alarm);
+        //返回按钮
+        BtnBackNormal = new PIXI.Sprite(PIXI.loader.resources["BtnBackNormal_png"].texture);
+        BtnBackNormal.position.set(100, 70);
+        this.addChild(BtnBackNormal);
         //小动物
         unHappyAnimal = new PIXI.Sprite(PIXI.loader.resources['unHappy_jpg'].texture);
         unHappyAnimal.scale.set(0.1, 0.1);
         unHappyAnimal.position.set(90, 100);
         HappyAnimal = new PIXI.Sprite(PIXI.loader.resources['Happy_jpg'].texture);
         HappyAnimal.scale.set(0.2, 0.2)
-        HappyAnimal.position.set(90, 100)
+        HappyAnimal.position.set(90, 50)
         this.addChild(HappyAnimal);
         HappyAnimal.visible = false;
         this.addChild(unHappyAnimal);
-        //传送带
-        for (let i = 0; i < 2; i++) {
-            let track0 = new PIXI.Sprite(PIXI.loader.resources['track_png'].texture);
-            track0.position.set(0 + i * (-2000), 780);
-            track0.scale.set(8, 3);
-            track.push(track0);
-            this.addChild(track0);
-        }
-        //垃圾箱
-        let Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitter"].texture);
-        Recyclablelitter.y = 100;
-        Recyclablelitter.buttonMode = true;
-        Recyclablelitter.interactive = true;
-        Recyclablelitter.on("pointerover", onButtonOver);
-
-        function onButtonOver() {
-
-        }
-        this.addChild(Recyclablelitter);
-
         //添加垃圾
         RecyclableWaste.forEach((item, index) => {
             let RecyclableItem = new PIXI.Sprite(PIXI.loader.resources[item].texture);
             RecyclableItem.x = index * (-400);
-            RecyclableItem.y = 780;
-
-            console.log(RecyclableItem.x);
+            RecyclableItem.y = 750;
 
             RecyclableItem.EventChange = false; //点击事件是否发生
             RecyclableItem.EventChangePosition = 2000; //模拟点击事件的位置
@@ -125,8 +137,16 @@ class GameMain extends PIXI.Container {
 
     }
     gameloop(delta) {
-
-        //定义时间函数
+        //传送带
+        track.forEach((item) => {
+            item.x >= 1920 && item.position.set(-1920, 700);
+            item.x += 10;
+        });
+        //轮子
+        wheelSprite.forEach((item) => {
+                item.rotation += 0.1 * delta;
+            })
+            //定义时间函数
         TimeNum += 1;
         if (TimeNum < 3600) {
             TimeMessage.text = ("00:" + Math.floor(TimeNum / 60));
@@ -138,16 +158,13 @@ class GameMain extends PIXI.Container {
         //定义动物的层级
         this.setChildIndex(unHappyAnimal, 8); //这句写的不好
         this.setChildIndex(HappyAnimal, 9);
-        track.forEach((item) => {
-            item.x >= 2000 && item.position.set(-2000, 780);
-            item.x += 10;
-        });
+
         //精灵循环
         RecyclableSprite.forEach((item, index, arr) => {
             if (item.EventChange) {
                 //定义点击事件后发生的事情
                 item.scaleV += 1;
-                item.y += -(780 - 100) / 60;
+                item.y += -(500 - 100) / 60;
                 item.x += -(item.EventChangePosition) / 60;
                 item.scale.set(1 - item.scaleV / 60, 1 - item.scaleV / 60);
             } else {
@@ -192,7 +209,7 @@ class GameMain extends PIXI.Container {
                 })
 
                 arr[index] = item //替换原有的精灵
-                item.position.set(item.EventChangePosition - 2400, 780); //给精灵添加到位置
+                item.position.set(item.EventChangePosition - 2400, 750); //给精灵添加到位置
 
                 this.addChild(item) //把精灵添加到舞台
             }
@@ -216,7 +233,7 @@ class GameMain extends PIXI.Container {
         })
 
         arr[index] = item //这有两个变量
-        item.position.set(item.EventChangePosition - 2400, 780);
+        item.position.set(item.EventChangePosition - 2400, 500);
 
         this.addChild(item)
     }
