@@ -11,6 +11,11 @@
 import GameBoot from "@/components/GameBoot.js";
 import GameMain from "@/components/GameMain.js";
 import { SceneManager } from "@/lib/EasyPIXI.js";
+//添加
+import HomePage from "@/components/Pages/HomePage.js";
+import EasyGameSelectPage from "@/components/Pages/EasyGameSelectPage.js";
+import EasyGameIntroPage from "@/components/Pages/EasyGameIntroPage.js";
+import PayGame from "@/components/Pages/PayGame.js";
 var CanvasApp;
 export default {
   name: "app",
@@ -43,8 +48,16 @@ export default {
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
       SceneManager.pushScene("main", new GameMain());
+      SceneManager.pushScene("homePage", new HomePage());
+      SceneManager.pushScene("EasyGameSelectPage", new EasyGameSelectPage());
+      SceneManager.pushScene("EasyGameIntroPage", new EasyGameIntroPage());
+      SceneManager.pushScene("PayGame", new PayGame());
+      EasyGameIntroPage;
+      PayGame;
+
       this.gameStart().then(() => {
-        SceneManager.run("main");
+        SceneManager.run("homePage");
+        //SceneManager.run("EasyGameSelectPage");
       });
     },
     async gameStart() {
@@ -55,7 +68,6 @@ export default {
       var self = this;
       return new Promise(resolve => {
         self.axios.get("./gameresource.json").then(response => {
-          // console.log(response.data);
           this.Waster = response.data;
           PIXI.loader.add(response.data).load(() => {
             resolve();

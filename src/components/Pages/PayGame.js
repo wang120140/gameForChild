@@ -1,5 +1,8 @@
 import * as PIXI from 'pixi.js'
-//import * as Tink from '../lib/tink.js'
+import {
+    SceneManager,
+    Garbage
+} from "@/lib/EasyPIXI.js";
 let PageNum = 0;
 let unHappyAnimal, HappyAnimal,
     RecyclableWaste = ['paper', 'cloth', 'glass', 'plastics', 'metal'],
@@ -13,7 +16,6 @@ let unHappyAnimal, HappyAnimal,
     WasterClass = ['Recyclable', 'Kitchen', 'Hazardous'],
     RecyclableSprite = [],
     loop;
-
 let bg, house, wheel, wheelSprite = [],
     track = [],
     Flower, Scorebg, ScoreMessage, ScoreNum = 0,
@@ -25,6 +27,22 @@ class GameMain extends PIXI.Container {
         this.on('added', this.addedToStage, this);
     }
     addedToStage() {
+        (() => {
+            switch (Garbage.getGarBage("position")) {
+                case 100:
+                    console.log(100);
+                    break;
+                case 600:
+                    console.log(600);
+                    break;
+                case 1100:
+                    console.log(1100);
+                    break;
+                case 1600:
+                    console.log(1600);
+                    break;
+            }
+        })()
         let ScoreStyle = new PIXI.TextStyle({
             fontFamily: "Arial",
             fontSize: 60,
@@ -98,6 +116,9 @@ class GameMain extends PIXI.Container {
         //返回按钮
         BtnBackNormal = new PIXI.Sprite(PIXI.loader.resources["BtnBackNormal_png"].texture);
         BtnBackNormal.position.set(100, 70);
+        BtnBackNormal.interactive = true;
+        BtnBackNormal.buttonMode = true;
+        BtnBackNormal.on("pointertap", this.BtnBackNormalEvent)
         this.addChild(BtnBackNormal);
         //小动物
         unHappyAnimal = new PIXI.Sprite(PIXI.loader.resources['unHappy_jpg'].texture);
@@ -216,227 +237,10 @@ class GameMain extends PIXI.Container {
 
         });
     }
+    BtnBackNormalEvent() {
+        this.gameloop = null;
+        SceneManager.run("EasyGameSelectPage");
 
-
-}
-
-let BtnEasy, BtnHard;
-class HomePage extends PIXI.Container {
-    constructor() {
-        super();
-        this.on("added", this.addedHomePageStage, this)
-    }
-    addedHomePageStage() {
-        let ScoreStyle = new PIXI.TextStyle({
-            fontFamily: "Arial",
-            fontSize: 60,
-            fill: "white",
-            stroke: '#ff3300',
-            strokeThickness: 4,
-            dropShadow: true,
-            dropShadowColor: "#000000",
-            dropShadowBlur: 4,
-            dropShadowAngle: Math.PI / 6,
-            dropShadowDistance: 6,
-        });
-        //背景图
-        bg = new PIXI.Sprite(PIXI.loader.resources['bgHome_png'].texture);
-        this.addChild(bg);
-        //容易按钮
-        BtnEasy = new PIXI.Sprite(PIXI.loader.resources['btnEasy_png'].texture);
-        BtnEasy.position.set(500, 850);
-        BtnEasy.interactive = true;
-        BtnEasy.buttonMode = true;
-        BtnEasy.on("pointertap", this.BtnEasyEvent);
-
-        this.addChild(BtnEasy);
-        BtnHard = new PIXI.Sprite(PIXI.loader.resources["btnHard_png"].texture);
-        BtnHard.interactive = true;
-        BtnHard.buttonMode = true;
-        BtnHard.on("pointertap", this.BtnHardEvent)
-        BtnHard.position.set(1200, 850);
-        this.addChild(BtnHard);
-        //困难按钮
-    }
-    BtnEasyEvent() {
-        console.log("easyBtn按钮")
-        console.log(PageNum);
-        PageNum = 1;
-        console.log(PageNum);
-    }
-    BtnHardEvent() {
-        console.log("hardBtn按钮")
-        PageNum = 2;
-    }
-
-}
-let RecyclableSelect, KitchenSelect, HarmfulSelect, OtherSelect, Arrow;
-class EasyGameSelectPage extends PIXI.Container {
-    constructor() {
-        super();
-        this.on("added", this.addedStage, this);
-    }
-    addedStage() {
-        //背景图
-        bg = new PIXI.Sprite(PIXI.loader.resources['bggame_png'].texture);
-        this.addChild(bg);
-        //返回按钮
-        BtnBackNormal = new PIXI.Sprite(PIXI.loader.resources["BtnBackNormal_png"].texture);
-        BtnBackNormal.position.set(100, 70);
-
-        BtnBackNormal.interactive = true;
-        BtnBackNormal.buttonMode = true;
-        this.addChild(BtnBackNormal);
-        //可循环的垃圾箱
-        RecyclableSelect = new PIXI.Sprite(PIXI.loader.resources["RecyclableSelect_png"].texture);
-        RecyclableSelect.position.set(0, 500);
-
-        RecyclableSelect.interactive = true;
-        RecyclableSelect.buttonMode = true;
-        RecyclableSelect.on("pointertap", this.RecyclableSelectEvent)
-
-        this.addChild(RecyclableSelect);
-        //厨房的垃圾箱
-        KitchenSelect = new PIXI.Sprite(PIXI.loader.resources["KitchenSelect_png"].texture);
-        KitchenSelect.position.set(500, 500);
-
-        KitchenSelect.interactive = true;
-        KitchenSelect.buttonMode = true;
-        KitchenSelect.on("pointertap", this.KitchenSelectEvent);
-
-        this.addChild(KitchenSelect);
-        //有害的垃圾箱
-        HarmfulSelect = new PIXI.Sprite(PIXI.loader.resources["HarmfulSelect_png"].texture);
-        HarmfulSelect.position.set(1000, 500);
-
-        HarmfulSelect.interactive = true;
-        HarmfulSelect.buttonMode = true;
-        HarmfulSelect.on("pointertap", this.HarmfulSelectEveent)
-        this.addChild(HarmfulSelect);
-        //其他的垃圾箱
-        OtherSelect = new PIXI.Sprite(PIXI.loader.resources["OtherSelect_png"].texture);
-        OtherSelect.position.set(1500, 500);
-
-        OtherSelect.interactive = true;
-        OtherSelect.buttonMode = true;
-        OtherSelect.on("pointertap", this.OtherSelectEvent);
-
-        this.addChild(OtherSelect);
-        //箭头
-        Arrow = new PIXI.Sprite(PIXI.loader.resources["Arrow_png"].texture);
-        Arrow.position.set(100, 300)
-        Arrow.interactive = true;
-        Arrow.buttonMode = true;
-        Arrow.on("pointertap", this.ArrowEvent);
-        this.addChild(Arrow);
-    }
-    RecyclableSelectEvent() {
-        Arrow.position.set(100, 300);
-    }
-    KitchenSelectEvent() {
-        Arrow.position.set(600, 300);
-    }
-    HarmfulSelectEveent() {
-        Arrow.position.set(1100, 300);
-    }
-    OtherSelectEvent() {
-        Arrow.position.set(1600, 300);
-    }
-    ArrowEvent() {
-        console.log(Arrow.position.x)
     }
 }
-
-let boardPaint, ChineseText = ["纸品\npaper", "布料\ncloth", "玻璃\nglass", "塑料\nplastics", "金属\nmetal"];
-class EasyGameIntroPage extends PIXI.Container {
-    constructor() {
-        super();
-        this.on("added", this.addStage, this)
-    }
-    addStage() {
-        //背景图
-        bg = new PIXI.Sprite(PIXI.loader.resources['bggame_png'].texture);
-        this.addChild(bg);
-        //画板
-        boardPaint = new PIXI.Sprite(PIXI.loader.resources["BoardPaint_png"].texture);
-        boardPaint.position.set(300, 40);
-        this.addChild(boardPaint);
-        //返回按钮
-        BtnBackNormal = new PIXI.Sprite(PIXI.loader.resources["BtnBackNormal_png"].texture);
-        BtnBackNormal.position.set(100, 70);
-
-        BtnBackNormal.interactive = true;
-        BtnBackNormal.buttonMode = true;
-        this.addChild(BtnBackNormal);
-        //字体
-        let TitleStyle = new PIXI.TextStyle({
-            fontFamily: "Arial",
-            fontSize: 60,
-            fill: "#FFECCA",
-            stroke: '#D17C2E',
-            strokeThickness: 4,
-            dropShadow: true,
-            dropShadowColor: "#000000",
-            dropShadowBlur: 4,
-            dropShadowAngle: Math.PI / 6,
-            dropShadowDistance: 6,
-        });
-        let title = new PIXI.Text("Recyclable Waste", TitleStyle);
-        title.position.set(650, 100)
-        this.addChild(title)
-        let contentTextStyle = new PIXI.TextStyle({
-            fontFamily: "Arial",
-            fontSize: 45,
-            fill: "#FFECCA",
-            stroke: '#D17C2E',
-            strokeThickness: 4,
-            dropShadow: true,
-            dropShadowColor: "#000000",
-            dropShadowBlur: 4,
-            dropShadowAngle: Math.PI / 6,
-            dropShadowDistance: 6,
-        })
-        let contentText = new PIXI.Text("再生利用价值较高，能进入废品回收渠\n道的垃圾。\nWaste that has high recycling value and can \n enter waste recycling channels", contentTextStyle);
-        // contentText.width = 1000;
-        // contentText.height = 100;
-        contentText.position.set(450, 300);
-        this.addChild(contentText);
-        RecyclableWaste.forEach((item, index) => {
-            let RecyclableItem = new PIXI.Sprite(PIXI.loader.resources[item].texture);
-            RecyclableItem.position.set(index * 200 + 450, 600);
-            RecyclableItem.scale.set(0.5, 0.5);
-            this.addChild(RecyclableItem);
-        })
-        let ChineseTextStyle = new PIXI.TextStyle({
-            fontFamily: "Arial",
-            fontSize: 40,
-            fill: "#FFECCA",
-            stroke: '#D17C2E',
-            strokeThickness: 4,
-            dropShadow: true,
-            dropShadowColor: "#000000",
-            dropShadowBlur: 4,
-            dropShadowAngle: Math.PI / 6,
-            dropShadowDistance: 6,
-        })
-        ChineseText.forEach((item, index) => {
-            let ChineseTextItem = new PIXI.Text(item, ChineseTextStyle);
-            ChineseTextItem.position.set(index * 200 + 450, 700);
-            this.addChild(ChineseTextItem);
-        })
-        let playButton = new PIXI.Sprite(PIXI.loader.resources["playButton_png"].texture);
-        playButton.position.set(1500, 700);
-        playButton.interactive = true;
-        playButton.buttonMode = true;
-        playButton.on("pointertap", this.playButtonEvent);
-        this.addChild(playButton);
-
-    }
-    playButtonEvent() {
-        console.log(2);
-    }
-}
-
-var Pages = [HomePage, EasyGameSelectPage, EasyGameIntroPage, GameMain, ]
-
-export default Pages[0];
+export default GameMain

@@ -1,4 +1,34 @@
 [{
+    "name": "bgHome_png",
+    "url": "./img/bgHome.png"
+}, {
+    "name": "btnEasy_png",
+    "url": "./img/BtnEasy.png"
+}, {
+    "name": "btnHard_png",
+    "url": "./img/BtnHard.png"
+}, {
+    "name": "RecyclableSelect_png",
+    "url": "./img/litterBox/RecyclableSelect.png"
+}, {
+    "name": "KitchenSelect_png",
+    "url": "./img/litterBox/KitchenSelect.png"
+}, {
+    "name": "HarmfulSelect_png",
+    "url": "./img/litterBox/HarmfulSelect.png"
+}, {
+    "name": "OtherSelect_png",
+    "url": "./img/litterBox/OtherSelect.png"
+}, {
+    "name": "Arrow_png",
+    "url": "./img/Arrow.png"
+}, {
+    "name": "BoardPaint_png",
+    "url": "./img/BoardPaint.png"
+}, {
+    "name": "playButton_png",
+    "url": "./img/playButton.png"
+}, {
     "name": "bggame_png",
     "url": "./img/bggaming.png"
 }, {
@@ -24,10 +54,28 @@
     "url": "./img/buttonBackNormal.png"
 }, {
     "name": "RecyclableLitter",
-    "url": "./img/RecyclableLitter.png"
+    "url": "./img/litterBox/RecyclableLitter.png"
 }, {
     "name": "RecyclableLitterCap",
-    "url": "./img/RecyclableLitterCap.png"
+    "url": "./img/litterBox/RecyclableLitterCap.png"
+}, {
+    "name": "KitchenLitter",
+    "url": "./img/litterBox/KitchenLitter.png"
+}, {
+    "name": "KitchenLitterCap",
+    "url": "./img/litterBox/KitchenLitterCap.png"
+}, {
+    "name": "OtherLitter",
+    "url": "./img/litterBox/OtherLitter.png"
+}, {
+    "name": "OtherLitterCap",
+    "url": "./img/litterBox/OtherLitterCap.png"
+}, {
+    "name": "HarmfulLitter",
+    "url": "./img/litterBox/HarmfulLitter.png"
+}, {
+    "name": "HarmfulLitterCap",
+    "url": "./img/litterBox/HarmfulLitterCap.png"
 }, {
     "name": "Happy_jpg",
     "url": "./img/Happy.jpg"
@@ -36,62 +84,62 @@
     "url": "./img/unHappy.jpg"
 }, {
     "name": "paper",
-    "url": "./img/paper.png"
+    "url": "./img/litter/paper.png"
 }, {
     "name": "cloth",
-    "url": "./img/cloth.png"
+    "url": "./img/litter/cloth.png"
 }, {
     "name": "glass",
-    "url": "./img/glass.png"
+    "url": "./img/litter/glass.png"
 }, {
     "name": "plastics",
-    "url": "./img/plastics.png"
+    "url": "./img/litter/plastics.png"
 }, {
     "name": "metal",
-    "url": "./img/metal.png"
+    "url": "./img/litter/metal.png"
 }, {
     "name": "fruitPeels",
-    "url": "./img/fruitPeels.png"
+    "url": "./img/litter/fruitPeels.png"
 }, {
     "name": "bones",
-    "url": "./img/bones1png"
+    "url": "./img/litter/bones.png"
 }, {
     "name": "vegetableLeaves",
-    "url": "./img/vegetableLeaves.png"
+    "url": "./img/litter/vegetableLeaves.png"
 }, {
     "name": "leftovers",
-    "url": "./img/leftovers.png"
+    "url": "./img/litter/leftovers.png"
 }, {
     "name": "eggshells",
-    "url": "./img/eggshells.png"
+    "url": "./img/litter/eggshells.png"
 }, {
     "name": "medicines",
-    "url": "./img/medicines.png"
+    "url": "./img/litter/medicines.png"
 }, {
     "name": "batteries",
-    "url": "./img/batteries.png"
+    "url": "./img/litter/batteries.png"
 }, {
     "name": "thermometers",
-    "url": "./img/thermometers.png"
+    "url": "./img/litter/thermometers.png"
 }, {
     "name": "lightBulbs",
-    "url": "./img/lightBulbs.png"
+    "url": "./img/litter/lightBulbs.png"
 }, {
     "name": "oilPaints",
-    "url": "./img/oilPaints.png"
+    "url": "./img/litter/oilPaints.png"
 }, {
     "name": "toiletPaper",
-    "url": "./img/toiletPaper.png"
+    "url": "./img/litter/toiletPaper.png"
 }, {
     "name": "sands",
-    "url": "./img/sands.png"
+    "url": "./img/litter/sands.png"
 }, {
     "name": "ceramics",
-    "url": "./img/ceramics.png"
+    "url": "./img/litter/ceramics.png"
 }, {
     "name": "bricks",
-    "url": "./img/bricks.png"
+    "url": "./img/litter/bricks.png"
 }, {
     "name": "crocks",
-    "url": "./img/crocks.png"
+    "url": "./img/litter/crocks.png"
 }]
