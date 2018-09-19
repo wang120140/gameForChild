@@ -12,10 +12,18 @@ import GameBoot from "@/components/GameBoot.js";
 import GameMain from "@/components/GameMain.js";
 import { SceneManager } from "@/lib/EasyPIXI.js";
 //添加
-import HomePage from "@/components/Pages/HomePage.js";
-import EasyGameSelectPage from "@/components/Pages/EasyGameSelectPage.js";
-import EasyGameIntroPage from "@/components/Pages/EasyGameIntroPage.js";
-import PayGame from "@/components/Pages/PayGame.js";
+//import HomePage from "@/components/Pages/HomePage.js";
+//import EasyGameSelectPage from "@/components/Pages/EasyGameSelectPage.js";
+//import EasyGameIntroPage from "@/components/Pages/EasyGameIntroPage.js";
+//import PayGame from "@/components/Pages/PayGame.js";
+//第一次优化
+import {
+  HomePages,
+  EasyGameSelectPages,
+  EasyGameIntroPages,
+  EasyGamePlayingPages,
+  HardGamePlayingPages
+} from "@/components/Game.js";
 var CanvasApp;
 export default {
   name: "app",
@@ -48,16 +56,28 @@ export default {
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
       SceneManager.pushScene("main", new GameMain());
-      SceneManager.pushScene("homePage", new HomePage());
-      SceneManager.pushScene("EasyGameSelectPage", new EasyGameSelectPage());
-      SceneManager.pushScene("EasyGameIntroPage", new EasyGameIntroPage());
-      SceneManager.pushScene("PayGame", new PayGame());
-      EasyGameIntroPage;
-      PayGame;
+      // SceneManager.pushScene("homePage", new HomePage());
+      // SceneManager.pushScene("EasyGameSelectPage", new EasyGameSelectPage());
+      // SceneManager.pushScene("EasyGameIntroPage", new EasyGameIntroPage());
+      // SceneManager.pushScene("PayGame", new PayGame());
+      //第二次修改
+      SceneManager.pushScene("HomePages", new HomePages());
+      SceneManager.pushScene("EasyGameSelectPages", new EasyGameSelectPages());
+      SceneManager.pushScene("EasyGameIntroPages", new EasyGameIntroPages());
+      SceneManager.pushScene(
+        "EasyGamePlayingPages",
+        new EasyGamePlayingPages()
+      );
+      SceneManager.pushScene(
+        "HardGamePlayingPages",
+        new HardGamePlayingPages()
+      );
 
       this.gameStart().then(() => {
-        SceneManager.run("homePage");
+        //SceneManager.run("homePage");
         //SceneManager.run("EasyGameSelectPage");
+        //SceneManager.run("HomePages");
+        SceneManager.run("HardGamePlayingPages");
       });
     },
     async gameStart() {

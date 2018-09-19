@@ -102,7 +102,7 @@ class EasyGameIntroPage extends PIXI.Container {
         })
         let ChineseTextStyle = new PIXI.TextStyle({
             fontFamily: "Arial",
-            fontSize: 40,
+            fontSize: 28,
             fill: "#FFECCA",
             stroke: '#D17C2E',
             strokeThickness: 4,

@@ -63,19 +63,19 @@
     "url": "./img/litterBox/KitchenLitter.png"
 }, {
     "name": "KitchenLitterCap",
-    "url": "./img/litterBox/KitchenLitterCap.png"
-}, {
-    "name": "OtherLitter",
-    "url": "./img/litterBox/OtherLitter.png"
-}, {
-    "name": "OtherLitterCap",
-    "url": "./img/litterBox/OtherLitterCap.png"
+    "url": "./img/litterBox/KittenLitterCap.png"
 }, {
     "name": "HarmfulLitter",
     "url": "./img/litterBox/HarmfulLitter.png"
 }, {
     "name": "HarmfulLitterCap",
     "url": "./img/litterBox/HarmfulLitterCap.png"
+}, {
+    "name": "OtherLitter",
+    "url": "./img/litterBox/OtherLitter.png"
+}, {
+    "name": "OtherLitterCap",
+    "url": "./img/litterBox/OtherLitterCap.png"
 }, {
     "name": "Happy_jpg",
     "url": "./img/Happy.jpg"

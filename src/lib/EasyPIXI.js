@@ -68,12 +68,9 @@ class SceneManager {
     }
     static run($name) {
         if (SceneManager.currentScene && SceneManager.currentScene.parent) {
-            // if(SceneManager.currentScene.destroyed){
-            //     SceneManager.currentScene.destroyed();
-            // }
+
             SceneManager.currentScene.parent.removeChild(SceneManager.currentScene);
 
-            // SceneManager.currentScene.destroy();
             SceneManager.currentScene = null;
         }
 
@@ -112,7 +109,7 @@ class SceneManager {
     static destroyScene($name) {
         for (let i = 0; i < SceneManager.scenes.length; i++) {
             if (SceneManager.scenes[i].name == $name) {
-                SceneManager.scenes[i].scene.destroyed();
+                //SceneManager.scenes[i].scene.destroyed();
                 SceneManager.scenes[i].scene.destroy();
                 SceneManager.scenes[i].scene = null;
                 SceneManager.scenes.splice(i, 1);

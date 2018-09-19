@@ -8,6 +8,7 @@ let BtnEasy, BtnHard, bg;
 class HomePage extends PIXI.Container {
     constructor() {
         super();
+
         this.BtnEasy = null;
         this.on("added", this.addedHomePageStage, this)
     }

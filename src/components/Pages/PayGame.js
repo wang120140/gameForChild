@@ -3,17 +3,19 @@ import {
     SceneManager,
     Garbage
 } from "@/lib/EasyPIXI.js";
-let PageNum = 0;
-let unHappyAnimal, HappyAnimal,
+
+let unHappyAnimal, HappyAnimal, suitable,
+    SelectWaste = [],
     RecyclableWaste = ['paper', 'cloth', 'glass', 'plastics', 'metal'],
     KitchenWaste = ['fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells'],
     HazardousWaste = ['medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints'],
     OthersWaster = ["toiletPaper", "sands", "ceramics", "bricks", "crocks"],
     Waster = ['paper', 'cloth', 'glass', 'plastics', 'metal',
         'fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells',
-        'medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints'
+        'medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints',
+        "toiletPaper", "sands", "ceramics", "bricks", "crocks"
     ],
-    WasterClass = ['Recyclable', 'Kitchen', 'Hazardous'],
+    WasterClass = ['Recyclable', 'Kitchen', 'Hazardous', 'Others'],
     RecyclableSprite = [],
     loop;
 let bg, house, wheel, wheelSprite = [],
@@ -31,15 +33,31 @@ class GameMain extends PIXI.Container {
             switch (Garbage.getGarBage("position")) {
                 case 100:
                     console.log(100);
+                    Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitter"].texture);
+                    RecyclablelitterCap = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitterCap"].texture);
+                    SelectWaste = RecyclableWaste
+                    suitable = 0;
                     break;
                 case 600:
                     console.log(600);
+                    Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["KitchenLitter"].texture);
+                    RecyclablelitterCap = new PIXI.Sprite(PIXI.loader.resources["KitchenLitterCap"].texture);
+                    suitable = 1;
+                    SelectWaste = KitchenWaste
                     break;
                 case 1100:
                     console.log(1100);
+                    Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["HarmfulLitter"].texture);
+                    RecyclablelitterCap = new PIXI.Sprite(PIXI.loader.resources["HarmfulLitterCap"].texture);
+                    suitable = 2;
+                    SelectWaste = HazardousWaste
                     break;
                 case 1600:
                     console.log(1600);
+                    Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["OtherLitter"].texture);
+                    RecyclablelitterCap = new PIXI.Sprite(PIXI.loader.resources["OtherLitterCap"].texture);
+                    suitable = 3;
+                    SelectWaste = OthersWaster
                     break;
             }
         })()
@@ -63,7 +81,7 @@ class GameMain extends PIXI.Container {
         house.position.set(1450, 100);
         this.addChild(house);
         //垃圾箱
-        Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitter"].texture);
+
         Recyclablelitter.position.set(100, 480);
         Recyclablelitter.buttonMode = true;
         Recyclablelitter.interactive = true;
@@ -74,7 +92,7 @@ class GameMain extends PIXI.Container {
         }
         this.addChild(Recyclablelitter);
         //垃圾箱的盖子
-        RecyclablelitterCap = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitterCap"].texture);
+
         RecyclablelitterCap.position.set(83, 400)
         this.addChild(RecyclablelitterCap);
         //传送带
@@ -131,14 +149,14 @@ class GameMain extends PIXI.Container {
         HappyAnimal.visible = false;
         this.addChild(unHappyAnimal);
         //添加垃圾
-        RecyclableWaste.forEach((item, index) => {
+        SelectWaste.forEach((item, index) => {
             let RecyclableItem = new PIXI.Sprite(PIXI.loader.resources[item].texture);
             RecyclableItem.x = index * (-400);
             RecyclableItem.y = 750;
 
             RecyclableItem.EventChange = false; //点击事件是否发生
             RecyclableItem.EventChangePosition = 2000; //模拟点击事件的位置
-            RecyclableItem.ClassItem = WasterClass[0]; //定义垃圾属性
+            RecyclableItem.ClassItem = WasterClass[suitable]; //定义垃圾属性
             RecyclableItem.scaleV = 0 //定义垃圾在回收的缩放比例有一定的加速效果
 
             RecyclableItem.buttonMode = true; //定义点击事件
@@ -196,7 +214,7 @@ class GameMain extends PIXI.Container {
             if (item.x >= 400 * 5 || item.y <= 150) {
                 if (item.y <= 150) { //精灵到了垃圾箱
                     //改变分数的
-                    if (item.ClassItem == WasterClass[0]) {
+                    if (item.ClassItem == WasterClass[suitable]) {
                         ScoreNum += 5;
                         unHappyAnimal.visible = false;
                         HappyAnimal.visible = true;
@@ -215,7 +233,7 @@ class GameMain extends PIXI.Container {
 
                 this.removeChild(item); //先移除原有的精灵
                 let RandomIndex;
-                RandomIndex = Math.floor(Math.random() * 15); //创建新的精灵
+                RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
                 item = new PIXI.Sprite(PIXI.loader.resources[Waster[RandomIndex]].texture);
 
                 item.EventChangePosition = 2000; //对创建的精灵定义属性
@@ -227,7 +245,6 @@ class GameMain extends PIXI.Container {
                 item.on("pointerdown", () => { //定义精灵事件
                     item.EventChange = true;
                     item.EventChangePosition = item.x; //消失的位置
-
                 })
 
                 arr[index] = item //替换原有的精灵
@@ -240,6 +257,20 @@ class GameMain extends PIXI.Container {
     BtnBackNormalEvent() {
         this.gameloop = null;
         SceneManager.run("EasyGameSelectPage");
+
+        // SelectWaste = null;
+
+        // RecyclableSprite = null;
+        // loop = null;
+        // wheel = null;
+        // wheelSprite = null;
+        // track = null;
+
+        // Alarm = null;
+        // TimeMessage = null;
+        // TimeNum = 0,
+        //     Recyclablelitter = null;
+        // RecyclablelitterCap = null;
 
     }
 }
