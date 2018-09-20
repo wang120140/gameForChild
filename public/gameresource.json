@@ -1,145 +1,156 @@
 [{
-    "name": "bgHome_png",
-    "url": "./img/bgHome.png"
-}, {
-    "name": "btnEasy_png",
-    "url": "./img/BtnEasy.png"
-}, {
-    "name": "btnHard_png",
-    "url": "./img/BtnHard.png"
-}, {
-    "name": "RecyclableSelect_png",
-    "url": "./img/litterBox/RecyclableSelect.png"
-}, {
-    "name": "KitchenSelect_png",
-    "url": "./img/litterBox/KitchenSelect.png"
-}, {
-    "name": "HarmfulSelect_png",
-    "url": "./img/litterBox/HarmfulSelect.png"
-}, {
-    "name": "OtherSelect_png",
-    "url": "./img/litterBox/OtherSelect.png"
-}, {
-    "name": "Arrow_png",
-    "url": "./img/Arrow.png"
-}, {
-    "name": "BoardPaint_png",
-    "url": "./img/BoardPaint.png"
-}, {
-    "name": "playButton_png",
-    "url": "./img/playButton.png"
-}, {
-    "name": "bggame_png",
-    "url": "./img/bggaming.png"
-}, {
-    "name": "house_png",
-    "url": "./img/house.png"
-}, {
-    "name": "wheel_png",
-    "url": "./img/wheel.png"
-}, {
-    "name": "track_png",
-    "url": "./img/track.png"
-}, {
-    "name": "score_png",
-    "url": "./img/score.png"
-}, {
-    "name": "flower_png",
-    "url": "./img/flower.png"
-}, {
-    "name": "alarm_png",
-    "url": "./img/alarm.png"
-}, {
-    "name": "BtnBackNormal_png",
-    "url": "./img/buttonBackNormal.png"
-}, {
-    "name": "RecyclableLitter",
-    "url": "./img/litterBox/RecyclableLitter.png"
-}, {
-    "name": "RecyclableLitterCap",
-    "url": "./img/litterBox/RecyclableLitterCap.png"
-}, {
-    "name": "KitchenLitter",
-    "url": "./img/litterBox/KitchenLitter.png"
-}, {
-    "name": "KitchenLitterCap",
-    "url": "./img/litterBox/KittenLitterCap.png"
-}, {
-    "name": "HarmfulLitter",
-    "url": "./img/litterBox/HarmfulLitter.png"
-}, {
-    "name": "HarmfulLitterCap",
-    "url": "./img/litterBox/HarmfulLitterCap.png"
-}, {
-    "name": "OtherLitter",
-    "url": "./img/litterBox/OtherLitter.png"
-}, {
-    "name": "OtherLitterCap",
-    "url": "./img/litterBox/OtherLitterCap.png"
-}, {
-    "name": "Happy_jpg",
-    "url": "./img/Happy.jpg"
-}, {
-    "name": "unHappy_jpg",
-    "url": "./img/unHappy.jpg"
-}, {
-    "name": "paper",
-    "url": "./img/litter/paper.png"
-}, {
-    "name": "cloth",
-    "url": "./img/litter/cloth.png"
-}, {
-    "name": "glass",
-    "url": "./img/litter/glass.png"
-}, {
-    "name": "plastics",
-    "url": "./img/litter/plastics.png"
-}, {
-    "name": "metal",
-    "url": "./img/litter/metal.png"
-}, {
-    "name": "fruitPeels",
-    "url": "./img/litter/fruitPeels.png"
-}, {
-    "name": "bones",
-    "url": "./img/litter/bones.png"
-}, {
-    "name": "vegetableLeaves",
-    "url": "./img/litter/vegetableLeaves.png"
-}, {
-    "name": "leftovers",
-    "url": "./img/litter/leftovers.png"
-}, {
-    "name": "eggshells",
-    "url": "./img/litter/eggshells.png"
-}, {
-    "name": "medicines",
-    "url": "./img/litter/medicines.png"
-}, {
-    "name": "batteries",
-    "url": "./img/litter/batteries.png"
-}, {
-    "name": "thermometers",
-    "url": "./img/litter/thermometers.png"
-}, {
-    "name": "lightBulbs",
-    "url": "./img/litter/lightBulbs.png"
-}, {
-    "name": "oilPaints",
-    "url": "./img/litter/oilPaints.png"
-}, {
-    "name": "toiletPaper",
-    "url": "./img/litter/toiletPaper.png"
-}, {
-    "name": "sands",
-    "url": "./img/litter/sands.png"
-}, {
-    "name": "ceramics",
-    "url": "./img/litter/ceramics.png"
-}, {
-    "name": "bricks",
-    "url": "./img/litter/bricks.png"
-}, {
-    "name": "crocks",
-    "url": "./img/litter/crocks.png"
-}]
+        "name": "bgHome_png",
+        "url": "./img/bgHome.png"
+    }, {
+        "name": "btnEasy_png",
+        "url": "./img/BtnEasy.png"
+    }, {
+        "name": "btnHard_png",
+        "url": "./img/BtnHard.png"
+    }, {
+        "name": "RecyclableSelect_png",
+        "url": "./img/litterBox/RecyclableSelect.png"
+    }, {
+        "name": "KitchenSelect_png",
+        "url": "./img/litterBox/KitchenSelect.png"
+    }, {
+        "name": "HarmfulSelect_png",
+        "url": "./img/litterBox/HarmfulSelect.png"
+    }, {
+        "name": "OtherSelect_png",
+        "url": "./img/litterBox/OtherSelect.png"
+    }, {
+        "name": "Arrow_png",
+        "url": "./img/Arrow.png"
+    }, {
+        "name": "BoardPaint_png",
+        "url": "./img/BoardPaint.png"
+    }, {
+        "name": "playButton_png",
+        "url": "./img/playButton.png"
+    }, {
+        "name": "bggame_png",
+        "url": "./img/bggaming.png"
+    }, {
+        "name": "house_png",
+        "url": "./img/house.png"
+    }, {
+        "name": "wheel_png",
+        "url": "./img/wheel.png"
+    }, {
+        "name": "track_png",
+        "url": "./img/track.png"
+    }, {
+        "name": "score_png",
+        "url": "./img/score.png"
+    }, {
+        "name": "flower_png",
+        "url": "./img/flower.png"
+    }, {
+        "name": "alarm_png",
+        "url": "./img/alarm.png"
+    }, {
+        "name": "BtnBackNormal_png",
+        "url": "./img/buttonBackNormal.png"
+    }, {
+        "name": "RecyclableLitter",
+        "url": "./img/litterBox/RecyclableLitter.png"
+    }, {
+        "name": "RecyclableLitterCap",
+        "url": "./img/litterBox/RecyclableLitterCap.png"
+    }, {
+        "name": "KitchenLitter",
+        "url": "./img/litterBox/KitchenLitter.png"
+    }, {
+        "name": "KitchenLitterCap",
+        "url": "./img/litterBox/KittenLitterCap.png"
+    }, {
+        "name": "HarmfulLitter",
+        "url": "./img/litterBox/HarmfulLitter.png"
+    }, {
+        "name": "HarmfulLitterCap",
+        "url": "./img/litterBox/HarmfulLitterCap.png"
+    }, {
+        "name": "OtherLitter",
+        "url": "./img/litterBox/OtherLitter.png"
+    }, {
+        "name": "OtherLitterCap",
+        "url": "./img/litterBox/OtherLitterCap.png"
+    }, {
+        "name": "Happy_jpg",
+        "url": "./img/Happy.jpg"
+    }, {
+        "name": "unHappy_jpg",
+        "url": "./img/unHappy.jpg"
+    }, {
+        "name": "paper",
+        "url": "./img/litter/paper.png"
+    }, {
+        "name": "cloth",
+        "url": "./img/litter/cloth.png"
+    }, {
+        "name": "glass",
+        "url": "./img/litter/glass.png"
+    }, {
+        "name": "plastics",
+        "url": "./img/litter/plastics.png"
+    }, {
+        "name": "metal",
+        "url": "./img/litter/metal.png"
+    }, {
+        "name": "fruitPeels",
+        "url": "./img/litter/fruitPeels.png"
+    }, {
+        "name": "bones",
+        "url": "./img/litter/bones.png"
+    }, {
+        "name": "vegetableLeaves",
+        "url": "./img/litter/vegetableLeaves.png"
+    }, {
+        "name": "leftovers",
+        "url": "./img/litter/leftovers.png"
+    }, {
+        "name": "eggshells",
+        "url": "./img/litter/eggshells.png"
+    }, {
+        "name": "medicines",
+        "url": "./img/litter/medicines.png"
+    }, {
+        "name": "batteries",
+        "url": "./img/litter/batteries.png"
+    }, {
+        "name": "thermometers",
+        "url": "./img/litter/thermometers.png"
+    }, {
+        "name": "lightBulbs",
+        "url": "./img/litter/lightBulbs.png"
+    }, {
+        "name": "oilPaints",
+        "url": "./img/litter/oilPaints.png"
+    }, {
+        "name": "toiletPaper",
+        "url": "./img/litter/toiletPaper.png"
+    }, {
+        "name": "sands",
+        "url": "./img/litter/sands.png"
+    }, {
+        "name": "ceramics",
+        "url": "./img/litter/ceramics.png"
+    }, {
+        "name": "bricks",
+        "url": "./img/litter/bricks.png"
+    }, {
+        "name": "crocks",
+        "url": "./img/litter/crocks.png"
+    }, {
+        "name": "pop_png",
+        "url": "./img/dialog/pop.png"
+    },
+    {
+        "name": "yesBtn_0_png",
+        "url": "./img/dialog/yesBtn_0.png"
+    }, {
+        "name": "noBtn_0_png",
+        "url": "./img/dialog/noBtn_0.png"
+    }
+]

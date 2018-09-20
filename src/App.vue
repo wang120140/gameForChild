@@ -9,9 +9,8 @@
 </template>
 <script>
 import GameBoot from "@/components/GameBoot.js";
-import GameMain from "@/components/GameMain.js";
 import { SceneManager } from "@/lib/EasyPIXI.js";
-//添加
+//添加  删除这部分
 //import HomePage from "@/components/Pages/HomePage.js";
 //import EasyGameSelectPage from "@/components/Pages/EasyGameSelectPage.js";
 //import EasyGameIntroPage from "@/components/Pages/EasyGameIntroPage.js";
@@ -23,7 +22,9 @@ import {
   EasyGameIntroPages,
   EasyGamePlayingPages,
   HardGamePlayingPages
-} from "@/components/Game.js";
+} from "@/components/GameMain.js";
+
+import { Dialog } from "@/components/Dialog.js";
 var CanvasApp;
 export default {
   name: "app",
@@ -55,7 +56,6 @@ export default {
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
-      SceneManager.pushScene("main", new GameMain());
       // SceneManager.pushScene("homePage", new HomePage());
       // SceneManager.pushScene("EasyGameSelectPage", new EasyGameSelectPage());
       // SceneManager.pushScene("EasyGameIntroPage", new EasyGameIntroPage());
@@ -72,12 +72,15 @@ export default {
         "HardGamePlayingPages",
         new HardGamePlayingPages()
       );
+      SceneManager.pushScene("Dialog", new Dialog());
 
       this.gameStart().then(() => {
-        //SceneManager.run("homePage");
-        //SceneManager.run("EasyGameSelectPage");
         SceneManager.run("HomePages");
+        //SceneManager.run("EasyGameSelectPage");
+        //SceneManager.run("EasyGameIntroPages")
+        //SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
+        //SceneManager.run("Dialog");
       });
     },
     async gameStart() {
