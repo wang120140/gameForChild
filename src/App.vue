@@ -76,8 +76,8 @@ export default {
       this.gameStart().then(() => {
         //SceneManager.run("homePage");
         //SceneManager.run("EasyGameSelectPage");
-        //SceneManager.run("HomePages");
-        SceneManager.run("HardGamePlayingPages");
+        SceneManager.run("HomePages");
+        //SceneManager.run("HardGamePlayingPages");
       });
     },
     async gameStart() {
