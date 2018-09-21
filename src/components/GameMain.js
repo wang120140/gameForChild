@@ -231,8 +231,7 @@ class EasyGameIntroPages extends PIXI.Container {
         this.addChild(this.title)
 
 
-        // contentText.width = 1000;
-        // contentText.height = 100;
+
         this.contentText.position.set(450, 300);
         this.addChild(this.contentText);
         this.RecyclableWaste.forEach((item, index) => {
@@ -316,6 +315,16 @@ class EasyGamePlayingPages extends PIXI.Container {
         this.yesBtn;
         this.noBtn;
         this.graphics;
+        //时间到弹窗
+        this.timePop;
+        this.naoZPop;
+        this.graphicsTime;
+        //总结弹窗
+        this.popSummary;
+        this.success;
+        this.fhBtn;
+        this.againBtn;
+        this.graphicsSummary;
 
 
     }
@@ -330,9 +339,6 @@ class EasyGamePlayingPages extends PIXI.Container {
             this.TimeNum = 60;
             this.track = [];
             this.RecyclableSprite = [];
-            //测试使用  
-            //let a = 100
-            //switch (a) {
             switch (Garbage.getGarBage("position")) {
                 case 100:
                     this.Recyclablelitter = new PIXI.Sprite(PIXI.loader.resources["RecyclableLitter"].texture);
@@ -359,6 +365,7 @@ class EasyGamePlayingPages extends PIXI.Container {
                     this.SelectWaste = this.OthersWaster
                     break;
             }
+
         })()
         let ScoreStyle = new PIXI.TextStyle({
             fontFamily: "Arial",
@@ -383,7 +390,6 @@ class EasyGamePlayingPages extends PIXI.Container {
         this.Recyclablelitter.position.set(100, 480);
         this.addChild(this.Recyclablelitter);
         //垃圾箱的盖子
-
         this.RecyclablelitterCap.position.set(83, 400)
         this.addChild(this.RecyclablelitterCap);
         //传送带
@@ -396,7 +402,7 @@ class EasyGamePlayingPages extends PIXI.Container {
         //轮子背景图
         for (let wheelNum = 0; wheelNum <= 15; wheelNum++) {
             this.wheel = new PIXI.Sprite(PIXI.loader.resources['wheel_png'].texture);
-            this.wheel.position.set(wheelNum * 140, 1050);
+            this.wheel.position.set(wheelNum * 138, 1050);
             this.wheel.anchor.set(0.5);
             this.wheelSprite.push(this.wheel);
             this.addChild(this.wheel);
@@ -458,14 +464,13 @@ class EasyGamePlayingPages extends PIXI.Container {
             });
             this.RecyclableSprite.push(RecyclableItem);
             this.addChild(RecyclableItem);
-
         })
-        console.log(Dialog);
+
         //this.addChild(Dialog.graphics, Dialog.pop, Dialog.DialogText, Dialog.yesBtn, Dialog.noBtn)
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
         this.loop.start();
-        //第一个弹窗
+        //第一个弹窗吧关闭按钮的弹窗
         this.pop = new PIXI.Sprite(PIXI.Texture.from('pop_png'));
         this.pop.position.set(400, 100);
         this.pop.visible = true;
@@ -492,6 +497,60 @@ class EasyGamePlayingPages extends PIXI.Container {
         this.graphics.beginFill(0x5500).drawRect(0, 0, 1920, 1080).endFill();
         this.graphics.alpha = 0.1;
         //this.graphics.fillAlpha = 0.1;
+        //第二个弹窗 是时间到的按钮
+        this.timePop = new PIXI.Sprite(PIXI.Texture.from('Timeout_png'));
+        this.timePop.position.set(300, 400);
+        this.timePop.visible = false;
+        this.timePop.interactive = true;
+        //闹钟图
+        this.naoZPop = new PIXI.Sprite(PIXI.Texture.from('alarmclock_png'));
+        this.naoZPop.position.set(830, 200);
+        this.naoZPop.visible = false;
+        this.naoZPop.interactive = true;
+        //遮罩层
+        this.graphicsTime = new PIXI.Graphics();
+        this.graphicsTime.beginFill(0x0000).drawRect(0, 0, 1920, 1080).endFill();
+        this.graphicsTime.alpha = 0.1;
+        this.graphicsTime.visible = false;
+        this.addChild(this.graphicsTime, this.timePop, this.naoZPop)
+            //第三个弹框 总结弹窗
+        this.popSummary = new PIXI.Sprite(PIXI.Texture.from('endPop_png'));
+        this.popSummary.position.set(500, 200);
+        this.popSummary.visible = false;
+        this.popSummary.interactive = true;
+        //success图标
+        this.success = new PIXI.Sprite(PIXI.Texture.from('success_png'));
+        this.success.visible = false;
+        this.success.position.set(600, 100);
+        //返回按钮
+        this.fhBtn = new PIXI.Sprite(PIXI.Texture.from('backBtn_0_png'));
+        this.fhBtn.position.set(650, 700);
+        this.fhBtn.visible = false;
+        this.fhBtn.interactive = true;
+        this.fhBtn.buttonMode = true;
+        this.fhBtn.on('pointertap', this.fhBtnEvent);
+        //再来一次按钮
+        this.againBtn = new PIXI.Sprite(PIXI.Texture.from('againBtn_0'));
+        this.againBtn.visible = false;
+        this.againBtn.interactive = true;
+        this.againBtn.buttonMode = true;
+        this.againBtn.on("pointertap", this.againBtnEvent)
+        this.againBtn.position.set(1100, 700);
+        //遮罩层
+        this.graphicsSummary = new PIXI.Graphics();
+        this.graphicsSummary.beginFill(0x0000).drawRect(0, 0, 1920, 1080).endFill();
+        this.graphicsSummary.visible = false;
+        this.graphicsSummary.alpha = 0.6;
+
+    }
+    fhBtnEvent() {
+        console.log(111)
+        this.removeChild(this.graphicsSummary, this.popSummary, this.fhBtn, this.againBtn)
+        SceneManager.run("EasyGameSelectPages");
+    }
+    againBtnEvent() {
+        //SceneManager.run("EasyGameSelectPage");
+        SceneManager.run("EasyGamePlayingPages")
     }
     BtnBackNormalEvent = () => {
         this.loop.stop();
@@ -519,7 +578,7 @@ class EasyGamePlayingPages extends PIXI.Container {
     }
     gameloop(delta) {
         //传送带
-        console.log(0);
+        console.log("检查循环函数是否发生......");
         this.track.forEach((item) => {
             item.x >= 1920 && item.position.set(-1920, 700);
             item.x += 10;
@@ -530,10 +589,32 @@ class EasyGamePlayingPages extends PIXI.Container {
             })
             //定义时间函数
         this.TimeNum += 1;
-        if (this.TimeNum < 3600) {
+        if (this.TimeNum < 660) {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
-        } else if (this.TimeNum == 3600) {
+        } else if (this.TimeNum == 660) {
             // alert("游戏结束")
+            this.timePop.visible = true;
+            this.naoZPop.visible = true;
+            this.graphicsTime.visible = true;
+            this.BtnBackNormal.interactive = false;
+            this.BtnBackNormal.buttonMode = false;
+            this.RecyclableSprite.forEach((item) => {
+                item.interactive = false;
+                item.buttonMode = false;
+            })
+            this.loop.stop();
+            setTimeout(() => {
+                this.removeChild(this.graphicsTime, this.timePop, this.naoZPop);
+                this.addChild(this.graphicsSummary, this.popSummary, this.fhBtn, this.againBtn)
+                this.popSummary.visible = true;
+                this.success.visible = true;
+                this.fhBtn.visible = true;
+                this.againBtn.visible = true;
+                console.log("定时器发生......")
+                    //SceneManager.run("EasyGameSelectPages")
+            }, 2000)
+
+
         } else {
             this.TimeMessage.text = (Math.floor(this.TimeNum / 3600) + ":" + Math.floor((this.TimeNum - 3600) / 60))
         }

@@ -10,12 +10,6 @@
 <script>
 import GameBoot from "@/components/GameBoot.js";
 import { SceneManager } from "@/lib/EasyPIXI.js";
-//添加  删除这部分
-//import HomePage from "@/components/Pages/HomePage.js";
-//import EasyGameSelectPage from "@/components/Pages/EasyGameSelectPage.js";
-//import EasyGameIntroPage from "@/components/Pages/EasyGameIntroPage.js";
-//import PayGame from "@/components/Pages/PayGame.js";
-//第一次优化
 import {
   HomePages,
   EasyGameSelectPages,
@@ -24,7 +18,7 @@ import {
   HardGamePlayingPages
 } from "@/components/GameMain.js";
 
-import { Dialog } from "@/components/Dialog.js";
+import { Dialog, DialogTime, DialogSummary } from "@/components/Dialog.js";
 var CanvasApp;
 export default {
   name: "app",
@@ -56,11 +50,7 @@ export default {
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
-      // SceneManager.pushScene("homePage", new HomePage());
-      // SceneManager.pushScene("EasyGameSelectPage", new EasyGameSelectPage());
-      // SceneManager.pushScene("EasyGameIntroPage", new EasyGameIntroPage());
-      // SceneManager.pushScene("PayGame", new PayGame());
-      //第二次修改
+      //第一次修改
       SceneManager.pushScene("HomePages", new HomePages());
       SceneManager.pushScene("EasyGameSelectPages", new EasyGameSelectPages());
       SceneManager.pushScene("EasyGameIntroPages", new EasyGameIntroPages());
@@ -72,15 +62,19 @@ export default {
         "HardGamePlayingPages",
         new HardGamePlayingPages()
       );
+      //测试弹出框使用
       SceneManager.pushScene("Dialog", new Dialog());
-
+      SceneManager.pushScene("DialogTime", new DialogTime());
+      SceneManager.pushScene("DialogSummary", new DialogSummary());
       this.gameStart().then(() => {
         SceneManager.run("HomePages");
         //SceneManager.run("EasyGameSelectPage");
-        //SceneManager.run("EasyGameIntroPages")
+        //SceneManager.run("EasyGameIntroPages");
         //SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
         //SceneManager.run("Dialog");
+        //SceneManager.run("DialogTime");
+        //SceneManager.run("DialogSummary");
       });
     },
     async gameStart() {
