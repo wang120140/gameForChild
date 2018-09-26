@@ -10,15 +10,25 @@
 <script>
 import GameBoot from "@/components/GameBoot.js";
 import { SceneManager } from "@/lib/EasyPIXI.js";
-import {
-  HomePages,
-  EasyGameSelectPages,
-  EasyGameIntroPages,
-  EasyGamePlayingPages,
-  HardGamePlayingPages
-} from "@/components/GameMain.js";
+import HomePages from "@/components/Pages/HomePages.js";
+import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
+import EasyGameIntroPages from "@/components/Pages/EasyGameIntroPages.js";
+import EasyGamePlayingPages from "@/components/Pages/EasyGamePlayingPages.js";
+import HardGamePlayingPages from "@/components/Pages/HardGamePlayingPages.js";
+// import {
+//   HomePages,
+//   EasyGameSelectPages,
+//   EasyGameIntroPages,
+//   EasyGamePlayingPages,
+//   HardGamePlayingPages
+// } from "@/components/GameMain.js";
 
-import { Dialog, DialogTime, DialogSummary } from "@/components/Dialog.js";
+import {
+  Dialog,
+  DialogTime,
+  DialogSummary,
+  DialogSwiper
+} from "@/components/Pages/Dialog.js";
 var CanvasApp;
 export default {
   name: "app",
@@ -28,7 +38,6 @@ export default {
       Waster: []
     };
   },
-
   beforeCreate() {
     PIXI.utils.skipHello();
   },
@@ -50,7 +59,6 @@ export default {
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
-      //第一次修改
       SceneManager.pushScene("HomePages", new HomePages());
       SceneManager.pushScene("EasyGameSelectPages", new EasyGameSelectPages());
       SceneManager.pushScene("EasyGameIntroPages", new EasyGameIntroPages());
@@ -66,15 +74,18 @@ export default {
       SceneManager.pushScene("Dialog", new Dialog());
       SceneManager.pushScene("DialogTime", new DialogTime());
       SceneManager.pushScene("DialogSummary", new DialogSummary());
+      SceneManager.pushScene("DialogSwiper", new DialogSwiper());
       this.gameStart().then(() => {
-        SceneManager.run("HomePages");
+        //单个页面测试
+        //SceneManager.run("HomePages");
         //SceneManager.run("EasyGameSelectPage");
         //SceneManager.run("EasyGameIntroPages");
-        //SceneManager.run("EasyGamePlayingPages");
+        SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
         //SceneManager.run("Dialog");
         //SceneManager.run("DialogTime");
         //SceneManager.run("DialogSummary");
+        //SceneManager.run("DialogSwiper");
       });
     },
     async gameStart() {

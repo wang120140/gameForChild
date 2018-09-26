@@ -3,9 +3,9 @@ import {
     SceneManager,
     Garbage
 } from "@/lib/EasyPIXI.js";
-import {
-    Dialog
-} from "@/components/Dialog.js"
+
+//把各个页面进行分开 代码太多了 分块模块化....9/25
+
 class HomePages extends PIXI.Container {
     constructor() {
         super();
@@ -220,7 +220,6 @@ class EasyGameIntroPages extends PIXI.Container {
         //返回按钮
         this.BtnBackNormal = new PIXI.Sprite(PIXI.loader.resources["BtnBackNormal_png"].texture);
         this.BtnBackNormal.position.set(100, 70);
-
         this.BtnBackNormal.interactive = true;
         this.BtnBackNormal.buttonMode = true;
         this.BtnBackNormal.on("pointertap", this.BtnBackNormalEvent)
@@ -325,8 +324,6 @@ class EasyGamePlayingPages extends PIXI.Container {
         this.fhBtn;
         this.againBtn;
         this.graphicsSummary;
-
-
     }
     removeFromStage() {
         if (this.loop) {
@@ -448,8 +445,8 @@ class EasyGamePlayingPages extends PIXI.Container {
         this.SelectWaste.forEach((item, index) => {
             let RecyclableItem = new PIXI.Sprite(PIXI.loader.resources[item].texture);
             RecyclableItem.x = index * (-400);
-            RecyclableItem.y = 750;
-
+            RecyclableItem.y = 870;
+            RecyclableItem.pivot.y = RecyclableItem.height;
             RecyclableItem.EventChange = false; //点击事件是否发生
             RecyclableItem.EventChangePosition = 2000; //模拟点击事件的位置
             RecyclableItem.ClassItem = this.WasterClass[this.suitable]; //定义垃圾属性
@@ -542,6 +539,7 @@ class EasyGamePlayingPages extends PIXI.Container {
         this.graphicsSummary.visible = false;
         this.graphicsSummary.alpha = 0.6;
 
+
     }
     fhBtnEvent() {
         console.log(111)
@@ -589,9 +587,9 @@ class EasyGamePlayingPages extends PIXI.Container {
             })
             //定义时间函数
         this.TimeNum += 1;
-        if (this.TimeNum < 660) {
+        if (this.TimeNum < 6660) {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
-        } else if (this.TimeNum == 660) {
+        } else if (this.TimeNum == 6660) {
             // alert("游戏结束")
             this.timePop.visible = true;
             this.naoZPop.visible = true;
@@ -649,17 +647,13 @@ class EasyGamePlayingPages extends PIXI.Container {
                     }
                     this.ScoreMessage.text = "X" + this.ScoreNum;
                     //改变精灵
-
                     //this.unHappyAnimal = this.HappyAnimal;
                     this.addChild(this.unHappyAnimal);
-
                 }
-
                 this.removeChild(item); //先移除原有的精灵
                 let RandomIndex;
                 RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
                 item = new PIXI.Sprite(PIXI.loader.resources[this.Waster[RandomIndex]].texture);
-
                 item.EventChangePosition = 2000; //对创建的精灵定义属性
                 item.scaleV = 0;
                 item.EventChange = false;
@@ -670,9 +664,9 @@ class EasyGamePlayingPages extends PIXI.Container {
                     item.EventChange = true;
                     item.EventChangePosition = item.x; //消失的位置
                 })
-
                 arr[index] = item //替换原有的精灵
-                item.position.set(item.EventChangePosition - 2400, 750); //给精灵添加到位置
+                item.position.set(item.EventChangePosition - 2400, 870); //给精灵添加到位置
+                item.pivot.y = item.height;
                 this.addChild(item) //把精灵添加到舞台
             }
 
@@ -705,8 +699,25 @@ class HardGamePlayingPages extends PIXI.Container {
         this.WasterClass = ['Recyclable', 'Kitchen', 'Hazardous', 'Others'];
         this.WasterBoxCapSprite = [];
         this.WasterGather = [];
+        //弹窗
+        this.pop;
+        this.DialogText;
+        this.yesBtn;
+        this.noBtn;
+        this.graphics;
+        //时间到弹窗
+        this.timePop;
+        this.naoZPop;
+        this.graphicsTime;
+        //总结弹窗
+        this.popSummary;
+        this.success;
+        this.fhBtn;
+        this.againBtn;
+        this.graphicsSummary;
         this.on('removed', this.removeFromStage, this);
         this.on("added", this.addedStage, this);
+
     }
     addedStage() {
         (() => {
@@ -781,37 +792,32 @@ class HardGamePlayingPages extends PIXI.Container {
         this.addChild(this.ScoreMessage);
         //箱子盖
         this.WasterBoxCap.forEach((item, index) => {
-                let WasterBoxCapItem = new PIXI.Sprite(PIXI.loader.resources[item].texture);
-                WasterBoxCapItem.interactive = true;
-                WasterBoxCapItem.buttonMode = true;
-                WasterBoxCapItem.Class = this.WasterClass[index];
-                WasterBoxCapItem.on("pointertap", () => {
-                    console.log(22)
-                    console.log(this.WasterGather);
-                    let a = this.WasterGather.filter((item, index, arr) => {
-                        return (item.StartPostion != null)
-                    })
-                    console.log(a)
-                    if (a.length > 0) {
-                        console.log(1)
-                        a[0].StartPostion = a[0].x
-                        a[0].EndPostion = WasterBoxCapItem.x;
-                        a[0].CheckClass = this.WasterClass[index];
-                    }
-
-
+            let WasterBoxCapItem = new PIXI.Sprite(PIXI.loader.resources[item].texture);
+            WasterBoxCapItem.interactive = true;
+            WasterBoxCapItem.buttonMode = true;
+            WasterBoxCapItem.Class = this.WasterClass[index];
+            WasterBoxCapItem.on("pointertap", () => {
+                console.log(22)
+                console.log(this.WasterGather);
+                let a = this.WasterGather.filter((item, index, arr) => {
+                    return (item.StartPostion != null)
                 })
-                WasterBoxCapItem.position.set(index * 500 - 20, 300);
-                this.WasterBoxCapSprite.push(WasterBoxCapItem);
-                this.addChild(WasterBoxCapItem);
+                console.log(a)
+                if (a.length > 0) {
+                    console.log(1)
+                    a[0].StartPostion = a[0].x
+                    a[0].EndPostion = WasterBoxCapItem.x;
+                    a[0].CheckClass = this.WasterClass[index];
+                }
+
+
             })
-            // this.WasterBoxCapSprite[0].position.set(-20, 300);
-            // this.WasterBoxCapSprite[1].position.set(480, 300);
-            // this.WasterBoxCapSprite[2].position.set(980, 300);
-            // this.WasterBoxCapSprite[3].position.set(1483, 300);
-        console.log(this.WasterBoxCapSprite[3].x)
-        console.log(this.WasterBoxCapSprite[3].y)
-            //创建垃圾物品
+            WasterBoxCapItem.position.set(index * 500 - 20, 300);
+            this.WasterBoxCapSprite.push(WasterBoxCapItem);
+            this.addChild(WasterBoxCapItem);
+        })
+
+        //创建垃圾物品
         for (let i = 0; i < 5; i++) {
             let index = Math.floor(Math.random() * 20)
 
@@ -828,8 +834,6 @@ class HardGamePlayingPages extends PIXI.Container {
             WasterItem.on("pointertap", () => {
                 WasterItem.ButtonClick = true;
                 WasterItem.StartPostion = WasterItem.x;
-                console.log(WasterItem.x)
-
             })
 
             this.WasterGather.push(WasterItem);
@@ -838,14 +842,115 @@ class HardGamePlayingPages extends PIXI.Container {
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
         this.loop.start();
+        //第一个弹窗吧关闭按钮的弹窗
+        this.pop = new PIXI.Sprite(PIXI.Texture.from('pop_png'));
+        this.pop.position.set(400, 100);
+        this.pop.visible = true;
+        this.pop.alpha = 1;
+        this.pop.interactive = true;
+        //字体
+        this.DialogText = new PIXI.Text("Do you really want to quit ? ", ScoreStyle);
+        this.DialogText.position.set(600, 350)
+            //yes按钮
+        this.yesBtn = new PIXI.Sprite(PIXI.Texture.from('yesBtn_0_png'));
+        this.yesBtn.position.set(600, 700);
+        this.yesBtn.interactive = true;
+        this.yesBtn.buttonMode = true;
+        this.yesBtn.on('pointertap', this.yesButtonEvent);
+        //no按钮
+        this.noBtn = new PIXI.Sprite(PIXI.Texture.from('noBtn_0_png'));
+        this.noBtn.interactive = true;
+        this.noBtn.buttonMode = true;
+        this.noBtn.on("pointertap", this.noButtonEvent)
+        this.noBtn.position.set(1200, 700);
+        //遮罩层
+        this.graphics = new PIXI.Graphics();
+        //this.graphics = new PIXI.Sprite(PIXI.loader.resources['bggame_png'].texture)
+        this.graphics.beginFill(0x5500).drawRect(0, 0, 1920, 1080).endFill();
+        this.graphics.alpha = 0.1;
+        //this.graphics.fillAlpha = 0.1;
+        //第二个弹窗 是时间到的按钮
+        this.timePop = new PIXI.Sprite(PIXI.Texture.from('Timeout_png'));
+        this.timePop.position.set(300, 400);
+        this.timePop.visible = false;
+        this.timePop.interactive = true;
+        //闹钟图
+        this.naoZPop = new PIXI.Sprite(PIXI.Texture.from('alarmclock_png'));
+        this.naoZPop.position.set(830, 200);
+        this.naoZPop.visible = false;
+        this.naoZPop.interactive = true;
+        //遮罩层
+        this.graphicsTime = new PIXI.Graphics();
+        this.graphicsTime.beginFill(0x0000).drawRect(0, 0, 1920, 1080).endFill();
+        this.graphicsTime.alpha = 0.1;
+        this.graphicsTime.visible = false;
+        this.addChild(this.graphicsTime, this.timePop, this.naoZPop)
+            //第三个弹框 总结弹窗
+        this.popSummary = new PIXI.Sprite(PIXI.Texture.from('endPop_png'));
+        this.popSummary.position.set(500, 200);
+        this.popSummary.visible = false;
+        this.popSummary.interactive = true;
+        //success图标
+        this.success = new PIXI.Sprite(PIXI.Texture.from('success_png'));
+        this.success.visible = false;
+        this.success.position.set(600, 100);
+        //返回按钮
+        this.fhBtn = new PIXI.Sprite(PIXI.Texture.from('backBtn_0_png'));
+        this.fhBtn.position.set(650, 700);
+        this.fhBtn.visible = false;
+        this.fhBtn.interactive = true;
+        this.fhBtn.buttonMode = true;
+        this.fhBtn.on('pointertap', this.fhBtnEvent);
+        //再来一次按钮
+        this.againBtn = new PIXI.Sprite(PIXI.Texture.from('againBtn_0'));
+        this.againBtn.visible = false;
+        this.againBtn.interactive = true;
+        this.againBtn.buttonMode = true;
+        this.againBtn.on("pointertap", this.againBtnEvent)
+        this.againBtn.position.set(1100, 700);
+        //遮罩层
+        this.graphicsSummary = new PIXI.Graphics();
+        this.graphicsSummary.beginFill(0x0000).drawRect(0, 0, 1920, 1080).endFill();
+        this.graphicsSummary.visible = false;
+        this.graphicsSummary.alpha = 0.6;
 
+    }
+    fhBtnEvent() {
+        console.log(111)
+        this.removeChild(this.graphicsSummary, this.popSummary, this.fhBtn, this.againBtn)
+        SceneManager.run("HomePages");
+    }
+    againBtnEvent() {
+        //SceneManager.run("EasyGameSelectPage");
+        SceneManager.run("HardGamePlayingPages")
+    }
+    BtnBackNormalEvent = () => {
+            this.loop.stop();
+            this.addChild(this.graphics, this.pop, this.DialogText, this.yesBtn, this.noBtn)
+            this.WasterGather.forEach((item) => {
+                item.interactive = false;
+                item.buttonMode = false;
+            })
+
+        }
+        //关闭窗口 中的yes按钮事件
+    yesButtonEvent = () => {
+            this.removeChild(this.graphics, this.pop, this.DialogText, this.yesBtn, this.noBtn);
+            SceneManager.run("HomePages");
+        }
+        //关闭窗口中的no 按钮事件
+    noButtonEvent = () => {
+        this.removeChild(this.graphics, this.pop, this.DialogText, this.yesBtn, this.noBtn);
+        this.WasterGather.forEach((item) => {
+            item.interactive = true;
+            item.buttonMode = true;
+        })
+        this.loop.start();
     }
     removeFromStage() {
         if (this.loop) {
             this.loop.destroy();
         }
-        //this.destroy();
-        //this.destroy();
         this.removeChildren(0, this.children.length)
     }
     BtnBackNormalEvent() {
@@ -853,10 +958,30 @@ class HardGamePlayingPages extends PIXI.Container {
     }
     gameloop(delta) {
         this.TimeNum += 1;
-        if (this.TimeNum < 3600) {
+        if (this.TimeNum < 6660) {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
-        } else if (this.TimeNum == 3600) {
-            // alert("游戏结束")
+        } else if (this.TimeNum == 6660) {
+            console.log(1)
+            this.timePop.visible = true;
+            this.naoZPop.visible = true;
+            this.graphicsTime.visible = true;
+            this.BtnBackNormal.interactive = false;
+            this.BtnBackNormal.buttonMode = false;
+            this.WasterGather.forEach((item) => {
+                item.interactive = false;
+                item.buttonMode = false;
+            })
+            this.loop.stop();
+            setTimeout(() => {
+                this.removeChild(this.graphicsTime, this.timePop, this.naoZPop);
+                this.addChild(this.graphicsSummary, this.popSummary, this.fhBtn, this.againBtn)
+                this.popSummary.visible = true;
+                this.success.visible = true;
+                this.fhBtn.visible = true;
+                this.againBtn.visible = true;
+                console.log("定时器发生......")
+                    //SceneManager.run("EasyGameSelectPages")
+            }, 2000)
         } else {
             this.TimeMessage.text = (Math.floor(this.TimeNum / 3600) + ":" + Math.floor((this.TimeNum - 3600) / 60))
         }
@@ -914,7 +1039,7 @@ class HardGamePlayingPages extends PIXI.Container {
                 item.position.set(-400, 750); //给精灵添加到位置
                 this.addChild(item) //把精灵添加到舞台
             }
-            //console.log(item.y)
+
             this.ScoreMessage.text = this.ScoreNum;
         })
     }
