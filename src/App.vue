@@ -5,9 +5,11 @@
         <!-- <div>
             <img   :src="`${baseUrl}img/bggame.jpg`"/>
         </div> -->
+       <!-- <SwiperBoard></SwiperBoard> -->
     </div>
 </template>
 <script>
+import SwiperBoard from "@/components/Pages/SwiperBoard";
 import GameBoot from "@/components/GameBoot.js";
 import { SceneManager } from "@/lib/EasyPIXI.js";
 import HomePages from "@/components/Pages/HomePages.js";
@@ -15,6 +17,8 @@ import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
 import EasyGameIntroPages from "@/components/Pages/EasyGameIntroPages.js";
 import EasyGamePlayingPages from "@/components/Pages/EasyGamePlayingPages.js";
 import HardGamePlayingPages from "@/components/Pages/HardGamePlayingPages.js";
+//测试GSAP
+import TestGSAP from "@/components/Pages/TestGSAP.js";
 // import {
 //   HomePages,
 //   EasyGameSelectPages,
@@ -32,6 +36,9 @@ import {
 var CanvasApp;
 export default {
   name: "app",
+  components: {
+    SwiperBoard
+  },
   data() {
     return {
       baseUrl: process.env.BASE_URL,
@@ -71,6 +78,7 @@ export default {
         new HardGamePlayingPages()
       );
       //测试弹出框使用
+      SceneManager.pushScene("TestGSAP", new TestGSAP());
       SceneManager.pushScene("Dialog", new Dialog());
       SceneManager.pushScene("DialogTime", new DialogTime());
       SceneManager.pushScene("DialogSummary", new DialogSummary());
@@ -80,8 +88,9 @@ export default {
         //SceneManager.run("HomePages");
         //SceneManager.run("EasyGameSelectPage");
         //SceneManager.run("EasyGameIntroPages");
-        SceneManager.run("EasyGamePlayingPages");
-        //SceneManager.run("HardGamePlayingPages");
+        //SceneManager.run("EasyGamePlayingPages");
+        SceneManager.run("HardGamePlayingPages");
+        //SceneManager.run("TestGSAP");
         //SceneManager.run("Dialog");
         //SceneManager.run("DialogTime");
         //SceneManager.run("DialogSummary");

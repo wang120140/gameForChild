@@ -3,7 +3,10 @@ import {
     SceneManager,
     Garbage
 } from "@/lib/EasyPIXI.js";
-
+import {
+    TweenMax,
+    Power1
+} from "gsap";
 export default class HardGamePlayingPages extends PIXI.Container {
     constructor() {
         super();
@@ -21,6 +24,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.ScoreNum = 0;
         this.WasterBox = ["RecyclableLitter", "KitchenLitter", "HarmfulLitter", "OtherLitter"];
         this.WasterBoxCap = ["RecyclableLitterCap", "KitchenLitterCap", "HarmfulLitterCap", "OtherLitterCap"];
+        //this.WasterBoxCapItem
+        this.WasterBoxCapJumpment = false;
         this.Waster = ['paper', 'cloth', 'glass', 'plastics', 'metal',
             'fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells',
             'medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints',
@@ -192,10 +197,35 @@ export default class HardGamePlayingPages extends PIXI.Container {
                     })
                     if (a.length > 0) {
                         a[a.length - 1].StartPostion = a[0].x
-                        console.log(a[0].StartPostion);
+
                         a[a.length - 1].EndPostion = WasterBoxCapItem.x + 20;
                         a[a.length - 1].CheckClass = this.WasterClass[index];
                     }
+                    this.WasterGather.forEach((item) => {
+                        if ((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null)) {
+                            let MoveTime;
+                            (Math.abs(item.StartPostion - item.EndPostion) >= 800) ? MoveTime = 1: MoveTime = 0.8
+                            TweenMax.to(item, MoveTime, {
+                                bezier: {
+                                    type: "cubic",
+                                    values: [{
+                                        x: item.StartPostion,
+                                        y: 870
+                                    }, {
+                                        x: item.StartPostion + 250,
+                                        y: 570
+                                    }, {
+                                        x: item.EndPostion + 150,
+                                        y: 600
+                                    }, {
+                                        x: item.EndPostion,
+                                        y: 450
+                                    }],
+                                },
+                                ease: Power1.easeInOut
+                            })
+                        }
+                    })
                 })
                 WasterBoxCapItem.position.set(index * 500 - 20, 300);
                 this.WasterBoxCapSprite.push(WasterBoxCapItem);
@@ -228,8 +258,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.loop.start();
     }
     gameloop(delta) {
-        this.TimeNum += 1;
         //关于时间的方法
+        this.TimeNum += 1;
         if (this.TimeNum < 6660) {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
         } else if (this.TimeNum == 6660) {
@@ -264,19 +294,28 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.wheelSprite.forEach((item) => {
                 item.rotation -= 0.075 * delta;
             })
+            //关于垃圾盖效果
+        this.WasterBoxCapJumpment = this.WasterGather.some((item) => {
+                return item.y < 870
+            })
+            //this.WasterBoxCapJumpment ?
+        this.WasterBoxCapSprite.forEach((item) => {
+                item.interactive = (!this.WasterBoxCapJumpment);
+            })
             //关于垃圾
         this.WasterGather.forEach((item, index, arr) => {
             //放大垃圾效果
             if (item.ButtonClick) {
                 item.anchor.set(0.5, 0.5);
-                item.scale.set(1.1, 1.1)
+                item.scale.set(1.2, 1.2)
             } else {
+                item.anchor.set(0);
                 item.scale.set(1, 1);
             }
             //控制运动效果
             if ((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null)) {
-                item.y += (300 - 670) / 160
-                item.x += ((item.EndPostion - item.StartPostion) / 160)
+                // item.y += (300 - 670) / 160
+                // item.x += ((item.EndPostion - item.StartPostion) / 160)
             } else {
                 item.x -= 5;
             }
@@ -319,7 +358,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 arr.push(item)
                 this.addChild(item) //把精灵添加到舞台
             }
-
         })
     }
     fhBtnEvent() {

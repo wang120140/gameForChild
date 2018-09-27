@@ -1,14 +1,24 @@
 import * as PIXI from 'pixi.js'
+
+//typical import
+import {
+    TweenMax,
+    Power1,
+    TimelineLite
+} from "gsap";
+
+//or get to the parts that aren't included inside TweenMax:
+import Draggable from "gsap/Draggable";
+import ScrollToPlugin from "gsap/ScrollToPlugin";
+
 import {
     SceneManager,
     Garbage
 } from "@/lib/EasyPIXI.js";
-import {
-    TweenMax,
-    Power1
-} from "gsap";
+let TimeLineMax = new TimelineMax()
 
-export default class EasyGamePlayingPages extends PIXI.Container {
+
+export default class EasyGamePlayingPagesGsap extends PIXI.Container {
     constructor() {
         super();
         this.on('removed', this.removeFromStage, this);
@@ -70,6 +80,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         }
     }
     addedToStage() {
+        console.log(TimeLineMax);
+
         (() => {
             this.TimeNum = 60;
             this.track = [];
@@ -128,6 +140,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 if (item.EventChange) {
                     item.EventChangePickUp = true;
                 }
+
             })
             this.RecyclableSprite.forEach((item) => {
                 if (item.EventChange && item.EventChangePickUp) {
@@ -153,6 +166,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                     })
                 }
             })
+
         })
         this.addChild(this.RecyclablelitterCap);
         //传送带
@@ -227,7 +241,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                         item.EventChange = false;
                     }
                 })
+
                 RecyclableItem.EventChange = true;
+
                 RecyclableItem.EventChangePosition = RecyclableItem.x //点击位置
             });
             this.RecyclableSprite.push(RecyclableItem);
@@ -349,15 +365,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         //定义动物的层级
         this.setChildIndex(this.unHappyAnimal, 8); //这句写的不好
         this.setChildIndex(this.HappyAnimal, 9);
-        //精灵循环\
-        let Judgement = this.RecyclableSprite.some((item) => {
-            return item.y < 870
-        })
-        if (Judgement) {
-            this.RecyclablelitterCap.interactive = false;
-        } else {
-            this.RecyclablelitterCap.interactive = true;
-        }
+        //精灵循环
         this.RecyclableSprite.forEach((item, index, arr) => {
             if (item.EventChange) {
                 item.scale.set(1.2, 1.2);
@@ -368,8 +376,10 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 //定义点击事件后发生的事情
                 // item.scaleV += 1;
                 // item.anchor.set(0.5, 0.5);
+                //垃圾移动
                 // item.y += -(500 - 100) / 120;
                 // item.x += -(item.EventChangePosition) / 120;
+                //垃圾移动结束
                 if (item.y <= 450) {
                     if (item.ClassItem == this.WasterClass[this.suitable]) {
                         this.ScoreNum += 5;
