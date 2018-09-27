@@ -1,32 +1,24 @@
 <template>
     <div id="app">
+       
         <div ref="gameMain">
         </div>
+        <SwiperBoard class="SwiperDialog"  @StartHardGarm="ControlHardGarm" v-if="ControlHardDialog"></SwiperBoard>
         <!-- <div>
             <img   :src="`${baseUrl}img/bggame.jpg`"/>
         </div> -->
-       <!-- <SwiperBoard></SwiperBoard> -->
+      
     </div>
 </template>
 <script>
 import SwiperBoard from "@/components/Pages/SwiperBoard";
 import GameBoot from "@/components/GameBoot.js";
-import { SceneManager } from "@/lib/EasyPIXI.js";
+import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";
 import HomePages from "@/components/Pages/HomePages.js";
 import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
 import EasyGameIntroPages from "@/components/Pages/EasyGameIntroPages.js";
 import EasyGamePlayingPages from "@/components/Pages/EasyGamePlayingPages.js";
 import HardGamePlayingPages from "@/components/Pages/HardGamePlayingPages.js";
-//测试GSAP
-import TestGSAP from "@/components/Pages/TestGSAP.js";
-// import {
-//   HomePages,
-//   EasyGameSelectPages,
-//   EasyGameIntroPages,
-//   EasyGamePlayingPages,
-//   HardGamePlayingPages
-// } from "@/components/GameMain.js";
-
 import {
   Dialog,
   DialogTime,
@@ -42,18 +34,25 @@ export default {
   data() {
     return {
       baseUrl: process.env.BASE_URL,
-      Waster: []
+      Waster: [],
+      HardObject: {},
+      ControlHardDialog: false
     };
   },
   beforeCreate() {
     PIXI.utils.skipHello();
+    Garbage.setGarBage("startPlayHardGame", false);
   },
   mounted() {
     this.createCanvasApp();
     console.log("url>>>", this.baseUrl);
   },
   methods: {
+    ControlHardGarm() {
+      this.ControlHardDialog = false;
+    },
     createCanvasApp() {
+      var self = this;
       CanvasApp = new PIXI.Application({
         width: 1920,
         height: 1080
@@ -63,6 +62,7 @@ export default {
       CanvasApp.view.style.height = "100%";
       CanvasApp.renderer.backgroundImage = "url(./img/timg.png)";
       this.$refs.gameMain.appendChild(CanvasApp.view);
+      Garbage.setGarBage("vueInstance", self);
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
@@ -78,18 +78,17 @@ export default {
         new HardGamePlayingPages()
       );
       //测试弹出框使用
-      SceneManager.pushScene("TestGSAP", new TestGSAP());
       SceneManager.pushScene("Dialog", new Dialog());
       SceneManager.pushScene("DialogTime", new DialogTime());
       SceneManager.pushScene("DialogSummary", new DialogSummary());
       SceneManager.pushScene("DialogSwiper", new DialogSwiper());
       this.gameStart().then(() => {
         //单个页面测试
-        //SceneManager.run("HomePages");
+        SceneManager.run("HomePages");
         //SceneManager.run("EasyGameSelectPage");
         //SceneManager.run("EasyGameIntroPages");
         //SceneManager.run("EasyGamePlayingPages");
-        SceneManager.run("HardGamePlayingPages");
+        //SceneManager.run("HardGamePlayingPages");
         //SceneManager.run("TestGSAP");
         //SceneManager.run("Dialog");
         //SceneManager.run("DialogTime");
@@ -117,12 +116,23 @@ export default {
 </script>
 <style>
 #app {
-  position: absolute;
+  /* position: absolute;
   width: 19.2rem;
   height: 10.8rem;
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
-  background: green;
+  background: green; */
+
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.SwiperDialog {
+  position: absolute;
+  top: 0rem;
 }
 </style>

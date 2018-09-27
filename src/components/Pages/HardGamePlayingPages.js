@@ -236,7 +236,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             let index = Math.floor(Math.random() * 20)
             let WasterItem = new PIXI.Sprite(PIXI.loader.resources[this.Waster[index]].texture);
             WasterItem.pivot.y = WasterItem.height;
-            WasterItem.position.set(i * 384 + 1920, 870);
+            WasterItem.position.set(i * 384, 870);
             WasterItem.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
             WasterItem.CheckClass = null; //定义检查属性
             WasterItem.interactive = true; //定义鼠标事件
@@ -255,7 +255,12 @@ export default class HardGamePlayingPages extends PIXI.Container {
         }
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
-        this.loop.start();
+        if (Garbage.getGarBage("startPlayHardGame")) {
+            this.loop.start();
+        } else {
+            this.loop.stop();
+        }
+
     }
     gameloop(delta) {
         //关于时间的方法

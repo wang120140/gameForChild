@@ -11,17 +11,17 @@
                         <div class="swiper-content">{{item.content}}</div>
                         <div class="swiper-classfiy"><span v-for="(items,index) in item.classfiy" class="text" :key=index>{{items}}</span></div>
                         <div class="swiper-classfiy_yw"><span v-for="(items,index) in item.classfiy_yw" class="text" :key=index>{{items}}</span></div>
+                        <div class="skipAtt" @click="skip()"> 点击事件</div>
                         </pre>
                     </div>
-
                 </div>
             </div>
-
             <div class="swiper-pagination"></div>
         </div>
     </div>
 </template>
 <script>
+import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";
 export default {
   name: "HelloWorld",
   data() {
@@ -37,14 +37,14 @@ export default {
         {
           title: "kitchen Waste",
           content:
-            "厨房产生的食物类垃圾以及果皮。\n  Food waste and fruit peels from the kitchen",
+            "厨房产生的食物类垃圾以及果皮。\n  Food waste and fruit peels from \n the kitchen",
           classfiy: ["果皮", "骨头", "菜叶", "剩饭", "蛋壳"],
           classfiy_yw: ["paper", "cloth", "glass", "plastics", "metal"]
         },
         {
           title: "Callable Waste",
           content:
-            "含有有毒有害化学物质的垃圾。\nWaste that contains toxic and harmful chemicals",
+            "含有有毒有害化学物质的垃圾。\nWaste that contains toxic and harmful \n  chemicals",
           classfiy: ["纸品", "布料", "玻璃", "塑料", "金属"],
           classfiy_yw: ["paper", "cloth", "glass", "plastics", "metal"]
         },
@@ -65,6 +65,15 @@ export default {
         clickable: true
       }
     });
+  },
+  methods: {
+    skip() {
+      console.log(41);
+      this.$emit("StartHardGarm");
+      Garbage.clearGarBage("startPlayHardGame");
+      Garbage.setGarBage("startPlayHardGame", true);
+      SceneManager.run("HardGamePlayingPages");
+    }
   }
 };
 </script>
@@ -82,56 +91,62 @@ body {
   margin: 0;
   padding: 0;
 }
+.skipAtt {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid blue;
+  text-align: center;
+}
 .bigbox {
-  width: 1920px;
-  height: 1080px;
+  width: 19.2rem;
+  height: 10.8rem;
   background-color: rgba(0, 0, 0, 0.6);
-
   margin: 0 auto;
 }
 .swiper-container {
-  width: 1244px;
-  height: 790px;
+  width: 12.44rem;
+  height: auto;
 }
 .swiper-title {
-  width: 525px;
-  height: 152px;
-  margin-left: 346px;
-  margin-right: 373px;
+  width: 5.25rem;
+  height: 1.52rem;
+  margin-left: 3.46rem;
+  margin-right: 3.73rem;
   background: url("../../../public/img/Swiper/TitleBG.png") no-repeat center;
   background-size: contain;
 }
 
 .title {
-  font-size: 45px;
-  padding-top: 45px;
+  font-size: 0.45rem;
+  padding-top: 0.45rem;
   color: #fff;
 }
 
 .text {
-  margin-right: 10%;
+  margin-right: 0.1rem;
   text-align: center;
 }
 
 .slide {
-  font-size: 18px;
-  width: 1244px;
-  height: 790px;
+  font-size: 0.18rem;
+  width: 12.44rem;
+  height: auto;
   background: url("../../../public/img/Swiper/IntroBoard.png") no-repeat;
   background-size: contain;
+  margin-top: 1rem;
 }
 
 .swiper-content {
-  font-size: 48px;
+  font-size: 0.48rem;
   color: #766c3d;
-  padding: 50px;
+  padding: 0.5rem;
 }
 
 .swiper-pagination-bullet {
-  width: 35px;
-  height: 35px;
+  width: 0.35rem;
+  height: 0.35rem;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 0.1rem;
   background-color: red;
 }
 .swiper-pagination-bullet-active {

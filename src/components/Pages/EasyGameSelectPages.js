@@ -89,11 +89,8 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.Arrow.position.set(1600, 300);
     }
     ArrowEvent = () => {
-
         Garbage.clearGarBage("position");
         Garbage.setGarBage('position', this.Arrow.position.x);
         SceneManager.run("EasyGameIntroPages");
-
-
     }
 }
