@@ -84,10 +84,10 @@ export default {
       SceneManager.pushScene("DialogSwiper", new DialogSwiper());
       this.gameStart().then(() => {
         //单个页面测试
-        SceneManager.run("HomePages");
-        //SceneManager.run("EasyGameSelectPage");
+        // SceneManager.run("HomePages");
+        //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
-        //SceneManager.run("EasyGamePlayingPages");
+        SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
         //SceneManager.run("TestGSAP");
         //SceneManager.run("Dialog");

@@ -98,7 +98,7 @@ body {
   text-align: center;
 }
 .bigbox {
-  width: 19.2rem;
+  width: 100%;
   height: 10.8rem;
   background-color: rgba(0, 0, 0, 0.6);
   margin: 0 auto;
@@ -135,13 +135,11 @@ body {
   background-size: contain;
   margin-top: 1rem;
 }
-
 .swiper-content {
   font-size: 0.48rem;
   color: #766c3d;
   padding: 0.5rem;
 }
-
 .swiper-pagination-bullet {
   width: 0.35rem;
   height: 0.35rem;

@@ -3,6 +3,9 @@ import {
     SceneManager,
     Garbage
 } from "@/lib/EasyPIXI.js";
+import {
+    created
+} from "./Common.js"
 export default class HomePages extends PIXI.Container {
     constructor() {
         super();
@@ -14,24 +17,34 @@ export default class HomePages extends PIXI.Container {
         this.vueInstance = null;
     }
     addedHomePageStage() {
+        let self = this
         this.vueInstance = Garbage.getGarBage('vueInstance');
-        //背景图
-        this.bg = new PIXI.Sprite(PIXI.loader.resources['bgHome_png'].texture);
-        this.addChild(this.bg);
-        //容易按钮
-        this.BtnEasy = new PIXI.Sprite(PIXI.loader.resources['btnEasy_png'].texture);
-        this.BtnEasy.position.set(500, 850);
-        this.BtnEasy.interactive = true;
-        this.BtnEasy.buttonMode = true;
+        created({
+            $this: self,
+            $name: self.bg,
+            $alias: 'bgHome_png'
+        });
+        this.BtnEasy = created({
+            $this: self,
+            $name: self.BtnEasy,
+            $alias: "btnEasy_png",
+            $x: 500,
+            $y: 850,
+            $interactive: true,
+            $buttonMode: true,
+        })
         this.BtnEasy.on("pointertap", this.BtnEasyEvent, this);
-        this.addChild(this.BtnEasy);
-        this.BtnHard = new PIXI.Sprite(PIXI.loader.resources["btnHard_png"].texture);
-        this.BtnHard.interactive = true;
-        this.BtnHard.buttonMode = true;
+        this.BtnHard = created({
+            $this: self,
+            $name: self.BtnHard,
+            $alias: "btnHard_png",
+            $x: 1200,
+            $y: 850,
+            $interactive: true,
+            $buttonMode: true,
+        })
         this.BtnHard.on("pointertap", this.BtnHardEvent, this)
-        this.BtnHard.position.set(1200, 850);
-        this.addChild(this.BtnHard);
-        //困难按钮
+            //困难按钮
     }
     BtnEasyEvent() {
         SceneManager.run("EasyGameSelectPages");

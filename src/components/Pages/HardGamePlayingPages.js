@@ -200,6 +200,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
 
                         a[a.length - 1].EndPostion = WasterBoxCapItem.x + 20;
                         a[a.length - 1].CheckClass = this.WasterClass[index];
+
                     }
                     this.WasterGather.forEach((item) => {
                         if ((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null)) {
@@ -237,6 +238,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             let WasterItem = new PIXI.Sprite(PIXI.loader.resources[this.Waster[index]].texture);
             WasterItem.pivot.y = WasterItem.height;
             WasterItem.position.set(i * 384, 870);
+
             WasterItem.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
             WasterItem.CheckClass = null; //定义检查属性
             WasterItem.interactive = true; //定义鼠标事件
@@ -285,7 +287,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 this.success.visible = true;
                 this.fhBtn.visible = true;
                 this.againBtn.visible = true;
-                console.log("定时器发生......")
+
             }, 2000)
         } else {
             this.TimeMessage.text = (Math.floor(this.TimeNum / 3600) + ":" + Math.floor((this.TimeNum - 3600) / 60))
@@ -324,9 +326,10 @@ export default class HardGamePlayingPages extends PIXI.Container {
             } else {
                 item.x -= 5;
             }
-            this.ScoreMessage.text = this.ScoreNum;
+
             //消失和生成效果
             if (item.y < 500 || item.x < -200) {
+                //定义成绩
                 if (item.y < 500) {
                     if (item.CheckClass == item.Class) {
                         this.ScoreNum += 5;
@@ -334,6 +337,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
                         this.ScoreNum -= 5;
                     }
                 }
+                this.ScoreMessage.text = this.ScoreNum; //成绩多少
+
                 item.visible = false;
                 this.removeChild(item); //先移除原有的精灵
                 let RandomIndex;
@@ -341,7 +346,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 item = new PIXI.Sprite(PIXI.loader.resources[this.Waster[RandomIndex]].texture);
 
 
-                item.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
+                item.Class = this.WasterClass[Math.floor(RandomIndex / 5)]; //定义属性
                 item.CheckClass = null; //定义检查属性
 
                 item.interactive = true; //定义鼠标事件
