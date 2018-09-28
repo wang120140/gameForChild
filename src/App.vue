@@ -53,6 +53,7 @@ export default {
     },
     createCanvasApp() {
       var self = this;
+      var a = this;
       CanvasApp = new PIXI.Application({
         width: 1920,
         height: 1080
@@ -62,7 +63,9 @@ export default {
       CanvasApp.view.style.height = "100%";
       CanvasApp.renderer.backgroundImage = "url(./img/timg.png)";
       this.$refs.gameMain.appendChild(CanvasApp.view);
+
       Garbage.setGarBage("vueInstance", self);
+
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       SceneManager.pushScene("boot", new GameBoot());
@@ -84,7 +87,7 @@ export default {
       SceneManager.pushScene("DialogSwiper", new DialogSwiper());
       this.gameStart().then(() => {
         //单个页面测试
-        // SceneManager.run("HomePages");
+        //SceneManager.run("HomePages");
         //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
         SceneManager.run("EasyGamePlayingPages");

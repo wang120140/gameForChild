@@ -10,10 +10,6 @@ export default class HomePages extends PIXI.Container {
     constructor() {
         super();
         this.on("added", this.addedHomePageStage, this)
-        this.bg;
-        this.BtnEasy = null;
-        this.BtnHard = null;
-        this.BtnHardControlDialog = false;
         this.vueInstance = null;
     }
     addedHomePageStage() {
@@ -21,30 +17,25 @@ export default class HomePages extends PIXI.Container {
         this.vueInstance = Garbage.getGarBage('vueInstance');
         created({
             $this: self,
-            $name: self.bg,
             $alias: 'bgHome_png'
         });
-        this.BtnEasy = created({
+        created({
             $this: self,
-            $name: self.BtnEasy,
             $alias: "btnEasy_png",
             $x: 500,
             $y: 850,
             $interactive: true,
             $buttonMode: true,
-        })
-        this.BtnEasy.on("pointertap", this.BtnEasyEvent, this);
-        this.BtnHard = created({
+        }).on("pointertap", this.BtnEasyEvent, this);
+        created({
             $this: self,
-            $name: self.BtnHard,
             $alias: "btnHard_png",
             $x: 1200,
             $y: 850,
             $interactive: true,
             $buttonMode: true,
-        })
-        this.BtnHard.on("pointertap", this.BtnHardEvent, this)
-            //困难按钮
+        }).on("pointertap", this.BtnHardEvent, this)
+
     }
     BtnEasyEvent() {
         SceneManager.run("EasyGameSelectPages");

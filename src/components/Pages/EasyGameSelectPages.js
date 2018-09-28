@@ -9,11 +9,8 @@ import {
 export default class EasyGameSelectPages extends PIXI.Container {
     constructor() {
         super();
-        this.bg;
-        this.BtnBackNormal;
         this.RubbishBoxNameSumArr = ["RecyclableSelect_png", "KitchenSelect_png", "HarmfulSelect_png", "OtherSelect_png"]
         this.RubbishBoxSpriteSumArr = [];
-        this.name = "Rubbish";
         this.Arrow;
         this.on("added", this.addedStage, this);
     }
@@ -25,24 +22,20 @@ export default class EasyGameSelectPages extends PIXI.Container {
         //背景图
         created({
                 $this: self,
-                $name: self.bg,
                 $alias: "bggame_png"
             })
             //返回按钮
-        this.BtnBackNormal = created({
+        created({
             $this: self,
-            $name: self.BtnBackNormal,
             $alias: "BtnBackNormal_png",
             $x: 100,
             $y: 70,
             $interactive: true,
             $buttonMode: true,
-        })
-        this.BtnBackNormal.on("pointertap", this.BtnBackNormalEvent)
+        }).on("pointertap", this.BtnBackNormalEvent)
         this.RubbishBoxNameSumArr.forEach((item, index) => {
             let RubbishBoxItem = created({
                 $this: self,
-                $name: self.name,
                 $alias: item,
                 $x: 500 * index,
                 $y: 500,
@@ -59,14 +52,12 @@ export default class EasyGameSelectPages extends PIXI.Container {
             //箭头
         this.Arrow = created({
             $this: self,
-            $name: self.Arrow,
             $alias: "Arrow_png",
             $x: 100,
             $y: 300,
             $interactive: true,
             $buttonMode: true,
-        })
-        this.Arrow.on("pointertap", this.ArrowEvent);
+        }).on("pointertap", this.ArrowEvent);
     }
     BtnBackNormalEvent() {
         SceneManager.run("HomePages")
