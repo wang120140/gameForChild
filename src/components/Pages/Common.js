@@ -2,19 +2,22 @@ import * as PIXI from 'pixi.js'
 
 function created({
     $this = self,
-    $name = {}, //有疑问
+    $name = {},
     $alias,
     $x = 0,
     $y = 0,
     $anchor = 0,
     $scale = 1,
     $pivotY = false,
+    $visible = true,
     $interactive = false,
     $buttonMode = false,
     $addChild = true
+
 } = {}) {
     $name = new PIXI.Sprite(PIXI.loader.resources[$alias].texture); //创建精灵
     $name.position.set($x, $y);
+    $name.visible = $visible;
     $name.interactive = $interactive;
     $name.buttonMode = $buttonMode;
     $name.scale.set($scale);
@@ -32,7 +35,6 @@ function createdText({
     $y = 0,
     $style = {},
     $addChild = true,
-
 } = {}) {
     $name = new PIXI.Text($text, $style);
     $name.x = $x;
@@ -110,7 +112,7 @@ class BackDialog {
             $this: _this,
             $alias: 'success_png',
             $x: 600,
-            $y: 700,
+            $y: 100,
             $addChild: false
         })
         this.fhBtn = created({
@@ -173,6 +175,15 @@ class PlayGameBasePage {
             $alias: "BtnBackNormal_png",
             $x: 100,
             $y: 70,
+            $interactive: true,
+            $buttonMode: true
+        })
+        this.BtnBackClick = created({
+            $this: _this,
+            $alias: "BtnBackClick_png",
+            $x: 100,
+            $y: 70,
+            $visible: false,
             $interactive: true,
             $buttonMode: true
         })

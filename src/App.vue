@@ -19,18 +19,13 @@ import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
 import EasyGameIntroPages from "@/components/Pages/EasyGameIntroPages.js";
 import EasyGamePlayingPages from "@/components/Pages/EasyGamePlayingPages.js";
 import HardGamePlayingPages from "@/components/Pages/HardGamePlayingPages.js";
-import {
-  Dialog,
-  DialogTime,
-  DialogSummary,
-  DialogSwiper
-} from "@/components/Pages/Dialog.js";
 var CanvasApp;
 export default {
   name: "app",
   components: {
     SwiperBoard
   },
+
   data() {
     return {
       baseUrl: process.env.BASE_URL,
@@ -80,17 +75,12 @@ export default {
         "HardGamePlayingPages",
         new HardGamePlayingPages()
       );
-      //测试弹出框使用
-      SceneManager.pushScene("Dialog", new Dialog());
-      SceneManager.pushScene("DialogTime", new DialogTime());
-      SceneManager.pushScene("DialogSummary", new DialogSummary());
-      SceneManager.pushScene("DialogSwiper", new DialogSwiper());
       this.gameStart().then(() => {
         //单个页面测试
         //SceneManager.run("HomePages");
-        //SceneManager.run("EasyGameSelectPages");
+        SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
-        SceneManager.run("EasyGamePlayingPages");
+        //SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
         //SceneManager.run("TestGSAP");
         //SceneManager.run("Dialog");
@@ -119,20 +109,13 @@ export default {
 </script>
 <style>
 #app {
-  /* position: absolute;
+  position: absolute;
   width: 19.2rem;
   height: 10.8rem;
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
-  background: green; */
-
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background: green;
 }
 .SwiperDialog {
   position: absolute;

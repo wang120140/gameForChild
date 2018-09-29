@@ -11,6 +11,8 @@ export default class HomePages extends PIXI.Container {
         super();
         this.on("added", this.addedHomePageStage, this)
         this.vueInstance = null;
+        this.btnEasyClick;
+        this.BtnHardClick;
     }
     addedHomePageStage() {
         let self = this
@@ -26,7 +28,22 @@ export default class HomePages extends PIXI.Container {
             $y: 850,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointertap", this.BtnEasyEvent, this);
+        }).on("pointerdown", () => {
+            this.btnEasyClick.visible = true;
+        });
+        this.btnEasyClick = created({
+            $this: self,
+            $alias: "btnEasyClick_png",
+            $x: 500,
+            $y: 850,
+            $visible: false,
+            $interactive: true,
+            $buttonMode: true,
+        }).on("pointerup", () => {
+            SceneManager.run("EasyGameSelectPages");
+        }).on("pointerout", () => {
+            this.btnEasyClick.visible = false;
+        })
         created({
             $this: self,
             $alias: "btnHard_png",
@@ -34,17 +51,24 @@ export default class HomePages extends PIXI.Container {
             $y: 850,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointertap", this.BtnHardEvent, this)
-
+        }).on("pointerdown", () => {
+            this.BtnHardClick.visible = true;
+        })
+        this.BtnHardClick = created({
+            $this: self,
+            $alias: "btnHardClick_png",
+            $x: 1200,
+            $y: 850,
+            $interactive: true,
+            $buttonMode: true,
+            $visible: false,
+        }).on("pointerup", () => {
+            this.vueInstance.ControlHardDialog = true;
+            Garbage.clearGarBage("startPlayHardGame");
+            Garbage.setGarBage("startPlayHardGame", false);
+            SceneManager.run("HardGamePlayingPages");
+        }).on("pointerout", () => {
+            this.BtnHardClick.visible = false;
+        })
     }
-    BtnEasyEvent() {
-        SceneManager.run("EasyGameSelectPages");
-    }
-    BtnHardEvent() {
-        this.vueInstance.ControlHardDialog = true;
-        Garbage.clearGarBage("startPlayHardGame");
-        Garbage.setGarBage("startPlayHardGame", false);
-        SceneManager.run("HardGamePlayingPages");
-    }
-
 }

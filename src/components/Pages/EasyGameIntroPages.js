@@ -16,14 +16,16 @@ export default class EasyGameIntroPages extends PIXI.Container {
         this.contentText;
         this.title;
         this.RecyclableWaste;
+        this.BtnBackClick;
+        this.playButtonClick;
     }
     addStage() {
         let self = this;
         (() => {
             //测试使用
-            //let a = 100;
-            //switch (a) {
-            switch (Garbage.getGarBage("position")) {
+            let a = 100;
+            switch (a) {
+                //switch (Garbage.getGarBage("position")) {
                 case 100:
                     this.title = "Recyclable Waste"
                     this.ChineseText = ["纸品\npaper", "布料\ncloth", "玻璃\nglass", "塑料\nplastics", "金属\nmetal"];
@@ -63,13 +65,28 @@ export default class EasyGameIntroPages extends PIXI.Container {
             })
             //返回按钮
         created({
+            $this: self,
+            $alias: "BtnBackNormal_png",
+            $x: 100,
+            $y: 70,
+            $interactive: true,
+            $buttonMode: true,
+        }).on("pointerdown", () => {
+            this.BtnBackClick.visible = true;
+        })
+        this.BtnBackClick = created({
                 $this: self,
-                $alias: "BtnBackNormal_png",
+                $alias: "BtnBackClick_png",
                 $x: 100,
                 $y: 70,
+                $visible: false,
                 $interactive: true,
                 $buttonMode: true,
-            }).on("pointertap", this.BtnBackNormalEvent)
+            }).on("pointerup", () => {
+                SceneManager.run("EasyGameSelectPages")
+            }).on("pointerout", () => {
+                this.BtnBackClick.visible = false;
+            })
             //开始按钮
         created({
             $this: self,
@@ -78,7 +95,22 @@ export default class EasyGameIntroPages extends PIXI.Container {
             $y: 700,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointertap", this.playButtonEvent);
+        }).on("pointerdown", () => {
+            this.playButtonClick.visible = true;
+        });
+        this.playButtonClick = created({
+            $this: self,
+            $alias: "playButtonClick_png",
+            $x: 1500,
+            $y: 700,
+            $visible: false,
+            $interactive: true,
+            $buttonMode: true,
+        }).on("pointerup", () => {
+            SceneManager.run("EasyGamePlayingPages");
+        }).on("pointerout", () => {
+            this.playButtonClick.visible = false;
+        });
         // 主题字体
         createdText({
                 $this: self,
@@ -126,10 +158,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         })
 
     }
-    BtnBackNormalEvent() {
-        SceneManager.run("EasyGameSelectPages")
-    }
     playButtonEvent() {
-        SceneManager.run("EasyGamePlayingPages");
+
     }
 }

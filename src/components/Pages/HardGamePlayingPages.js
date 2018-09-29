@@ -22,7 +22,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.BtnBackNormal;
         this.TimeMessage;
         this.TimeNum = 60;
-        this.TimeOver = 600
+        this.TimeOver = 600;
         this.ScoreMessage;
         this.ScoreNum = 0;
         this.WasterBox = ["RecyclableLitter", "KitchenLitter", "HarmfulLitter", "OtherLitter"];
@@ -40,6 +40,37 @@ export default class HardGamePlayingPages extends PIXI.Container {
         //弹窗
         this.Dialog;
         this.DialogText;
+        this.DialogDetail = {
+            correct: 0,
+            incorrect: 0,
+            highScore: 0
+        };
+        this.DialogSummaryArr = [{
+            text: "Correct",
+            x: 800,
+            y: 320
+        }, {
+            text: 'Incorrect',
+            x: 760,
+            y: 420
+        }, {
+            text: "High Score",
+            x: 700,
+            y: 550
+        }, {
+            text: "00",
+            x: 1200,
+            y: 550,
+        }, {
+            text: "00",
+            x: 1200,
+            y: 420,
+        }, {
+            text: "00",
+            x: 1200,
+            y: 320
+        }]
+        this.DialogSummarySpriteArr = [];
         this.on('removed', this.removeFromStage, this);
         this.on("added", this.addedStage, this);
 
@@ -53,10 +84,16 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.TimeNum = 60;
             this.WasterGather = [];
             this.ScoreNum = 0;
+            this.track = [];
+            this.ScoreMessage = null;
+            this.RecyclableSprite = [];
+            this.DialogSummarySpriteArr = [];
+            this.DialogDetail = {
+                correct: 0,
+                incorrect: 0,
+                highScore: 0
+            }
         })()
-        //背景
-        this.palyBase.bg;
-        this.palyBase.house;
         //垃圾箱
         this.WasterBox.forEach((item, index) => {
                 created({
@@ -67,7 +104,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 })
             })
             //传送带
-
         for (let i = 0; i < 2; i++) {
             this.track.push(created({
                 $this: self,
@@ -87,13 +123,13 @@ export default class HardGamePlayingPages extends PIXI.Container {
             }));
         }
         //返回按钮
-        this.palyBase.BtnBackNormal.on("pointertap", this.BtnBackNormalEvent)
-            //分数背景图片
-        this.palyBase.score;
-        //花的图片
-        this.palyBase.flower;
-        //时间的图片
-        this.palyBase.alarm;
+        this.palyBase.BtnBackNormal.on("pointerdown", () => {
+            this.palyBase.BtnBackClick.visible = true;
+        })
+        this.palyBase.BtnBackClick.on("pointerup", this.BtnBackNormalEvent)
+            .on("pointerout", () => {
+                this.palyBase.BtnBackClick.visible = false;
+            });
         //时间数据
         this.TimeMessage = createdText({
                 $this: self,
@@ -202,20 +238,60 @@ export default class HardGamePlayingPages extends PIXI.Container {
         //第一个弹窗吧关闭按钮的弹窗
         this.Dialog = new BackDialog(self);
         this.DialogText = createdText({
+            $this: self,
+            $text: "Do you really want  \n          to quit ? ", //这几个空格保留...
+            $x: 600,
+            $y: 320,
+            $addChild: false,
+            $style: createdStyle({
+                $fontSize: 100,
+                $fontFamily: "Times New Roman"
+            })
+        })
+        this.Dialog.yesBtn.on('pointertap', () => {
+            this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+            SceneManager.run("EasyGameSelectPages");
+        });
+        this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
+
+        //第三个弹框 总结弹窗
+        this.DialogSummaryArr.forEach((item) => {
+            this.DialogSummarySpriteArr.push(createdText({
                 $this: self,
-                $text: "Do you really want to quit ? ",
-                $x: 600,
-                $y: 350,
+                $text: item.text,
+                $x: item.x,
+                $y: item.y,
                 $addChild: false,
                 $style: createdStyle({
-                    $fontSize: 60,
+                    $fontSize: 80,
+                    $fontFamily: "Times New Roman"
                 })
-            })
-            //this.addChild(this.DialogText);
-        this.Dialog.yesBtn.on('pointertap', this.yesButtonEvent);
+            }))
+        })
+        this.Dialog.fhBtn.on('pointertap', () => {
+            this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
+            SceneManager.run("EasyGameSelectPages");
+        });
+        this.Dialog.againBtn.on("pointertap", () => {
+            SceneManager.run("EasyGamePlayingPages")
+        })
+        this.Dialog.yesBtn.on('pointertap', () => {
+            this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+            SceneManager.run("HomePages");
+        });
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
-        this.Dialog.fhBtn.on('pointertap', this.fhBtnEvent);
-        this.Dialog.againBtn.on("pointertap", this.againBtnEvent)
+        this.Dialog.fhBtn.on('pointertap', () => {
+            this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
+            SceneManager.run("HomePages");
+        });
+        this.Dialog.againBtn.on("pointertap", () => {
+                this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
+                    this.Dialog.fhBtn, this.Dialog.againBtn)
+                this.DialogSummarySpriteArr.forEach((item) => {
+                    this.removeChild(item)
+                })
+                SceneManager.run("HardGamePlayingPages")
+            })
             ///////////////////弹窗结束/////////////////////////////
     }
     gameloop(delta) {
@@ -226,8 +302,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
         } else if (this.TimeNum == this.TimeOver) {
             this.addChild(this.Dialog.graphics, this.Dialog.timePop, this.Dialog.naoZPop)
-            this.BtnBackNormal.interactive = false;
-            this.BtnBackNormal.buttonMode = false;
+            this.palyBase.BtnBackNormal.interactive = false;
+            this.palyBase.BtnBackNormal.buttonMode = false;
             this.WasterGather.forEach((item) => {
                 item.interactive = false;
                 item.buttonMode = false;
@@ -235,7 +311,14 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.loop.stop();
             setTimeout(() => {
                 this.removeChild(this.Dialog.graphics, this.Dialog.timePop, this.Dialog.naoZPop);
-                this.addChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
+                this.DialogSummarySpriteArr[5].text = this.DialogDetail.correct;
+                this.DialogSummarySpriteArr[4].text = this.DialogDetail.incorrect;
+                this.DialogSummarySpriteArr[3].text = this.DialogDetail.highScore;
+                this.addChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
+                    this.Dialog.fhBtn, this.Dialog.againBtn)
+                this.DialogSummarySpriteArr.forEach((item) => {
+                    this.addChild(item)
+                })
             }, 2000)
         } else {
             this.TimeMessage.text = (Math.floor(this.TimeNum / 3600) + ":" + Math.floor((this.TimeNum - 3600) / 60))
@@ -270,7 +353,16 @@ export default class HardGamePlayingPages extends PIXI.Container {
             //消失和生成效果
             if (item.y < 500 || item.x < -200) {
                 //定义成绩
-                (item.y < 500) && ((item.CheckClass == item.Class) ? this.ScoreNum += 5 : this.ScoreNum -= 5)
+                if (item.y < 500) {
+                    if (item.CheckClass == item.Class) {
+                        this.ScoreNum += 5;
+                        (this.DialogDetail.highScore < this.ScoreNum) && (this.DialogDetail.highScore = this.ScoreNum)
+                        this.DialogDetail.correct++;
+                    } else {
+                        this.ScoreNum -= 5;
+                        this.DialogDetail.incorrect++;
+                    }
+                }
                 this.ScoreMessage.text = this.ScoreNum; //成绩多少
                 this.removeChild(item); //先移除原有的精灵
                 let RandomIndex;
@@ -300,13 +392,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
             }
         })
     }
-    fhBtnEvent = () => {
-        this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
-        SceneManager.run("HomePages");
-    }
-    againBtnEvent() {
-        SceneManager.run("HardGamePlayingPages")
-    }
     BtnBackNormalEvent = () => {
         this.loop.stop();
         this.addChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.yesBtn, this.Dialog.noBtn)
@@ -315,10 +400,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             item.interactive = false;
             item.buttonMode = false;
         })
-    }
-    yesButtonEvent = () => {
-        this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
-        SceneManager.run("HomePages");
+        this.palyBase.BtnBackNormal.interactive = false;
     }
     noButtonEvent = () => {
         this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
@@ -326,6 +408,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             item.interactive = true;
             item.buttonMode = true;
         })
+        this.palyBase.BtnBackNormal.interactive = true;
         this.loop.start();
     }
     removeFromStage() {
@@ -333,9 +416,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.loop.destroy();
         }
         this.removeChildren(0, this.children.length)
-    }
-    BtnBackNormalEvent() {
-        SceneManager.run("HomePages");
     }
 
 }

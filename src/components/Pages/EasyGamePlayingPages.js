@@ -23,7 +23,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.HappyAnimal;
         this.suitable;
         this.loop;
-        this.TimeLimit = 6000;
+        this.TimeLimit = 600;
         this.BtnBackNormal;
         this.TimeMessage;
         this.Recyclablelitter;
@@ -42,10 +42,43 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             'medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints',
             "toiletPaper", "sands", "ceramics", "bricks", "crocks"
         ];
+        this.setTimeoutNum; //清除一次性周期定时器
         this.palyBase = {};
         //弹窗
         this.Dialog;
         this.DialogText;
+        this.DialogDetail = {
+            correct: 0,
+            incorrect: 0,
+            highScore: 0
+        };
+        //第三个弹窗文字
+        this.DialogSummaryArr = [{
+            text: "Correct",
+            x: 800,
+            y: 320
+        }, {
+            text: 'Incorrect',
+            x: 760,
+            y: 420
+        }, {
+            text: "High Score",
+            x: 700,
+            y: 550
+        }, {
+            text: "00",
+            x: 1200,
+            y: 550,
+        }, {
+            text: "00",
+            x: 1200,
+            y: 420,
+        }, {
+            text: "00",
+            x: 1200,
+            y: 320
+        }]
+        this.DialogSummarySpriteArr = [];
         this.Test = 100;
     }
     removeFromStage() {
@@ -59,8 +92,16 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.Dialog = null;
             this.TimeNum = 60;
             this.track = [];
+            this.ScoreMessage = null;
+            this.ScoreNum = 0;
             this.RecyclableSprite = [];
-            //测试使用
+            this.DialogSummarySpriteArr = [];
+            this.DialogDetail = {
+                    correct: 0,
+                    incorrect: 0,
+                    highScore: 0
+                }
+                //测试使用
             switch (this.Test) {
                 //switch (Garbage.getGarBage("position")) {
                 case 100:
@@ -89,8 +130,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.palyBase = new PlayGameBasePage({
             _this: self
         });
-        this.palyBase.bg;
-        this.palyBase.house;
         //垃圾箱
         created({
                 $this: self,
@@ -117,7 +156,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 this.RecyclableSprite.forEach((item) => {
                     if (item.EventChange && item.EventChangePickUp) {
                         TweenMax.to(item, 1, {
-
                             bezier: {
                                 type: "cubic",
                                 values: [{
@@ -148,8 +186,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 $y: 715
             }));
         }
-
-        //this.track = this.palyBase.track;
         //轮子背景图
         for (let wheelNum = 0; wheelNum <= 15; wheelNum++) {
             this.wheelSprite.push(created({
@@ -160,8 +196,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 $anchor: 0.5,
             }));
         }
-        //分数背景图片
-        this.palyBase.score;
         //在分数背景图下写分数
         this.ScoreMessage = createdText({
                 $this: self,
@@ -184,13 +218,15 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                     $fill: "#FDFFD0",
                 })
             })
-            //花的图片
-        this.palyBase.flower;
-        //时间的图片
-        this.palyBase.alarm;
-        //返回按钮
-        this.palyBase.BtnBackNormal.on("pointertap", this.BtnBackNormalEvent)
-            //小动物  这个预留给动画效果
+            //返回按钮
+        this.palyBase.BtnBackNormal.on("pointerdown", () => {
+            this.palyBase.BtnBackClick.visible = true;
+        })
+        this.palyBase.BtnBackClick.on("pointerup", this.BtnBackNormalEvent)
+            .on("pointerout", () => {
+                this.palyBase.BtnBackClick.visible = false;
+            });
+        //小动物  这个预留给动画效果
         this.unHappyAnimal = new PIXI.Sprite(PIXI.loader.resources['unHappy_jpg'].texture);
         this.unHappyAnimal.scale.set(0.1, 0.1);
         this.unHappyAnimal.position.set(90, 100);
@@ -235,22 +271,53 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.Dialog = new BackDialog(self);
         this.DialogText = createdText({
             $this: self,
-            $text: "Do you really want to quit ? ",
+            $text: "Do you really want  \n          to quit ? ", //这几个空格保留...
             $x: 600,
-            $y: 350,
+            $y: 320,
             $addChild: false,
             $style: createdStyle({
-                $fontSize: 60,
-                $fill: "#FDFFD0",
+                $fontSize: 100,
+                $fontFamily: "Times New Roman"
             })
         })
-        this.Dialog.yesBtn.on('pointertap', this.yesButtonEvent);
+        this.Dialog.yesBtn.on('pointertap', () => {
+            this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+            clearTimeout(this.setTimeoutNum); //清除定时器
+            this.removeChildren(0, this.children.length);
+            SceneManager.run("EasyGameSelectPages");
+        });
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
-            //第二个弹窗 是时间到的按钮 
-            //第三个弹框 总结弹窗
-        this.Dialog.fhBtn.on('pointertap', this.fhBtnEvent);
-        this.Dialog.againBtn.on("pointertap", this.againBtnEvent)
-            ///////////////////弹窗结束/////////////////////////////
+
+        //第三个弹框 总结弹窗
+        this.DialogSummaryArr.forEach((item) => {
+            this.DialogSummarySpriteArr.push(createdText({
+                $this: self,
+                $text: item.text,
+                $x: item.x,
+                $y: item.y,
+                $addChild: false,
+                $style: createdStyle({
+                    $fontSize: 80,
+                    $fontFamily: "Times New Roman"
+                })
+            }))
+        })
+        this.Dialog.fhBtn.on('pointertap', () => { //返回按钮事件
+            this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
+            clearTimeout(this.setTimeoutNum); //清除定时器
+            SceneManager.run("EasyGameSelectPages");
+        });
+        this.Dialog.againBtn.on("pointertap", () => { //再来一次事件
+            this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
+                this.Dialog.fhBtn, this.Dialog.againBtn)
+            this.DialogSummarySpriteArr.forEach((item) => {
+                this.removeChild(item)
+            })
+            clearTimeout(this.setTimeoutNum); //清除定时器
+            SceneManager.run("EasyGamePlayingPages")
+        })
+
+        ///////////////////弹窗结束/////////////////////////////
     }
     gameloop(delta) {
         //轮子
@@ -266,18 +333,27 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.TimeNum += 1;
         if (this.TimeNum < this.TimeLimit) {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
-        } else {
+        } else if (this.TimeNum == this.TimeLimit) {
             this.addChild(this.Dialog.graphics, this.Dialog.timePop, this.Dialog.naoZPop)
-            this.BtnBackNormal.interactive = false;
-            this.BtnBackNormal.buttonMode = false;
+            this.palyBase.BtnBackNormal.interactive = false;
+            this.palyBase.BtnBackNormal.buttonMode = false;
             this.RecyclableSprite.forEach((item) => {
                 item.interactive = false;
                 item.buttonMode = false;
             })
+            this.RecyclablelitterCap.interactive = false;
             this.loop.stop();
-            setTimeout(() => {
+            this.setTimeoutNum = setTimeout(() => {
                 this.removeChild(this.Dialog.graphics, this.Dialog.timePop, this.Dialog.naoZPop);
-                this.addChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
+                this.DialogSummarySpriteArr[5].text = this.DialogDetail.correct;
+                this.DialogSummarySpriteArr[4].text = this.DialogDetail.incorrect;
+                this.DialogSummarySpriteArr[3].text = this.DialogDetail.highScore;
+                this.addChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
+                    this.Dialog.fhBtn, this.Dialog.againBtn)
+                this.DialogSummarySpriteArr.forEach((item) => {
+                    this.addChild(item)
+                })
+
             }, 2000)
         }
         //定义动物的层级
@@ -295,12 +371,15 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 if (item.y <= 450) {
                     if (item.ClassItem == this.WasterClass[this.suitable]) {
                         this.ScoreNum += 5;
+                        (this.DialogDetail.highScore < this.ScoreNum) && (this.DialogDetail.highScore = this.ScoreNum)
+                        this.DialogDetail.correct++;
                         this.unHappyAnimal.visible = false;
                         this.HappyAnimal.visible = true;
                     } else {
                         this.ScoreNum = this.ScoreNum - 5;
                         this.unHappyAnimal.visible = true;
                         this.HappyAnimal.visible = false;
+                        this.DialogDetail.incorrect++;
                     }
                     this.ScoreMessage.text = this.ScoreNum;
                     this.addChild(this.unHappyAnimal);
@@ -313,13 +392,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             }
         });
     }
-    fhBtnEvent = () => {
-        this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
-        SceneManager.run("EasyGameSelectPages");
-    }
-    againBtnEvent() {
-        SceneManager.run("EasyGamePlayingPages")
-    }
     BtnBackNormalEvent = () => {
         this.loop.stop();
         this.addChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn)
@@ -328,10 +400,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             item.buttonMode = false;
         })
 
-    }
-    yesButtonEvent = () => {
-        this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
-        SceneManager.run("EasyGameSelectPages");
+        this.palyBase.BtnBackNormal.interactive = false;
+        this.RecyclablelitterCap.interactive = false;
+
     }
     noButtonEvent = () => {
         this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
@@ -339,6 +410,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             item.interactive = true;
             item.buttonMode = true;
         })
+        this.RecyclablelitterCap.interactive = true;
+        this.palyBase.BtnBackNormal.interactive = true;
         this.loop.start();
     }
     BornSprite = (item, index, arr) => {

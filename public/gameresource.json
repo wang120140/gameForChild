@@ -5,8 +5,14 @@
     "name": "btnEasy_png",
     "url": "./img/BtnEasy.png"
 }, {
+    "name": "btnEasyClick_png",
+    "url": "./img/BtnEasyClick.png"
+}, {
     "name": "btnHard_png",
     "url": "./img/BtnHard.png"
+}, {
+    "name": "btnHardClick_png",
+    "url": "./img/BtnHardClick.png"
 }, {
     "name": "RecyclableSelect_png",
     "url": "./img/litterBox/RecyclableSelect.png"
@@ -28,6 +34,9 @@
 }, {
     "name": "playButton_png",
     "url": "./img/playButton.png"
+}, {
+    "name": "playButtonClick_png",
+    "url": "./img/playButtonClick.png"
 }, {
     "name": "bggame_png",
     "url": "./img/bggaming.png"
@@ -52,6 +61,9 @@
 }, {
     "name": "BtnBackNormal_png",
     "url": "./img/buttonBackNormal.png"
+}, {
+    "name": "BtnBackClick_png",
+    "url": "./img/buttonBackClick.png"
 }, {
     "name": "RecyclableLitter",
     "url": "./img/litterBox/RecyclableLitter.png"
@@ -184,4 +196,7 @@
 }, {
     "name": "CarouselDotCheck",
     "url": "./img/Swiper/CarouselDotCheck.png"
+}, {
+    "name": "RubbishSecletHome",
+    "url": "./sound/bg/RubbishSecletHome.mp3"
 }]
