@@ -98,62 +98,122 @@
     "name": "paper",
     "url": "./img/litter/paper.png"
 }, {
+    "name": "paper_mp3",
+    "url": "./sound/word/paper.mp3"
+}, {
     "name": "cloth",
     "url": "./img/litter/cloth.png"
+}, {
+    "name": "cloth_mp3",
+    "url": "./sound/word/cloth.mp3"
 }, {
     "name": "glass",
     "url": "./img/litter/glass.png"
 }, {
+    "name": "glass_mp3",
+    "url": "./sound/word/glass.mp3"
+}, {
     "name": "plastics",
     "url": "./img/litter/plastics.png"
+}, {
+    "name": "plastics_mp3",
+    "url": "./sound/word/plastics.mp3"
 }, {
     "name": "metal",
     "url": "./img/litter/metal.png"
 }, {
+    "name": "metal_mp3",
+    "url": "./sound/word/metal.mp3"
+}, {
     "name": "fruitPeels",
     "url": "./img/litter/fruitPeels.png"
+}, {
+    "name": "fruitPeels_mp3",
+    "url": "./sound/word/fruitPeels.mp3"
 }, {
     "name": "bones",
     "url": "./img/litter/bones.png"
 }, {
+    "name": "bones_mp3",
+    "url": "./sound/word/bones.mp3"
+}, {
     "name": "vegetableLeaves",
     "url": "./img/litter/vegetableLeaves.png"
+}, {
+    "name": "vegetableLeaves_mp3",
+    "url": "./sound/word/vegetableLeaves.mp3"
 }, {
     "name": "leftovers",
     "url": "./img/litter/leftovers.png"
 }, {
+    "name": "leftovers_mp3",
+    "url": "./sound/word/leftovers.mp3"
+}, {
     "name": "eggshells",
     "url": "./img/litter/eggshells.png"
+}, {
+    "name": "eggshells_mp3",
+    "url": "./sound/word/eggshells.mp3"
 }, {
     "name": "medicines",
     "url": "./img/litter/medicines.png"
 }, {
+    "name": "medicines_mp3",
+    "url": "./sound/word/medicines.mp3"
+}, {
     "name": "batteries",
     "url": "./img/litter/batteries.png"
+}, {
+    "name": "batteries_mp3",
+    "url": "./sound/word/batteries.mp3"
 }, {
     "name": "thermometers",
     "url": "./img/litter/thermometers.png"
 }, {
+    "name": "thermometers_mp3",
+    "url": "./sound/word/thermometers.mp3"
+}, {
     "name": "lightBulbs",
     "url": "./img/litter/lightBulbs.png"
+}, {
+    "name": "lightBulbs_mp3",
+    "url": "./sound/word/lightBulbs.mp3"
 }, {
     "name": "oilPaints",
     "url": "./img/litter/oilPaints.png"
 }, {
+    "name": "oilPaints_mp3",
+    "url": "./sound/word/oilPaints.mp3"
+}, {
     "name": "toiletPaper",
     "url": "./img/litter/toiletPaper.png"
+}, {
+    "name": "toiletPaper_mp3",
+    "url": "./sound/word/toiletPaper.mp3"
 }, {
     "name": "sands",
     "url": "./img/litter/sands.png"
 }, {
+    "name": "sands_mp3",
+    "url": "./sound/word/sands.mp3"
+}, {
     "name": "ceramics",
     "url": "./img/litter/ceramics.png"
+}, {
+    "name": "ceramics_mp3",
+    "url": "./sound/word/ceramics.mp3"
 }, {
     "name": "bricks",
     "url": "./img/litter/bricks.png"
 }, {
+    "name": "bricks_mp3",
+    "url": "./sound/word/bricks.mp3"
+}, {
     "name": "crocks",
     "url": "./img/litter/crocks.png"
+}, {
+    "name": "crocks_mp3",
+    "url": "./sound/word/crocks.mp3"
 }, {
     "name": "pop_png",
     "url": "./img/dialog/pop.png"
@@ -199,4 +259,19 @@
 }, {
     "name": "RubbishSecletHome",
     "url": "./sound/bg/RubbishSecletHome.mp3"
+}, {
+    "name": "RubbishPlaying",
+    "url": "./sound/bg/RubbishPlaying.mp3"
+}, {
+    "name": "RubbishSuccess",
+    "url": "./sound/bg/RubbishSuccess.mp3"
+}, {
+    "name": "RubbishRight",
+    "url": "./sound/bg/RubbishRight.mp3"
+}, {
+    "name": "RubbishWrong",
+    "url": "./sound/bg/RubbishWrong.mp3"
+}, {
+    "name": "ClickSound",
+    "url": "./sound/bg/ClickSound.mp3"
 }]

@@ -56,6 +56,10 @@ function createdStyle({
     })
     return $name
 }
+
+function soundMsg() {
+
+}
 class BackDialog {
     constructor(_this) {
         //返回按钮弹窗

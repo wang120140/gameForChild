@@ -13,19 +13,21 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.Arrow;
         this.BtnBackClick;
         this.on("added", this.addedStage, this);
+        this.soundBg;
     }
     addedStage() {
-        let self = this;
-
-        PIXI.sound.play("RubbishSecletHome")
-            //PIXI.sound.init("RubbishSecletHome");
+            let self = this;
+            this.soundBg = PIXI.sound.play("RubbishSecletHome", {
+                start: Garbage.getGarBage("SoundProgress"),
+                loop: true,
+            });
             //背景图
-        created({
+            created({
                 $this: self,
                 $alias: "bggame_png"
-            })
+            });
             //返回按钮
-        created({
+            created({
                 $this: self,
                 $alias: "BtnBackNormal_png",
                 $x: 100,
@@ -33,10 +35,11 @@ export default class EasyGameSelectPages extends PIXI.Container {
                 $interactive: true,
                 $buttonMode: true,
             }).on("pointerdown", () => {
+                PIXI.sound.play("ClickSound") //添加点击效果音效
                 this.BtnBackClick.visible = true;
-            })
+            });
             //返回按钮事件
-        this.BtnBackClick = created({
+            this.BtnBackClick = created({
                 $this: self,
                 $alias: "BtnBackClick_png",
                 $x: 100,
@@ -45,14 +48,15 @@ export default class EasyGameSelectPages extends PIXI.Container {
                 $interactive: true,
                 $buttonMode: true,
             }).on("pointerup", () => {
-                PIXI.sound.remove("RubbishSecletHome")
-                    //PIXI.sound.close()
+                PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+                Garbage.clearGarBage("SoundProgress"); //清除声音数据
+                Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
                 SceneManager.run("HomePages")
             }).on("pointerout", () => {
                 this.BtnBackClick.visible = false;
-            })
+            });
             //垃圾箱
-        this.RubbishBoxNameSumArr.forEach((item, index) => {
+            this.RubbishBoxNameSumArr.forEach((item, index) => {
                 created({
                     $this: self,
                     $alias: item,
@@ -61,21 +65,29 @@ export default class EasyGameSelectPages extends PIXI.Container {
                     $interactive: true,
                     $buttonMode: true,
                 }).on("pointertap", () => {
+                    PIXI.sound.play("ClickSound") //添加点击效果音效
                     self.Arrow.position.set(100 + 500 * index, 300);
                 })
-            })
+            });
             //箭头
-        this.Arrow = created({
-            $this: self,
-            $alias: "Arrow_png",
-            $x: 100,
-            $y: 300,
-            $interactive: true,
-            $buttonMode: true,
-        }).on("pointertap", () => {
-            Garbage.clearGarBage("position");
-            Garbage.setGarBage('position', this.Arrow.position.x);
-            SceneManager.run("EasyGameIntroPages");
-        });
-    }
+            this.Arrow = created({
+                $this: self,
+                $alias: "Arrow_png",
+                $x: 100,
+                $y: 300,
+                $interactive: true,
+                $buttonMode: true,
+            }).on("pointertap", () => { //跳转介绍页面事件
+                PIXI.sound.play("ClickSound") //添加点击效果音效
+                PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+                Garbage.clearGarBage("SoundProgress"); //清除声音数据
+                Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+                Garbage.clearGarBage("position");
+                Garbage.setGarBage('position', this.Arrow.position.x);
+                SceneManager.run("EasyGameIntroPages");
+            });
+        }
+        // soundEvent() {
+
+    // }
 }

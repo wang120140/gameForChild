@@ -18,6 +18,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         this.RecyclableWaste;
         this.BtnBackClick;
         this.playButtonClick;
+        this.soundBg;
     }
     addStage() {
         let self = this;
@@ -52,18 +53,23 @@ export default class EasyGameIntroPages extends PIXI.Container {
                     break;
             }
         })()
+        //背景音乐
+        this.soundBg = PIXI.sound.play("RubbishSecletHome", {
+            start: Garbage.getGarBage("SoundProgress"),
+            loop: true,
+        });
         //背景图
         created({
             $this: self,
             $alias: "bggame_png"
-        })
+        });
         created({
-                $this: self,
-                $alias: "BoardPaint_png",
-                $x: 300,
-                $y: 40
-            })
-            //返回按钮
+            $this: self,
+            $alias: "BoardPaint_png",
+            $x: 300,
+            $y: 40
+        });
+        //返回按钮
         created({
             $this: self,
             $alias: "BtnBackNormal_png",
@@ -72,22 +78,26 @@ export default class EasyGameIntroPages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
+            PIXI.sound.play("ClickSound") //添加点击效果音效
             this.BtnBackClick.visible = true;
-        })
+        });
         this.BtnBackClick = created({
-                $this: self,
-                $alias: "BtnBackClick_png",
-                $x: 100,
-                $y: 70,
-                $visible: false,
-                $interactive: true,
-                $buttonMode: true,
-            }).on("pointerup", () => {
-                SceneManager.run("EasyGameSelectPages")
-            }).on("pointerout", () => {
-                this.BtnBackClick.visible = false;
-            })
-            //开始按钮
+            $this: self,
+            $alias: "BtnBackClick_png",
+            $x: 100,
+            $y: 70,
+            $visible: false,
+            $interactive: true,
+            $buttonMode: true,
+        }).on("pointerup", () => { //开始跳转页面
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            SceneManager.run("EasyGameSelectPages")
+        }).on("pointerout", () => {
+            this.BtnBackClick.visible = false;
+        });
+        //开始按钮
         created({
             $this: self,
             $alias: "playButton_png",
@@ -96,6 +106,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
+            PIXI.sound.play("ClickSound") //添加点击效果音效
             this.playButtonClick.visible = true;
         });
         this.playButtonClick = created({
@@ -106,33 +117,36 @@ export default class EasyGameIntroPages extends PIXI.Container {
             $visible: false,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointerup", () => {
+        }).on("pointerup", () => { //开始跳转页面
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             SceneManager.run("EasyGamePlayingPages");
         }).on("pointerout", () => {
             this.playButtonClick.visible = false;
         });
         // 主题字体
         createdText({
-                $this: self,
-                $text: self.title,
-                $x: 650,
-                $y: 100,
-                $style: createdStyle({
-                    $fontSize: 60,
-                    $fill: "#FFECCA",
-                })
+            $this: self,
+            $text: self.title,
+            $x: 650,
+            $y: 100,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#FFECCA",
             })
-            //内容字体
+        });
+        //内容字体
         createdText({
-                $this: self,
-                $text: self.contentText,
-                $x: 450,
-                $y: 300,
-                $style: createdStyle({
+            $this: self,
+            $text: self.contentText,
+            $x: 450,
+            $y: 300,
+            $style: createdStyle({
 
-                })
             })
-            //垃圾物品
+        });
+        //垃圾物品
         this.RecyclableWaste.forEach((item, index) => {
             created({
                 $this: self,
@@ -144,7 +158,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 $pivotY: true
             });
 
-        })
+        });
         this.ChineseText.forEach((item, index) => {
             createdText({
                 $this: self,
@@ -156,9 +170,6 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 })
             })
         })
-
-    }
-    playButtonEvent() {
 
     }
 }

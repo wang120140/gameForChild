@@ -13,14 +13,21 @@ export default class HomePages extends PIXI.Container {
         this.vueInstance = null;
         this.btnEasyClick;
         this.BtnHardClick;
+        this.soundBg;
     }
     addedHomePageStage() {
         let self = this
+        this.soundBg = PIXI.sound.play("RubbishSecletHome", {
+            start: Garbage.getGarBage("SoundProgress"),
+            loop: true,
+        })
         this.vueInstance = Garbage.getGarBage('vueInstance');
+        //背景图
         created({
             $this: self,
             $alias: 'bgHome_png'
         });
+        //按钮easy
         created({
             $this: self,
             $alias: "btnEasy_png",
@@ -29,6 +36,7 @@ export default class HomePages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
+            PIXI.sound.play("ClickSound") //添加点击效果音效
             this.btnEasyClick.visible = true;
         });
         this.btnEasyClick = created({
@@ -40,10 +48,15 @@ export default class HomePages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerup", () => {
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             SceneManager.run("EasyGameSelectPages");
+            //跳转选择页面
         }).on("pointerout", () => {
             this.btnEasyClick.visible = false;
-        })
+        });
+        //按钮hard
         created({
             $this: self,
             $alias: "btnHard_png",
@@ -52,8 +65,9 @@ export default class HomePages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
+            PIXI.sound.play("ClickSound") //添加点击效果音效
             this.BtnHardClick.visible = true;
-        })
+        });
         this.BtnHardClick = created({
             $this: self,
             $alias: "btnHardClick_png",
@@ -64,7 +78,10 @@ export default class HomePages extends PIXI.Container {
             $visible: false,
         }).on("pointerup", () => {
             this.vueInstance.ControlHardDialog = true;
-            Garbage.clearGarBage("startPlayHardGame");
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            Garbage.clearGarBage("startPlayHardGame"); //控制hard页面数据
             Garbage.setGarBage("startPlayHardGame", false);
             SceneManager.run("HardGamePlayingPages");
         }).on("pointerout", () => {

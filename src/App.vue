@@ -7,7 +7,6 @@
         <!-- <div>
             <img   :src="`${baseUrl}img/bggame.jpg`"/>
         </div> -->
-      
     </div>
 </template>
 <script>
@@ -25,7 +24,6 @@ export default {
   components: {
     SwiperBoard
   },
-
   data() {
     return {
       baseUrl: process.env.BASE_URL,
@@ -78,15 +76,10 @@ export default {
       this.gameStart().then(() => {
         //单个页面测试
         //SceneManager.run("HomePages");
-        SceneManager.run("EasyGameSelectPages");
+        //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
-        //SceneManager.run("EasyGamePlayingPages");
+        SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
-        //SceneManager.run("TestGSAP");
-        //SceneManager.run("Dialog");
-        //SceneManager.run("DialogTime");
-        //SceneManager.run("DialogSummary");
-        //SceneManager.run("DialogSwiper");
       });
     },
     async gameStart() {
