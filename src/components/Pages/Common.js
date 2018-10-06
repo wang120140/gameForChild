@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-function created({
+function createdSprite({
     $this = self,
     $name = {},
     $alias,
@@ -57,13 +57,10 @@ function createdStyle({
     return $name
 }
 
-function soundMsg() {
-
-}
 class BackDialog {
     constructor(_this) {
         //返回按钮弹窗
-        this.pop = created({
+        this.pop = createdSprite({
             $this: _this,
             $alias: 'pop_png',
             $x: 400,
@@ -71,7 +68,7 @@ class BackDialog {
             //$interactive: true,
             $addChild: false,
         })
-        this.yesBtn = created({
+        this.yesBtn = createdSprite({
             $this: _this,
             $alias: 'yesBtn_0_png',
             $x: 600,
@@ -80,7 +77,7 @@ class BackDialog {
             $buttonMode: true,
             $addChild: false,
         })
-        this.noBtn = created({
+        this.noBtn = createdSprite({
                 $this: _this,
                 $alias: 'noBtn_0_png',
                 $x: 1200,
@@ -90,14 +87,14 @@ class BackDialog {
                 $addChild: false
             })
             //时间到弹窗
-        this.timePop = created({
+        this.timePop = createdSprite({
             $this: _this,
             $alias: 'Timeout_png',
             $x: 300,
             $y: 400,
             $addChild: false
         })
-        this.naoZPop = created({
+        this.naoZPop = createdSprite({
                 $this: _this,
                 $alias: 'alarmclock_png',
                 $x: 830,
@@ -105,21 +102,21 @@ class BackDialog {
                 $addChild: false
             })
             //总结弹窗
-        this.popSummary = created({
+        this.popSummary = createdSprite({
             $this: _this,
             $alias: 'endPop_png',
             $x: 500,
             $y: 200,
             $addChild: false
         })
-        this.success = created({
+        this.success = createdSprite({
             $this: _this,
             $alias: 'success_png',
             $x: 600,
             $y: 100,
             $addChild: false
         })
-        this.fhBtn = created({
+        this.fhBtn = createdSprite({
             $this: _this,
             $alias: 'backBtn_0_png',
             $x: 650,
@@ -128,7 +125,7 @@ class BackDialog {
             $buttonMode: true,
             $addChild: false
         })
-        this.againBtn = created({
+        this.againBtn = createdSprite({
             $this: _this,
             $alias: 'againBtn_0',
             $x: 1100,
@@ -146,35 +143,35 @@ class PlayGameBasePage {
     constructor({
         _this = self,
     }) {
-        this.bg = created({
+        this.bg = createdSprite({
             $this: _this,
             $alias: 'bggame_png'
         })
-        this.house = created({
+        this.house = createdSprite({
             $this: _this,
             $x: 1450,
             $y: 100,
             $alias: 'house_png',
         })
-        this.score = created({
+        this.score = createdSprite({
             $this: _this,
             $alias: 'score_png',
             $x: 1000,
             $y: 40,
         })
-        this.flower = created({
+        this.flower = createdSprite({
             $this: _this,
             $alias: "flower_png",
             $x: 1500,
             $y: 95
         })
-        this.alarm = created({
+        this.alarm = createdSprite({
             $this: _this,
             $alias: "alarm_png",
             $x: 1050,
             $y: 95
         })
-        this.BtnBackNormal = created({
+        this.BtnBackNormal = createdSprite({
             $this: _this,
             $alias: "BtnBackNormal_png",
             $x: 100,
@@ -182,7 +179,7 @@ class PlayGameBasePage {
             $interactive: true,
             $buttonMode: true
         })
-        this.BtnBackClick = created({
+        this.BtnBackClick = createdSprite({
             $this: _this,
             $alias: "BtnBackClick_png",
             $x: 100,
@@ -198,7 +195,7 @@ class PlayGameBasePage {
     }
 }
 export {
-    created,
+    createdSprite,
     createdText,
     createdStyle,
     BackDialog,

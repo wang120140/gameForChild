@@ -4,7 +4,7 @@ import {
     Garbage,
 } from "@/lib/EasyPIXI.js";
 import {
-    created,
+    createdSprite,
     createdText,
     createdStyle,
 } from "./Common.js"
@@ -59,18 +59,18 @@ export default class EasyGameIntroPages extends PIXI.Container {
             loop: true,
         });
         //背景图
-        created({
+        createdSprite({
             $this: self,
             $alias: "bggame_png"
         });
-        created({
+        createdSprite({
             $this: self,
             $alias: "BoardPaint_png",
             $x: 300,
             $y: 40
         });
         //返回按钮
-        created({
+        createdSprite({
             $this: self,
             $alias: "BtnBackNormal_png",
             $x: 100,
@@ -81,7 +81,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.BtnBackClick.visible = true;
         });
-        this.BtnBackClick = created({
+        this.BtnBackClick = createdSprite({
             $this: self,
             $alias: "BtnBackClick_png",
             $x: 100,
@@ -98,7 +98,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             this.BtnBackClick.visible = false;
         });
         //开始按钮
-        created({
+        createdSprite({
             $this: self,
             $alias: "playButton_png",
             $x: 1500,
@@ -109,7 +109,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.playButtonClick.visible = true;
         });
-        this.playButtonClick = created({
+        this.playButtonClick = createdSprite({
             $this: self,
             $alias: "playButtonClick_png",
             $x: 1500,
@@ -148,7 +148,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         });
         //垃圾物品
         this.RecyclableWaste.forEach((item, index) => {
-            created({
+            createdSprite({
                 $this: self,
                 $name: {},
                 $alias: item,

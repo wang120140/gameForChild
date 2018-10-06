@@ -4,7 +4,7 @@ import {
     Garbage
 } from "@/lib/EasyPIXI.js";
 import {
-    created
+    createdSprite,
 } from "./Common.js"
 export default class HomePages extends PIXI.Container {
     constructor() {
@@ -23,12 +23,12 @@ export default class HomePages extends PIXI.Container {
         })
         this.vueInstance = Garbage.getGarBage('vueInstance');
         //背景图
-        created({
+        createdSprite({
             $this: self,
             $alias: 'bgHome_png'
         });
         //按钮easy
-        created({
+        createdSprite({
             $this: self,
             $alias: "btnEasy_png",
             $x: 500,
@@ -39,7 +39,7 @@ export default class HomePages extends PIXI.Container {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.btnEasyClick.visible = true;
         });
-        this.btnEasyClick = created({
+        this.btnEasyClick = createdSprite({
             $this: self,
             $alias: "btnEasyClick_png",
             $x: 500,
@@ -57,7 +57,7 @@ export default class HomePages extends PIXI.Container {
             this.btnEasyClick.visible = false;
         });
         //按钮hard
-        created({
+        createdSprite({
             $this: self,
             $alias: "btnHard_png",
             $x: 1200,
@@ -68,7 +68,7 @@ export default class HomePages extends PIXI.Container {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.BtnHardClick.visible = true;
         });
-        this.BtnHardClick = created({
+        this.BtnHardClick = createdSprite({
             $this: self,
             $alias: "btnHardClick_png",
             $x: 1200,

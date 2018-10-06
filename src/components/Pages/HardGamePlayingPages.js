@@ -8,7 +8,7 @@ import {
     Power1
 } from "gsap";
 import {
-    created,
+    createdSprite,
     BackDialog,
     createdText,
     createdStyle,
@@ -97,7 +97,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         })()
         //垃圾箱
         this.WasterBox.forEach((item, index) => {
-                created({
+                createdSprite({
                     $this: self,
                     $alias: item,
                     $x: index * 500,
@@ -106,7 +106,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             })
             //传送带
         for (let i = 0; i < 2; i++) {
-            this.track.push(created({
+            this.track.push(createdSprite({
                 $this: self,
                 $alias: 'track_png',
                 $x: i * 1920,
@@ -115,7 +115,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         }
         //轮子背景图
         for (let wheelNum = 0; wheelNum <= 15; wheelNum++) {
-            this.wheelSprite.push(created({
+            this.wheelSprite.push(createdSprite({
                 $this: self,
                 $alias: 'wheel_png',
                 $x: wheelNum * 138,
@@ -156,7 +156,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             })
             //箱子盖
         this.WasterBoxCap.forEach((item, index) => {
-                let WasterBoxCapItem = created({
+                let WasterBoxCapItem = createdSprite({
                     $this: self,
                     $alias: item,
                     $x: index * 500 - 20,
@@ -207,7 +207,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             //创建垃圾物品
         for (let i = 0; i < 6; i++) {
             let index = Math.floor(Math.random() * 20)
-            let WasterItem = created({
+            let WasterItem = createdSprite({
                 $this: self,
                 $alias: this.Waster[index],
                 $x: i * 384,
@@ -394,7 +394,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 this.removeChild(item); //先移除原有的精灵
                 let RandomIndex;
                 RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
-                item = created({
+                item = createdSprite({
                     $this: self,
                     $alias: self.Waster[RandomIndex],
                     $x: arr[arr.length - 1].x + 387,

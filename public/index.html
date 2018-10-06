@@ -5,19 +5,50 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- 预加载css js  -->
     <link rel="stylesheet" type="text/css" href="<%= BASE_URL %>css/preload.css">
     <script type="text/javascript" src="<%= BASE_URL %>js/preload.js"></script>
+    <!-- 这个是swiper信息 -->
     <link rel="stylesheet" href="swiper.min.css">
     <script src="swiper.min.js"></script>
+    <!-- 这个是vscoder信息 -->
+    <script type="text/javascript" src="<%= BASE_URL %>js/vconsole.min.js">
+    </script>
+    <script>
+        new VConsole();
+    </script>
+
     <title>game-garbagesorter</title>
 </head>
 
 <body>
     <noscript>
-    <strong>We're sorry but game-garbagesorter doesn't work properly without JavaScript enabled. Please enable it to
-      continue.</strong>
-  </noscript>
+        <strong>We're sorry but game-garbagesorter doesn't work properly without JavaScript enabled. Please enable it
+            to continue.</strong>
+    </noscript>
     <div id="app"></div>
+    <div class="gameLoadingContainer">
+        <img class="bg" src="<%= BASE_URL %>img/bgHome.png" width="100%" height="100%">
+        <div id="loadingPosition">
+            <img src="<%= BASE_URL %>img/boot/loadingbarnormal.png" alt="">
+            <img id="loading" src="<%= BASE_URL %>img/boot/loadingbarlight.png" alt="">
+        </div>
+    </div>
+
+    <div id="netbadbackground">
+        <div id="netbadpopupband" class="popupband">
+            <img src="<%= BASE_URL %>img/boot/kuan.png" width="100%" height="100%">
+            <div id="gobackbuttonblack" class="goback">
+                <img src="<%= BASE_URL %>img/boot/buttongobackblack.png" width="100%" height="100%">
+            </div>
+            <div id="gobackbutton" class="goback">
+                <img src="<%= BASE_URL %>img/boot/buttongoback.png" width="100%" height="100%">
+            </div>
+            <div class="text">当前页面加载缓慢，请稍等或检查网络信号
+            </div>
+        </div>
+    </div>
+
     <!-- built files will be auto injected -->
 </body>
 

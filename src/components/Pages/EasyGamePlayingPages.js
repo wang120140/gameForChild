@@ -8,7 +8,7 @@ import {
     Power1
 } from "gsap";
 import {
-    created,
+    createdSprite,
     BackDialog,
     createdText,
     createdStyle,
@@ -137,14 +137,14 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             _this: self
         });
         //垃圾箱
-        created({
+        createdSprite({
             $this: self,
             $alias: self.RecyclablelitterName,
             $x: 100,
             $y: 480,
         });
         //垃圾箱的盖子
-        this.RecyclablelitterCap = created({
+        this.RecyclablelitterCap = createdSprite({
             $this: self,
             $alias: self.RecyclablelitterCapName,
             $x: 83,
@@ -185,7 +185,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         });
         //轮带
         for (let i = 0; i < 2; i++) {
-            this.track.push(created({
+            this.track.push(createdSprite({
                 $this: self,
                 $alias: 'track_png',
                 $x: i * 1920,
@@ -194,7 +194,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         }
         //轮子背景图
         for (let wheelNum = 0; wheelNum <= 15; wheelNum++) {
-            this.wheelSprite.push(created({
+            this.wheelSprite.push(createdSprite({
                 $this: self,
                 $alias: 'wheel_png',
                 $x: wheelNum * 138,
@@ -246,7 +246,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         //添加垃圾
         for (let i = 0; i < 6; i++) {
             let index = Math.floor(Math.random() * 20)
-            let RecyclableItem = created({
+            let RecyclableItem = createdSprite({
                 $this: self,
                 $alias: self.Waster[index],
                 $x: i * 384 + 1920,
@@ -457,7 +457,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.removeChild(item); //先移除原有的精灵
         let RandomIndex, NewItem, self = this;
         RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
-        NewItem = created({
+        NewItem = createdSprite({
             $this: self,
             $alias: self.Waster[RandomIndex],
             $x: self.RecyclableSprite[self.RecyclableSprite.length - 1].x + 384,
