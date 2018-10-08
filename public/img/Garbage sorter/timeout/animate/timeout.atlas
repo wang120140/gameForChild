@@ -1,0 +1,69 @@
+
+timeout.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+time_body
+  rotate: false
+  xy: 547, 178
+  size: 328, 310
+  orig: 328, 310
+  offset: 0, 0
+  index: -1
+time_hand
+  rotate: false
+  xy: 877, 398
+  size: 49, 90
+  orig: 49, 90
+  offset: 0, 0
+  index: -1
+time_line1
+  rotate: false
+  xy: 467, 228
+  size: 21, 53
+  orig: 21, 53
+  offset: 0, 0
+  index: -1
+time_line2
+  rotate: false
+  xy: 726, 148
+  size: 56, 28
+  orig: 56, 28
+  offset: 0, 0
+  index: -1
+time_line3
+  rotate: false
+  xy: 2, 69
+  size: 74, 16
+  orig: 74, 16
+  offset: 0, 0
+  index: -1
+time_point
+  rotate: false
+  xy: 877, 367
+  size: 26, 29
+  orig: 26, 29
+  offset: 0, 0
+  index: -1
+time_text1
+  rotate: false
+  xy: 2, 283
+  size: 543, 205
+  orig: 543, 205
+  offset: 0, 0
+  index: -1
+time_text2
+  rotate: false
+  xy: 2, 87
+  size: 463, 194
+  orig: 463, 194
+  offset: 0, 0
+  index: -1
+time_top
+  rotate: false
+  xy: 467, 2
+  size: 257, 174
+  orig: 257, 174
+  offset: 0, 0
+  index: -1

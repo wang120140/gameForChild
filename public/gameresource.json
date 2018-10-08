@@ -11,6 +11,12 @@
     "name": "btnHard_png",
     "url": "./img/BtnHard.png"
 }, {
+    "name": "CloseButtonNormal_png",
+    "url": "./img/CloseButtonNormal.png"
+}, {
+    "name": "CloseButtonLight_png",
+    "url": "./img/CloseButtonLight.png"
+}, {
     "name": "btnHardClick_png",
     "url": "./img/BtnHardClick.png"
 }, {
@@ -274,4 +280,28 @@
 }, {
     "name": "ClickSound",
     "url": "./sound/bg/ClickSound.mp3"
+}, {
+    "name": "StartScreen_spine",
+    "url": "./img/spine/startscreen.json"
+}, {
+    "name": "windmill_spine",
+    "url": "./img/spine/windmill.json"
+}, {
+    "name": "RecyceleAnimate_spine",
+    "url": "./img/spine/monster4.json"
+}, {
+    "name": "KitchenAnimate_spine",
+    "url": "./img/spine/monster1.json"
+}, {
+    "name": "HarmfullAnimate_spine",
+    "url": "./img/spine/monster3.json"
+}, {
+    "name": "OtherAnimate_spine",
+    "url": "./img/spine/monster2.json"
+}, {
+    "name": "Box_spine",
+    "url": "./img/spine/box.json"
+}, {
+    "name": "bg_Select_Introduce_png",
+    "url": "./img/bg_Select_Introduce.png"
 }]

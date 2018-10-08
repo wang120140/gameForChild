@@ -32,7 +32,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.ScoreMessage;
         this.ScoreNum = 0;
         this.TimeNum = 60;
-        this.TimeLimit = 6600;
+        this.TimeLimit = 660;
         this.track = [];
         this.wheelSprite = [];
         this.RecyclableSprite = [];
@@ -81,7 +81,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.DialogSummarySpriteArr = [];
         //音效
         this.RubbishPlaying;
-        this.Test = 100;
+        this.RubbishPlayingControl = true;
     }
     removeFromStage() {
         if (this.loop) {
@@ -98,14 +98,15 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.ScoreNum = 0;
             this.RecyclableSprite = [];
             this.DialogSummarySpriteArr = [];
+            this.RubbishPlayingControl = true;
             this.DialogDetail = {
                     correct: 0,
                     incorrect: 0,
                     highScore: 0
                 }
                 //测试使用
-            switch (this.Test) {
-                //switch (Garbage.getGarBage("position")) {
+                //switch (this.Test) {
+            switch (Garbage.getGarBage("position")) {
                 case 100:
                     this.RecyclablelitterName = "RecyclableLitter"
                     this.RecyclablelitterCapName = "RecyclableLitterCap"
@@ -229,10 +230,20 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.palyBase.BtnBackClick.visible = true;
         })
-        this.palyBase.BtnBackClick.on("pointerup", this.BtnBackNormalEvent) //返回按钮事件
-            .on("pointerout", () => {
-                this.palyBase.BtnBackClick.visible = false;
-            });
+        this.palyBase.BtnBackClick.on("pointerup", () => {
+            this.RubbishPlayingControl = false;
+            PIXI.sound.pause("RubbishPlaying") //游戏音乐背景
+            this.loop.stop();
+            this.addChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn)
+            this.RecyclableSprite.forEach((item) => {
+                item.interactive = false;
+                item.buttonMode = false;
+            })
+            this.palyBase.BtnBackNormal.interactive = false;
+            this.RecyclablelitterCap.interactive = false;
+        }).on("pointerout", () => {
+            this.palyBase.BtnBackClick.visible = false;
+        });
         //小动物  这个预留给动画效果
         this.unHappyAnimal = new PIXI.Sprite(PIXI.loader.resources['unHappy_jpg'].texture);
         this.unHappyAnimal.scale.set(0.1, 0.1);
@@ -260,7 +271,18 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             RecyclableItem.EventChangePosition = -200; //模拟点击事件的位置
             RecyclableItem.ClassItem = this.WasterClass[Math.floor(index / 5)]; //定义垃圾属性
             RecyclableItem.on("pointerdown", () => { //垃圾点击事件
-                PIXI.sound.play(self.Waster[index] + "_mp3"); //播放单词音频
+                PIXI.sound.pause("RubbishPlaying");
+                PIXI.sound.play(self.Waster[index] + "_mp3", {
+                    complete: () => {
+                        if (self.RubbishPlayingControl) {
+                            self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
+                                loop: true,
+                                start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
+                            })
+                        }
+                    }
+                }); //播放单词音频
+
                 this.RecyclableSprite.forEach((item) => {
                     if (item.y == 870) {
                         item.EventChange = false;
@@ -295,7 +317,21 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.removeChildren(0, this.children.length);
             SceneManager.run("EasyGameSelectPages");
         });
-        this.Dialog.noBtn.on("pointertap", this.noButtonEvent);
+        this.Dialog.noBtn.on("pointertap", () => {
+            this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+            this.RecyclableSprite.forEach((item) => {
+                item.interactive = true;
+                item.buttonMode = true;
+            })
+            this.RecyclablelitterCap.interactive = true;
+            this.palyBase.BtnBackNormal.interactive = true;
+            PIXI.sound.play("RubbishPlaying", {
+                    loop: true
+                }) //游戏音乐背景
+            this.RubbishPlayingControl = true;
+            PIXI.sound.play("ClickSound") //添加点击效果音效
+            this.loop.start();
+        });
 
         //第三个弹框 总结弹窗
         this.DialogSummaryArr.forEach((item) => {
@@ -319,6 +355,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             SceneManager.run("EasyGameSelectPages");
         });
         this.Dialog.againBtn.on("pointertap", () => { //再来一次事件
+            this.RubbishPlayingControl = true;
             PIXI.sound.play("ClickSound") //添加点击效果音效
             PIXI.sound.pause("RubbishSuccess"); //声音音效结束
             this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
@@ -341,7 +378,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             //传送带
         this.track.forEach((item) => {
             item.x <= -1920 && item.position.set(1920, 715);
-            item.x -= 5;
+            item.x -= 3;
         });
         //定义时间函数
         this.TimeNum += 1;
@@ -356,6 +393,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 item.buttonMode = false;
             })
             this.RecyclablelitterCap.interactive = false;
+            //this.RubbishPlaying.stop();
+            this.RubbishPlayingControl = false;
             PIXI.sound.pause("RubbishPlaying") //暂停游戏背景事件
             this.loop.stop(); //游戏循环结束事件
             this.setTimeoutNum = setTimeout(() => { //两秒后的弹窗事件发生......
@@ -391,10 +430,12 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                         PIXI.sound.pause("RubbishPlaying");
                         PIXI.sound.play("RubbishRight", {
                             complete: () => {
-                                self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                                    loop: true,
-                                    start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
-                                })
+                                if (self.RubbishPlayingControl) {
+                                    self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
+                                        loop: true,
+                                        start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
+                                    })
+                                }
                             }
                         });
                         (this.DialogDetail.highScore < this.ScoreNum) && (this.DialogDetail.highScore = this.ScoreNum)
@@ -422,36 +463,10 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 }
             } else {
                 //定义正常走的事件
-                item.x -= 5;
+                item.x -= 3;
                 (item.x <= -384) && this.BornSprite(item, index, arr)
             }
         });
-    }
-    BtnBackNormalEvent = () => { //返回按钮事件
-        //this.RubbishPlaying.stop();
-        PIXI.sound.pause("RubbishPlaying") //游戏音乐背景
-        this.loop.stop();
-        this.addChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn)
-        this.RecyclableSprite.forEach((item) => {
-            item.interactive = false;
-            item.buttonMode = false;
-        })
-        this.palyBase.BtnBackNormal.interactive = false;
-        this.RecyclablelitterCap.interactive = false;
-    }
-    noButtonEvent = () => { //不返回按钮事件
-        this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
-        this.RecyclableSprite.forEach((item) => {
-            item.interactive = true;
-            item.buttonMode = true;
-        })
-        this.RecyclablelitterCap.interactive = true;
-        this.palyBase.BtnBackNormal.interactive = true;
-        PIXI.sound.play("RubbishPlaying", {
-                loop: true
-            }) //游戏音乐背景
-        PIXI.sound.play("ClickSound") //添加点击效果音效
-        this.loop.start();
     }
     BornSprite = (item, index, arr) => {
         this.removeChild(item); //先移除原有的精灵
@@ -471,7 +486,15 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         NewItem.EventChangePickUp = false;
         NewItem.ClassItem = this.WasterClass[Math.floor(RandomIndex / 5)];
         NewItem.on("pointerdown", () => { //定义精灵事件
-            PIXI.sound.play(self.Waster[RandomIndex] + "_mp3"); //播放单词音频
+            PIXI.sound.pause("RubbishPlaying");
+            PIXI.sound.play(self.Waster[RandomIndex] + "_mp3", {
+                complete: () => {
+                    // self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
+                    //     loop: true,
+                    //     start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
+                    // })
+                }
+            }); //播放单词音频
             this.RecyclableSprite.forEach((item) => {
                 if (item.y == 870) {
                     item.EventChange = false;

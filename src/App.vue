@@ -39,53 +39,49 @@ export default {
   },
   //就是对弹窗进行说明事件
   created() {
-    (function shown() {
-      setTimeout(() => {
-        if (document.getElementById("netbadbackground")) {
-          document.getElementById("netbadbackground").style.visibility =
-            "visible";
-          document.getElementById(
-            "gobackbutton"
-          ).onmousedown = gobackbuttonMouseDown_handler;
-          document.getElementById(
-            "gobackbutton"
-          ).onmouseup = gobackbuttonMouseDown_Up;
-          document.getElementById(
-            "gobackbutton"
-          ).ontouchstart = gobackbuttonMouseDown_handler;
-          document.getElementById(
-            "gobackbutton"
-          ).ontouchend = gobackbuttonMouseDown_Up;
-          document.getElementById(
-            "gobackbutton"
-          ).onclick = gobackbuttonMouseClick_handler;
-          return;
-        }
-        console.log("没有东西啦");
-      }, 6000);
-    })();
-
-    //shown();
-    function gobackbuttonMouseDown_handler() {
-      document.getElementById("gobackbutton").style.opacity = 0;
-      document.getElementById("gobackbuttonblack").style.opacity = 1;
-    }
-
-    function gobackbuttonMouseDown_Up() {
-      document.getElementById("gobackbutton").style.opacity = 1;
-      document.getElementById("gobackbuttonblack").style.opacity = 0;
-    }
-
-    function gobackbuttonMouseClick_handler() {
-      document.getElementById("netbadbackground").style.visibility = "hidden";
-      document.getElementById("gobackbutton").onmousedown = null;
-      document.getElementById("gobackbutton").onmouseup = null;
-
-      document.getElementById("gobackbutton").ontouchstart = null;
-      document.getElementById("gobackbutton").ontouchend = null;
-      document.getElementById("gobackbutton").onclick = null;
-    }
-    PIXI.utils.skipHello();
+    //   (function shown() {
+    //     setTimeout(() => {
+    //       if (document.getElementById("netbadbackground")) {
+    //         document.getElementById("netbadbackground").style.visibility =
+    //           "visible";
+    //         document.getElementById(
+    //           "gobackbutton"
+    //         ).onmousedown = gobackbuttonMouseDown_handler;
+    //         document.getElementById(
+    //           "gobackbutton"
+    //         ).onmouseup = gobackbuttonMouseDown_Up;
+    //         document.getElementById(
+    //           "gobackbutton"
+    //         ).ontouchstart = gobackbuttonMouseDown_handler;
+    //         document.getElementById(
+    //           "gobackbutton"
+    //         ).ontouchend = gobackbuttonMouseDown_Up;
+    //         document.getElementById(
+    //           "gobackbutton"
+    //         ).onclick = gobackbuttonMouseClick_handler;
+    //         return;
+    //       }
+    //       console.log("没有东西啦");
+    //     }, 6000);
+    //   })();
+    //   //shown();
+    //   function gobackbuttonMouseDown_handler() {
+    //     document.getElementById("gobackbutton").style.opacity = 0;
+    //     document.getElementById("gobackbuttonblack").style.opacity = 1;
+    //   }
+    //   function gobackbuttonMouseDown_Up() {
+    //     document.getElementById("gobackbutton").style.opacity = 1;
+    //     document.getElementById("gobackbuttonblack").style.opacity = 0;
+    //   }
+    //   function gobackbuttonMouseClick_handler() {
+    //     document.getElementById("netbadbackground").style.visibility = "hidden";
+    //     document.getElementById("gobackbutton").onmousedown = null;
+    //     document.getElementById("gobackbutton").onmouseup = null;
+    //     document.getElementById("gobackbutton").ontouchstart = null;
+    //     document.getElementById("gobackbutton").ontouchend = null;
+    //     document.getElementById("gobackbutton").onclick = null;
+    //   }
+    //   PIXI.utils.skipHello();
   },
   //弹窗事件说明事件结束
   mounted() {
@@ -127,8 +123,8 @@ export default {
       );
       this.gameStart().then(() => {
         //单个页面测试
-        SceneManager.run("HomePages");
-        //SceneManager.run("EasyGameSelectPages");
+        //SceneManager.run("HomePages");
+        SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
         //SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");
@@ -160,11 +156,10 @@ export default {
             .add(response.data)
             .on("progress", loader => {
               loader.progress;
-              console.log(document.getElementById("loading").style.width);
-              document.getElementById("loading").style.width =
-                loader.progress * 0.054 + "rem";
-              console.log(loader.progress);
-              console.log(1);
+              if (document.getElementById("loading")) {
+                document.getElementById("loading").style.width =
+                  loader.progress * 0.054 + "rem";
+              }
             })
             .load(() => {
               resolve();

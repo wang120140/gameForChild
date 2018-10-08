@@ -14,6 +14,10 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.BtnBackClick;
         this.on("added", this.addedStage, this);
         this.soundBg;
+        this.loop;
+        this.animateSpineName = ["RecyceleAnimate_spine", "KitchenAnimate_spine", "HarmfullAnimate_spine", "OtherAnimate_spine"]
+        this.animateSpine = [];
+        this.RubbishBoxSpriteName = [0, 1, 2, 3];
     }
     addedStage() {
         let self = this;
@@ -24,7 +28,8 @@ export default class EasyGameSelectPages extends PIXI.Container {
         //背景图
         createdSprite({
             $this: self,
-            $alias: "bggame_png"
+            $x: -1900,
+            $alias: "bg_Select_Introduce_png"
         });
         //返回按钮
         createdSprite({
@@ -61,12 +66,20 @@ export default class EasyGameSelectPages extends PIXI.Container {
                 $this: self,
                 $alias: item,
                 $x: 500 * index,
-                $y: 500,
+                $y: 350,
                 $interactive: true,
                 $buttonMode: true,
+
             }).on("pointertap", () => {
                 PIXI.sound.play("ClickSound") //添加点击效果音效
-                self.Arrow.position.set(100 + 500 * index, 300);
+                self.Arrow.position.set(100 + 500 * index, 150);
+                this.animateSpine.forEach((item, index0) => {
+                    if (index == index0) {
+                        item.visible = true;
+                    } else {
+                        item.visible = false;
+                    }
+                })
             })
         });
         //箭头
@@ -74,7 +87,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             $this: self,
             $alias: "Arrow_png",
             $x: 100,
-            $y: 300,
+            $y: 150,
             $interactive: true,
             $buttonMode: true,
         }).on("pointertap", () => { //跳转介绍页面事件
@@ -86,6 +99,38 @@ export default class EasyGameSelectPages extends PIXI.Container {
             Garbage.setGarBage('position', this.Arrow.position.x);
             SceneManager.run("EasyGameIntroPages");
         });
+        //垃圾箱动画Box_spine
+        // this.RubbishBoxSpriteName.forEach((item, index) => {
+        //     this.RubbishBoxSpriteItem = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
+        //     this.RubbishBoxSpriteItem.x = 500 * index;
+        //     this.RubbishBoxSpriteItem.y = 350;
+        //     //this.RubbishBoxSpriteItem.state.setAnimation(0, "box1_normal", true)
+        //     this.addChild(this.RubbishBoxSpriteItem);
+        // });
+        //小动物动画
+        this.animateSpineName.forEach((item, index) => {
+            this.animateSpineItem = new PIXI.spine.Spine(PIXI.loader.resources[item].spineData);
+            this.animateSpineItem.x = 450 + index * 500;
+            this.animateSpineItem.interactive = true;
+            this.animateSpineItem.buttonMode = true;
+            this.animateSpineItem.on("pointertap", () => {
+                console.log(index)
+            })
+
+            this.animateSpineItem.y = 800;
+            this.animateSpineItem.state.setAnimation(0, 'normal', true);
+            this.animateSpine.push(this.animateSpineItem);
+            this.animateSpineItem.visible = false;
+            this.addChild(this.animateSpineItem)
+        });
+        this.animateSpine[0].visible = true;
+        this.loop = new PIXI.ticker.Ticker();
+        this.loop.add(delta => this.gameloop(delta));
+        this.loop.stop();
+    }
+    gameloop(){
+        console.log(1)
+        
     }
 
 }

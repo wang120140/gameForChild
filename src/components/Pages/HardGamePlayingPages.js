@@ -22,7 +22,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.BtnBackNormal;
         this.TimeMessage;
         this.TimeNum = 60;
-        this.TimeOver = 600;
+        this.TimeOver = 3660;
         this.ScoreMessage;
         this.ScoreNum = 0;
         this.WasterBox = ["RecyclableLitter", "KitchenLitter", "HarmfulLitter", "OtherLitter"];
@@ -73,6 +73,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.DialogSummarySpriteArr = [];
         //音效
         this.RubbishPlaying;
+        this.RubbishPlayingControl = true;
         this.on('removed', this.removeFromStage, this);
         this.on("added", this.addedStage, this);
     }
@@ -88,7 +89,9 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.track = [];
             this.ScoreMessage = null;
             this.RecyclableSprite = [];
+            this.WasterBoxCapSprite = [];
             this.DialogSummarySpriteArr = [];
+            this.RubbishPlayingControl = true;
             this.DialogDetail = {
                 correct: 0,
                 incorrect: 0,
@@ -127,7 +130,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.palyBase.BtnBackNormal.on("pointerdown", () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.palyBase.BtnBackClick.visible = true;
-        })
+        });
         this.palyBase.BtnBackClick.on("pointerup", this.BtnBackNormalEvent) //返回按钮事件
             .on("pointerout", () => {
                 this.palyBase.BtnBackClick.visible = false;
@@ -259,7 +262,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.Dialog.yesBtn.on('pointertap', () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
-            SceneManager.run("EasyGameSelectPages");
+            SceneManager.run("HomePages");
         });
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
 
@@ -311,9 +314,11 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.addChild(this.Dialog.graphics, this.Dialog.timePop, this.Dialog.naoZPop)
             this.palyBase.BtnBackNormal.interactive = false;
             this.palyBase.BtnBackNormal.buttonMode = false;
-            this.WasterGather.forEach((item) => {
+            this.WasterGather.forEach((item) => { //暂停所有的垃圾点击事件
                 item.interactive = false;
-                item.buttonMode = false;
+            });
+            this.WasterBoxCapSprite.forEach((item) => {
+                item.interactive = false;
             });
             PIXI.sound.pause("RubbishPlaying") //暂停游戏背景事件
             this.loop.stop(); //暂停游戏循环事件
@@ -335,19 +340,21 @@ export default class HardGamePlayingPages extends PIXI.Container {
         //传送带
         this.track.forEach((item) => {
             item.x <= -1920 && item.position.set(1920, 715);
-            item.x -= 5;
+            item.x -= 3;
         });
         //轮子
         this.wheelSprite.forEach((item) => {
             item.rotation -= 0.075 * delta;
         });
         //关于垃圾盖效果
-        this.WasterBoxCapJumpment = this.WasterGather.some((item) => {
-            return item.y < 870
-        });
-        this.WasterBoxCapSprite.forEach((item) => {
-            item.interactive = (!this.WasterBoxCapJumpment);
-        });
+        if (this.TimeNum != this.TimeOver) {
+            this.WasterBoxCapJumpment = this.WasterGather.some((item) => {
+                return item.y < 870
+            });
+            this.WasterBoxCapSprite.forEach((item) => {
+                item.interactive = (!this.WasterBoxCapJumpment);
+            });
+        }
         //关于垃圾
         this.WasterGather.forEach((item, index, arr) => {
             //放大垃圾效果
@@ -358,7 +365,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 item.anchor.set(0);
                 item.scale.set(1, 1);
             }
-            (!((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null))) && (item.x -= 5);
+            (!((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null))) && (item.x -= 3);
             //消失和生成效果
             if (item.y < 500 || item.x < -200) {
                 //定义成绩
@@ -421,6 +428,10 @@ export default class HardGamePlayingPages extends PIXI.Container {
         })
     }
     BtnBackNormalEvent = () => { //返回事件
+        //箱子盖事件关闭
+        this.WasterBoxCapSprite.forEach((item) => {
+            item.interactive = false;
+        })
         PIXI.sound.pause("RubbishPlaying") //暂停背景音乐
         this.loop.stop();
         this.addChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.yesBtn, this.Dialog.noBtn)

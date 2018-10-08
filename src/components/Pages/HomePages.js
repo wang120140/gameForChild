@@ -5,7 +5,8 @@ import {
 } from "@/lib/EasyPIXI.js";
 import {
     createdSprite,
-} from "./Common.js"
+} from "./Common.js";
+import 'pixi-spine';
 export default class HomePages extends PIXI.Container {
     constructor() {
         super();
@@ -14,24 +15,61 @@ export default class HomePages extends PIXI.Container {
         this.btnEasyClick;
         this.BtnHardClick;
         this.soundBg;
+        this.closeButtonClick;
     }
     addedHomePageStage() {
         let self = this
-        this.soundBg = PIXI.sound.play("RubbishSecletHome", {
-            start: Garbage.getGarBage("SoundProgress"),
-            loop: true,
-        })
+            //消除背景音乐
+            // this.soundBg = PIXI.sound.play("RubbishSecletHome", {
+            //     start: Garbage.getGarBage("SoundProgress"),
+            //     loop: true,
+            // })
         this.vueInstance = Garbage.getGarBage('vueInstance');
         //背景图
         createdSprite({
             $this: self,
-            $alias: 'bgHome_png'
+            $alias: 'bggame_png'
+        });
+        //风车动画
+        this.windmill_spine = new PIXI.spine.Spine(PIXI.loader.resources['windmill_spine'].spineData);
+        this.windmill_spine.y = 480;
+        this.windmill_spine.x = 1700;
+        this.windmill_spine.state.setAnimation(0, 'animation', true);
+        this.addChild(this.windmill_spine);
+        // 动画房子以及小动物
+        this.startScreen_spine = new PIXI.spine.Spine(PIXI.loader.resources['StartScreen_spine'].spineData);
+        this.startScreen_spine.y = 500;
+        this.startScreen_spine.x = 950;
+        this.startScreen_spine.state.setAnimation(0, 'animation', true);
+        this.addChild(this.startScreen_spine);
+        //关闭按钮
+        createdSprite({
+            $this: self,
+            $alias: "CloseButtonNormal_png",
+            $x: 1670,
+            $y: 50,
+            $interactive: true,
+            $buttonMode: true,
+        }).on("pointerdown", () => {
+            PIXI.sound.play("ClickSound") //添加点击效果音效
+            this.closeButtonClick.visible = true;
+        });
+        this.closeButtonClick = createdSprite({
+            $this: self,
+            $alias: "CloseButtonLight_png",
+            $x: 1670,
+            $y: 50,
+            $visible: false,
+            $interactive: true,
+            $buttonMode: true,
+        }).on("pointerup", () => {}).on("pointerout", () => {
+            this.closeButtonClick.visible = false;
         });
         //按钮easy
         createdSprite({
             $this: self,
             $alias: "btnEasy_png",
-            $x: 500,
+            $x: 300,
             $y: 850,
             $interactive: true,
             $buttonMode: true,
@@ -42,15 +80,15 @@ export default class HomePages extends PIXI.Container {
         this.btnEasyClick = createdSprite({
             $this: self,
             $alias: "btnEasyClick_png",
-            $x: 500,
+            $x: 300,
             $y: 850,
             $visible: false,
             $interactive: true,
             $buttonMode: true,
         }).on("pointerup", () => {
-            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            // PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            // Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            // Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             SceneManager.run("EasyGameSelectPages");
             //跳转选择页面
         }).on("pointerout", () => {
@@ -78,9 +116,9 @@ export default class HomePages extends PIXI.Container {
             $visible: false,
         }).on("pointerup", () => {
             this.vueInstance.ControlHardDialog = true;
-            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            // PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            // Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            // Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             Garbage.clearGarBage("startPlayHardGame"); //控制hard页面数据
             Garbage.setGarBage("startPlayHardGame", false);
             SceneManager.run("HardGamePlayingPages");

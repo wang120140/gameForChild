@@ -44,7 +44,7 @@
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: 2rem;
+    top: 5rem;
 }
 
 #netbadpopupband .text {
@@ -54,11 +54,28 @@
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: 1.4rem;
-    color: #2c2019;
-    font-size: 0.65rem;
+    top: 3rem;
+    color: #796C32;
+    font-size: 0.35rem;
     text-align: justify;
     word-break: break-all;
+}
+
+#LoadingText {
+    position: absolute;
+    left: 35%;
+    top: 1rem;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #796C32;
+}
+
+#loadingPosition img {
+    position: absolute;
+    left: 15%;
+    top: 35%;
+    width: 6.8rem;
+    height: 0.4rem;
 }
 
 #netbadpopupband #gobackbutton {
@@ -92,15 +109,4 @@ html {
     padding: 0px;
     height: 100%;
     background-color: black;
-}
-
-#loadingPosition img {
-    position: absolute;
-    left: 40%;
-    top: 90%;
-}
-
-#loading {
-    width: 0rem;
-    height: 0.4rem;
 }

@@ -1,0 +1,27 @@
+
+leaf.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+start_leaf1
+  rotate: false
+  xy: 737, 33
+  size: 175, 164
+  orig: 175, 164
+  offset: 0, 0
+  index: -1
+start_leaf2
+  rotate: true
+  xy: 484, 2
+  size: 195, 251
+  orig: 195, 251
+  offset: 0, 0
+  index: -1
+start_leaf3
+  rotate: false
+  xy: 2, 45
+  size: 480, 152
+  orig: 480, 152
+  offset: 0, 0
+  index: -1

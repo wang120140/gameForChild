@@ -26,30 +26,81 @@
         <strong>We're sorry but game-garbagesorter doesn't work properly without JavaScript enabled. Please enable it
             to continue.</strong>
     </noscript>
+    <!-- 注入vue -->
     <div id="app"></div>
+    <!-- 首页加载背景图 -->
     <div class="gameLoadingContainer">
-        <img class="bg" src="<%= BASE_URL %>img/bgHome.png" width="100%" height="100%">
-        <div id="loadingPosition">
-            <img src="<%= BASE_URL %>img/boot/loadingbarnormal.png" alt="">
-            <img id="loading" src="<%= BASE_URL %>img/boot/loadingbarlight.png" alt="">
-        </div>
+        <img class="bg" src="<%= BASE_URL %>img/bggaming.png" width="100%" height="100%">
     </div>
-
+    <!-- 网络缓慢弹窗效果图 -->
     <div id="netbadbackground">
         <div id="netbadpopupband" class="popupband">
             <img src="<%= BASE_URL %>img/boot/kuan.png" width="100%" height="100%">
             <div id="gobackbuttonblack" class="goback">
-                <img src="<%= BASE_URL %>img/boot/buttongobackblack.png" width="100%" height="100%">
+                <img src="<%= BASE_URL %>img/buttonBackClick.png" width="100%" height="100%">
             </div>
             <div id="gobackbutton" class="goback">
-                <img src="<%= BASE_URL %>img/boot/buttongoback.png" width="100%" height="100%">
+                <img src="<%= BASE_URL %>img/buttonBackNormal.png" width="100%" height="100%">
+            </div>
+            <div id="loadingPosition">
+                <img src="<%= BASE_URL %>img/boot/loadingbarnormal.png" alt="">
+                <img id="loading" src="<%= BASE_URL %>img/boot/loadingbarlight.png" alt="">
+            </div>
+            <div id="LoadingText">
+                Loading...
             </div>
             <div class="text">当前页面加载缓慢，请稍等或检查网络信号
             </div>
         </div>
     </div>
+    <!-- 控制弹窗是否显示效果以及弹窗效果出现以后的方法 -->
+    <script>
+        (function shown() {
+            setTimeout(() => {
+                if (document.getElementById("netbadbackground")) {
+                    document.getElementById("netbadbackground").style.visibility =
+                        "visible";
+                    document.getElementById(
+                        "gobackbutton"
+                    ).onmousedown = gobackbuttonMouseDown_handler;
+                    document.getElementById(
+                        "gobackbutton"
+                    ).onmouseup = gobackbuttonMouseDown_Up;
+                    document.getElementById(
+                        "gobackbutton"
+                    ).ontouchstart = gobackbuttonMouseDown_handler;
+                    document.getElementById(
+                        "gobackbutton"
+                    ).ontouchend = gobackbuttonMouseDown_Up;
+                    document.getElementById(
+                        "gobackbutton"
+                    ).onclick = gobackbuttonMouseClick_handler;
+                    return;
+                }
+                console.log("没有东西啦");
+            }, 6000);
+        })();
 
-    <!-- built files will be auto injected -->
+        function gobackbuttonMouseDown_handler() {
+            document.getElementById("gobackbutton").style.opacity = 0;
+            document.getElementById("gobackbuttonblack").style.opacity = 1;
+        }
+
+        function gobackbuttonMouseDown_Up() {
+            document.getElementById("gobackbutton").style.opacity = 1;
+            document.getElementById("gobackbuttonblack").style.opacity = 0;
+        }
+
+        function gobackbuttonMouseClick_handler() {
+            document.getElementById("netbadbackground").style.visibility = "hidden";
+            document.getElementById("gobackbutton").onmousedown = null;
+            document.getElementById("gobackbutton").onmouseup = null;
+
+            document.getElementById("gobackbutton").ontouchstart = null;
+            document.getElementById("gobackbutton").ontouchend = null;
+            document.getElementById("gobackbutton").onclick = null;
+        }
+    </script>
 </body>
 
 </html>
