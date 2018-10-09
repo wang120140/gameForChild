@@ -144,15 +144,15 @@ class PlayGameBasePage {
         _this = self,
     }) {
         this.bg = createdSprite({
-            $this: _this,
-            $alias: 'bggame_png'
-        })
-        this.house = createdSprite({
-            $this: _this,
-            $x: 1450,
-            $y: 100,
-            $alias: 'house_png',
-        })
+                $this: _this,
+                $alias: 'bggame_png'
+            })
+            // this.house = createdSprite({
+            //     $this: _this,
+            //     $x: 1450,
+            //     $y: 100,
+            //     $alias: 'house_png',
+            // })
         this.score = createdSprite({
             $this: _this,
             $alias: 'score_png',

@@ -11,22 +11,31 @@ export default class EasyGameSelectPages extends PIXI.Container {
         super();
         this.RubbishBoxNameSumArr = ["RecyclableSelect_png", "KitchenSelect_png", "HarmfulSelect_png", "OtherSelect_png"]
         this.Arrow;
+        this.ArrowArr = [];
         this.BtnBackClick;
         this.on("added", this.addedStage, this);
         this.soundBg;
         this.loop;
         this.animateSpineName = ["RecyceleAnimate_spine", "KitchenAnimate_spine", "HarmfullAnimate_spine", "OtherAnimate_spine"]
-        this.animateSpine = [];
-        this.RubbishBoxSpriteName = [0, 1, 2, 3];
+        this.animateSpineArr = [];
+        this.animateSpineMoveNum;
+        this.bg;
+        this.RubbishBoxSkin = ["blue", "green", "red", "orange"];
+        this.RubbishBoxAnimateArr = [];
     }
     addedStage() {
         let self = this;
+        (() => {
+            this.ArrowArr = [];
+            this.animateSpineArr = [];
+            this.RubbishBoxAnimateArr = []
+        })();
         this.soundBg = PIXI.sound.play("RubbishSecletHome", {
             start: Garbage.getGarBage("SoundProgress"),
             loop: true,
         });
         //背景图
-        createdSprite({
+        this.bg = createdSprite({
             $this: self,
             $x: -1900,
             $alias: "bg_Select_Introduce_png"
@@ -60,77 +69,122 @@ export default class EasyGameSelectPages extends PIXI.Container {
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
         });
-        //垃圾箱
-        this.RubbishBoxNameSumArr.forEach((item, index) => {
-            createdSprite({
-                $this: self,
-                $alias: item,
-                $x: 500 * index,
-                $y: 350,
-                $interactive: true,
-                $buttonMode: true,
-
-            }).on("pointertap", () => {
-                PIXI.sound.play("ClickSound") //添加点击效果音效
-                self.Arrow.position.set(100 + 500 * index, 150);
-                this.animateSpine.forEach((item, index0) => {
+        //垃圾箱动画Box_spine
+        this.RubbishBoxSkin.forEach((item, index) => {
+            this.RubbishBoxSpriteItem = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
+            //console.log(this.RubbishBoxSpriteItem);
+            this.RubbishBoxSpriteItem.state.setAnimation(0, "box1_normal", true); //设置状态
+            this.RubbishBoxSpriteItem.skeleton.setSkinByName(item); //给动画添加衣服
+            this.RubbishBoxSpriteItem.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
+            this.RubbishBoxSpriteItem.x = 500 * index + 200; //设置动画的位置
+            this.RubbishBoxSpriteItem.y = 650; //设置动画的位置
+            this.RubbishBoxSpriteItem.interactive = true; //设置动画的鼠标事件
+            this.RubbishBoxSpriteItem.buttonMode = true;
+            this.RubbishBoxSpriteItem.on("pointertap", () => {
+                //设置箭头效果改变
+                this.ArrowArr.forEach((item, index0) => {
+                    (index == index0) ?
+                    (item.visible = true) :
+                    (item.visible = false);
+                });
+                //设置垃圾箱动画改变
+                this.RubbishBoxAnimateArr.forEach((item, index0) => {
+                    (index == index0) ?
+                    (this.RubbishBoxAnimateArr[index].state.setAnimation(0, "box1_select", true)) :
+                    (item.state.setAnimation(0, "box1_normal", true));
+                });
+                //设置动物效果改变
+                this.animateSpineArr.forEach((item, index0) => {
                     if (index == index0) {
                         item.visible = true;
+                        item.state.setAnimation(0, 'normal', true);
                     } else {
                         item.visible = false;
                     }
                 })
+
             })
+            this.RubbishBoxAnimateArr.push(this.RubbishBoxSpriteItem); //把动画放到一个数组中
+            this.addChild(this.RubbishBoxSpriteItem); //添加到舞台
         });
-        //箭头
-        this.Arrow = createdSprite({
-            $this: self,
-            $alias: "Arrow_png",
-            $x: 100,
-            $y: 150,
-            $interactive: true,
-            $buttonMode: true,
-        }).on("pointertap", () => { //跳转介绍页面事件
-            PIXI.sound.play("ClickSound") //添加点击效果音效
-            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
-            Garbage.clearGarBage("position");
-            Garbage.setGarBage('position', this.Arrow.position.x);
-            SceneManager.run("EasyGameIntroPages");
-        });
-        //垃圾箱动画Box_spine
-        // this.RubbishBoxSpriteName.forEach((item, index) => {
-        //     this.RubbishBoxSpriteItem = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
-        //     this.RubbishBoxSpriteItem.x = 500 * index;
-        //     this.RubbishBoxSpriteItem.y = 350;
-        //     //this.RubbishBoxSpriteItem.state.setAnimation(0, "box1_normal", true)
-        //     this.addChild(this.RubbishBoxSpriteItem);
-        // });
+        this.RubbishBoxAnimateArr[0].state.setAnimation(0, "box1_select", true); //设置默认的选中状态
+        //添加箭头事件
+        for (let i = 0; i < 4; i++) {
+            this.Arrow = new PIXI.Graphics();
+            this.Arrow.lineStyle(0);
+            this.Arrow.beginFill(0xFFFF0B, 0.5);
+            this.Arrow.drawCircle(200 + i * 500, 300, 80);
+            this.Arrow.endFill();
+            this.Arrow.interactive = true;
+            this.Arrow.buttonMode = true;
+            this.Arrow.visible = false;
+            this.Arrow.alpha = 0.1
+            this.Arrow.on("pointertap", () => {
+                PIXI.sound.play("ClickSound") //添加点击效果音效
+                this.animateSpineMoveNum = i; //那个动物改变走
+                //动物事件
+                switch (i) {
+                    case 0:
+                        this.animateSpineArr[i].state.setAnimation(0, "walking1", true); //改变动物摇手的状态
+                        this.animateSpineArr[i].state.tracks[0].listener = { //动作摇手
+                            complete: () => {
+                                this.animateSpineArr[i].state.setAnimation(1, "walking2", true)
+                            }
+                        };
+                        break;
+                    case 1:
+                        this.animateSpineArr[i].state.setAnimation(0, "walking", true);
+                        break;
+                    case 2:
+                        this.animateSpineArr[i].state.setAnimation(0, "walking", true);
+                        break;
+                    case 3:
+                        this.animateSpineArr[i].state.setAnimation(0, "walking1", true); //改变动物摇手的状态
+                        // this.animateSpineArr[i].state.tracks[0].listener = { //动作摇手
+                        //     complete: () => {
+                        //         this.animateSpineArr[i].state.setAnimation(1, "walking2", true)
+                        //     }
+                        // };
+                        break;
+                }
+                this.loop.start(); //开启循环函数
+            })
+            this.ArrowArr.push(this.Arrow);
+            this.addChild(this.Arrow);
+        }
+        this.ArrowArr[0].visible = true; //设置默认效果
         //小动物动画
         this.animateSpineName.forEach((item, index) => {
+            console.log(1)
             this.animateSpineItem = new PIXI.spine.Spine(PIXI.loader.resources[item].spineData);
+            this.animateSpineItem.state.setAnimation(0, 'normal', true);
             this.animateSpineItem.x = 450 + index * 500;
             this.animateSpineItem.interactive = true;
             this.animateSpineItem.buttonMode = true;
-            this.animateSpineItem.on("pointertap", () => {
-                console.log(index)
-            })
-
             this.animateSpineItem.y = 800;
-            this.animateSpineItem.state.setAnimation(0, 'normal', true);
-            this.animateSpine.push(this.animateSpineItem);
+
             this.animateSpineItem.visible = false;
+            this.animateSpineArr.push(this.animateSpineItem);
             this.addChild(this.animateSpineItem)
         });
-        this.animateSpine[0].visible = true;
+        this.animateSpineArr[0].visible = true;
+        //循环效果
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
         this.loop.stop();
     }
-    gameloop(){
-        console.log(1)
-        
+    gameloop() {
+        this.animateSpineArr[this.animateSpineMoveNum].x -= 15 + 2.5 * this.animateSpineMoveNum;
+        if (this.animateSpineArr[this.animateSpineMoveNum].x <= -100) {
+            this.loop.stop();
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            Garbage.clearGarBage("position");
+            Garbage.setGarBage('position', this.animateSpineMoveNum);
+            SceneManager.run("EasyGameIntroPages");
+        }
+
     }
 
 }

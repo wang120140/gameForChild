@@ -123,8 +123,8 @@ export default {
       );
       this.gameStart().then(() => {
         //单个页面测试
-        //SceneManager.run("HomePages");
-        SceneManager.run("EasyGameSelectPages");
+        SceneManager.run("HomePages");
+        //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
         //SceneManager.run("EasyGamePlayingPages");
         //SceneManager.run("HardGamePlayingPages");

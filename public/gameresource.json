@@ -302,6 +302,12 @@
     "name": "Box_spine",
     "url": "./img/spine/box.json"
 }, {
+    "name": "Timeout_spine",
+    "url": "./img/spine/timeout.json"
+}, {
+    "name": "EndScreen_spine",
+    "url": "./img/spine/endscreen.json"
+}, {
     "name": "bg_Select_Introduce_png",
     "url": "./img/bg_Select_Introduce.png"
 }]
