@@ -490,7 +490,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         let Judgement = this.RecyclableSprite.some((item) => {
             return item.y < 870
         });
-        Judgement ? (this.RecyclablelitterCap.interactive = false) : (this.RecyclablelitterCap.interactive = true);
+        if (this.TimeNum != this.TimeLimit) {
+            (Judgement) ? (this.RecyclablelitterCap.interactive = false) : (this.RecyclablelitterCap.interactive = true);
+        }
         this.RecyclableSprite.forEach((item, index, arr) => {
             item.EventChange ? item.scale.set(1.2, 1.2) : item.scale.set(0.9, 0.9);
             if (item.EventChange && item.EventChangePickUp) {
