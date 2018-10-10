@@ -18,12 +18,12 @@ export default class HomePages extends PIXI.Container {
         this.closeButtonClick;
     }
     addedHomePageStage() {
-        let self = this
-            //消除背景音乐
-            // this.soundBg = PIXI.sound.play("RubbishSecletHome", {
-            //     start: Garbage.getGarBage("SoundProgress"),
-            //     loop: true,
-            // })
+        let self = this;
+        //消除背景音乐
+        this.soundBg = PIXI.sound.play("RubbishSecletHome", {
+            start: Garbage.getGarBage("SoundProgress"),
+            loop: true,
+        })
         this.vueInstance = Garbage.getGarBage('vueInstance');
         //背景图
         createdSprite({
@@ -86,9 +86,9 @@ export default class HomePages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerup", () => {
-            // PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            // Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            // Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             SceneManager.run("EasyGameSelectPages");
             //跳转选择页面
         }).on("pointerout", () => {
@@ -116,9 +116,9 @@ export default class HomePages extends PIXI.Container {
             $visible: false,
         }).on("pointerup", () => {
             this.vueInstance.ControlHardDialog = true;
-            // PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            // Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            // Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             Garbage.clearGarBage("startPlayHardGame"); //控制hard页面数据
             Garbage.setGarBage("startPlayHardGame", false);
             SceneManager.run("HardGamePlayingPages");

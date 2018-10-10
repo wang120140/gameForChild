@@ -216,7 +216,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
 
     }
     gameloop() {
-        this.animateSpine.x += 10;
+        this.animateSpine.x += 15;
         if (this.animateSpine.x >= 1400) {
             this.loop.stop();
             this.animateSpine.state.setAnimation(0, "movehand", true);

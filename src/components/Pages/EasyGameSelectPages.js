@@ -81,7 +81,9 @@ export default class EasyGameSelectPages extends PIXI.Container {
             this.RubbishBoxSpriteItem.interactive = true; //设置动画的鼠标事件
             this.RubbishBoxSpriteItem.buttonMode = true;
             this.RubbishBoxSpriteItem.on("pointertap", () => {
-                //设置箭头效果改变
+                //添加点击声音
+                PIXI.sound.play("ClickSound") //添加点击效果音效
+                    //设置箭头效果改变
                 this.ArrowArr.forEach((item, index0) => {
                     (index == index0) ?
                     (item.visible = true) :
@@ -155,7 +157,6 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.ArrowArr[0].visible = true; //设置默认效果
         //小动物动画
         this.animateSpineName.forEach((item, index) => {
-            console.log(1)
             this.animateSpineItem = new PIXI.spine.Spine(PIXI.loader.resources[item].spineData);
             this.animateSpineItem.state.setAnimation(0, 'normal', true);
             this.animateSpineItem.x = 450 + index * 500;

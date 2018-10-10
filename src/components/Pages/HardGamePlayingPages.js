@@ -56,7 +56,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             x: 760,
             y: 420
         }, {
-            text: "High Score",
+            text: " Total Score",
             x: 700,
             y: 550
         }, {
@@ -207,7 +207,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 WasterBoxCapItem.y = -40;
                 WasterBoxCapItem.interactive = true;
                 WasterBoxCapItem.buttonMode = true;
-                WasterBoxCapItem.alpha = 0.1;
+                WasterBoxCapItem.alpha = 0;
                 this.addChild(WasterBoxCapItem);
                 WasterBoxCapItem.Class = this.WasterClass[index];
                 WasterBoxCapItem.on("pointertap", () => {
@@ -411,7 +411,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 //这个是结束页结束....
                 this.DialogSummarySpriteArr[5].text = this.DialogDetail.correct;
                 this.DialogSummarySpriteArr[4].text = this.DialogDetail.incorrect;
-                this.DialogSummarySpriteArr[3].text = this.DialogDetail.highScore;
+                //this.DialogSummarySpriteArr[3].text = this.DialogDetail.highScore;//取消最高分及记录
+                this.DialogSummarySpriteArr[3].text = this.ScoreNum;
                 this.addChild(this.Dialog.graphics, this.EndScreen, this.Dialog.fhBtn, this.Dialog.againBtn)
                 this.DialogSummarySpriteArr.forEach((item) => {
                     this.addChild(item)
@@ -468,20 +469,23 @@ export default class HardGamePlayingPages extends PIXI.Container {
                                 }
                             })
                             //小动物高兴结束
-                        PIXI.sound.pause("RubbishPlaying");
+                            //取消暂停背景音乐
+                            //PIXI.sound.pause("RubbishPlaying");
                         PIXI.sound.play("RubbishRight", {
-                            complete: () => {
-                                self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                                    loop: true,
-                                    start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
-                                })
-                            }
+                            //取消暂停背景音乐播放
+                            // complete: () => {
+                            //     self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
+                            //         loop: true,
+                            //         start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
+                            //     })
+                            // }
                         });
-                        (this.DialogDetail.highScore < this.ScoreNum) && (this.DialogDetail.highScore = this.ScoreNum)
+                        //取消本次最高分记录
+                        //(this.DialogDetail.highScore < this.ScoreNum) && (this.DialogDetail.highScore = this.ScoreNum)
                         this.DialogDetail.correct++;
                     } else { //选错减分事件
                         //选错的情况下
-                        this.ScoreNum -= 5;
+                        (this.ScoreNum >= 5) && (this.ScoreNum -= 5);
                         //小动物悲伤开始
                         this.AnimateArr.forEach((item, index) => {
                             if (item.visible) {
@@ -498,15 +502,16 @@ export default class HardGamePlayingPages extends PIXI.Container {
                             }
                         });
                         //小动物悲伤结束
-                        //声音暂停
-                        PIXI.sound.pause("RubbishPlaying");
+                        //取消背景声音暂停
+                        //PIXI.sound.pause("RubbishPlaying");
                         PIXI.sound.play("RubbishWrong", {
-                            complete: () => {
-                                self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                                    loop: true,
-                                    start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
-                                })
-                            }
+                            //取消背景音乐暂停
+                            // complete: () => {
+                            //     self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
+                            //         loop: true,
+                            //         start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
+                            //     })
+                            // }
                         });
                         this.DialogDetail.incorrect++;
                     }
