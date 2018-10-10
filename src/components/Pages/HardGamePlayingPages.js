@@ -17,6 +17,7 @@ import {
 export default class HardGamePlayingPages extends PIXI.Container {
     constructor() {
         super();
+        console.log("困难页面类数据...")
         this.track = [];
         this.wheelSprite = [];
         this.BtnBackNormal;
@@ -25,7 +26,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.TimeOver = 3660;
         this.ScoreMessage;
         this.ScoreNum = 0;
-        //this.WasterBox = ["RecyclableLitter", "KitchenLitter", "HarmfulLitter", "OtherLitter"];
         this.WasterBoxSkin = ["blue", "green", "red", "orange"];
         this.WasterBoxSkinAnimateArr = [];
         this.WasterBoxCap = ["RecyclableLitterCap", "KitchenLitterCap", "HarmfulLitterCap", "OtherLitterCap"];
@@ -89,6 +89,12 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.palyBase = new PlayGameBasePage({
             _this: self
         });
+        //叶子位置
+        this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
+        this.Leaf_spine.x = 2000;
+        this.Leaf_spine.y = 20;
+        this.Leaf_spine.state.setAnimation(0, "animation", true);
+        this.addChild(this.Leaf_spine);
         (() => {
             this.TimeNum = 60;
             this.WasterGather = [];
@@ -180,25 +186,17 @@ export default class HardGamePlayingPages extends PIXI.Container {
             })
             //在分数背景图下写分数
         this.ScoreMessage = createdText({
-                $this: self,
-                $text: self.ScoreNum,
-                $x: 1670,
-                $y: 100,
-                $style: createdStyle({
-                    $fontSize: 60,
-                    $fill: "#FDFFD0",
-                })
+            $this: self,
+            $text: self.ScoreNum,
+            $x: 1670,
+            $y: 100,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#FDFFD0",
             })
-            //箱子盖
+        });
+        //箱子盖
         this.WasterBoxCap.forEach((item, index) => {
-                // let WasterBoxCapItem = createdSprite({
-                //     $this: self,
-                //     $alias: item,
-                //     $x: index * 500 - 20,
-                //     $y: 300,
-                //     $interactive: true,
-                //     $buttonMode: true
-                // })
                 let WasterBoxCapItem = new PIXI.Graphics();
                 WasterBoxCapItem.lineStyle(2, 0x0000FF, 1);
                 WasterBoxCapItem.beginFill(0xFF700B, 1);
@@ -370,8 +368,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
         if (this.TimeNum < this.TimeOver) {
             this.TimeMessage.text = ("00:" + (60 - Math.floor(this.TimeNum / 60)));
         } else if (this.TimeNum == this.TimeOver) { //时间到事件......
-            //this.addChild(this.Dialog.graphics, this.Dialog.timePop, this.Dialog.naoZPop);
             //添加时间弹窗
+            PIXI.sound.play("Alarm_mp3");
             this.addChild(this.Dialog.graphics);
             this.Timeout = new PIXI.spine.Spine(PIXI.loader.resources["Timeout_spine"].spineData)
             this.Timeout.state.setAnimation(0, "start", false);
@@ -407,11 +405,9 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 };
                 this.EndScreen.x = 1000;
                 this.EndScreen.y = 550;
-                //this.addChild(this.EndScreen);
                 //这个是结束页结束....
                 this.DialogSummarySpriteArr[5].text = this.DialogDetail.correct;
                 this.DialogSummarySpriteArr[4].text = this.DialogDetail.incorrect;
-                //this.DialogSummarySpriteArr[3].text = this.DialogDetail.highScore;//取消最高分及记录
                 this.DialogSummarySpriteArr[3].text = this.ScoreNum;
                 this.addChild(this.Dialog.graphics, this.EndScreen, this.Dialog.fhBtn, this.Dialog.againBtn)
                 this.DialogSummarySpriteArr.forEach((item) => {
@@ -469,19 +465,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                                 }
                             })
                             //小动物高兴结束
-                            //取消暂停背景音乐
-                            //PIXI.sound.pause("RubbishPlaying");
-                        PIXI.sound.play("RubbishRight", {
-                            //取消暂停背景音乐播放
-                            // complete: () => {
-                            //     self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                            //         loop: true,
-                            //         start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
-                            //     })
-                            // }
-                        });
-                        //取消本次最高分记录
-                        //(this.DialogDetail.highScore < this.ScoreNum) && (this.DialogDetail.highScore = this.ScoreNum)
+                        PIXI.sound.play("RubbishRight");
                         this.DialogDetail.correct++;
                     } else { //选错减分事件
                         //选错的情况下
@@ -502,17 +486,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                             }
                         });
                         //小动物悲伤结束
-                        //取消背景声音暂停
-                        //PIXI.sound.pause("RubbishPlaying");
-                        PIXI.sound.play("RubbishWrong", {
-                            //取消背景音乐暂停
-                            // complete: () => {
-                            //     self.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                            //         loop: true,
-                            //         start: self.RubbishPlaying._duration * self.RubbishPlaying.progress
-                            //     })
-                            // }
-                        });
+                        PIXI.sound.play("RubbishWrong");
                         this.DialogDetail.incorrect++;
                     }
                 }

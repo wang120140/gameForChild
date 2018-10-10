@@ -48,8 +48,6 @@ class PIXIEffect {
 
 
 }
-
-
 class SceneManager {
     static stage = null;
     static scenes = [];

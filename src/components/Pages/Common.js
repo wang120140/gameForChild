@@ -78,30 +78,17 @@ class BackDialog {
             $addChild: false,
         })
         this.noBtn = createdSprite({
-                $this: _this,
-                $alias: 'noBtn_0_png',
-                $x: 1200,
-                $y: 700,
-                $interactive: true,
-                $buttonMode: true,
-                $addChild: false
-            })
-            //时间到弹窗
-        this.timePop = createdSprite({
             $this: _this,
-            $alias: 'Timeout_png',
-            $x: 300,
-            $y: 400,
+            $alias: 'noBtn_0_png',
+            $x: 1200,
+            $y: 700,
+            $interactive: true,
+            $buttonMode: true,
             $addChild: false
-        })
-        this.naoZPop = createdSprite({
-                $this: _this,
-                $alias: 'alarmclock_png',
-                $x: 830,
-                $y: 200,
-                $addChild: false
-            })
-            //总结弹窗
+        });
+        //时间到弹窗
+
+        //总结弹窗
         this.popSummary = createdSprite({
             $this: _this,
             $alias: 'endPop_png',
@@ -109,17 +96,10 @@ class BackDialog {
             $y: 200,
             $addChild: false
         })
-        this.success = createdSprite({
-            $this: _this,
-            $alias: 'success_png',
-            $x: 600,
-            $y: 100,
-            $addChild: false
-        })
         this.fhBtn = createdSprite({
             $this: _this,
-            $alias: 'backBtn_0_png',
-            $x: 650,
+            $alias: 'BtnBackNormal_png',
+            $x: 550,
             $y: 700,
             $interactive: true,
             $buttonMode: true,
@@ -128,7 +108,7 @@ class BackDialog {
         this.againBtn = createdSprite({
             $this: _this,
             $alias: 'againBtn_0',
-            $x: 1100,
+            $x: 1050,
             $y: 700,
             $interactive: true,
             $buttonMode: true,
@@ -144,15 +124,10 @@ class PlayGameBasePage {
         _this = self,
     }) {
         this.bg = createdSprite({
-                $this: _this,
-                $alias: 'bggame_png'
-            })
-            // this.house = createdSprite({
-            //     $this: _this,
-            //     $x: 1450,
-            //     $y: 100,
-            //     $alias: 'house_png',
-            // })
+            $this: _this,
+            $x: -522,
+            $alias: 'bggame_png'
+        })
         this.score = createdSprite({
             $this: _this,
             $alias: 'score_png',
@@ -190,9 +165,6 @@ class PlayGameBasePage {
         })
 
     }
-    trackBorn() {
-
-    }
 }
 export {
     createdSprite,
@@ -201,9 +173,3 @@ export {
     BackDialog,
     PlayGameBasePage,
 }
-//总体说明
-//垃圾：Rubbish
-//箱子 Box
-//盖子 Cap
-//名字 Name
-//总和数组 SumArr

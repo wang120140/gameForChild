@@ -1,18 +1,13 @@
 <template>
     <div id="app">
-       
         <div ref="gameMain">
         </div>
         <SwiperBoard class="SwiperDialog"  @StartHardGarm="ControlHardGarm" v-if="ControlHardDialog"></SwiperBoard>
-        <!-- <div>
-            <img   :src="`${baseUrl}img/bggame.jpg`"/>
-        </div> -->
     </div>
 </template>
 <script>
 import { createdSprite } from "../src/components/Pages/Common.js";
 import SwiperBoard from "@/components/Pages/SwiperBoard";
-import GameBoot from "@/components/GameBoot.js";
 import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";
 import HomePages from "@/components/Pages/HomePages.js";
 import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
@@ -37,53 +32,6 @@ export default {
     PIXI.utils.skipHello();
     Garbage.setGarBage("startPlayHardGame", false);
   },
-  //就是对弹窗进行说明事件
-  created() {
-    //   (function shown() {
-    //     setTimeout(() => {
-    //       if (document.getElementById("netbadbackground")) {
-    //         document.getElementById("netbadbackground").style.visibility =
-    //           "visible";
-    //         document.getElementById(
-    //           "gobackbutton"
-    //         ).onmousedown = gobackbuttonMouseDown_handler;
-    //         document.getElementById(
-    //           "gobackbutton"
-    //         ).onmouseup = gobackbuttonMouseDown_Up;
-    //         document.getElementById(
-    //           "gobackbutton"
-    //         ).ontouchstart = gobackbuttonMouseDown_handler;
-    //         document.getElementById(
-    //           "gobackbutton"
-    //         ).ontouchend = gobackbuttonMouseDown_Up;
-    //         document.getElementById(
-    //           "gobackbutton"
-    //         ).onclick = gobackbuttonMouseClick_handler;
-    //         return;
-    //       }
-    //       console.log("没有东西啦");
-    //     }, 6000);
-    //   })();
-    //   //shown();
-    //   function gobackbuttonMouseDown_handler() {
-    //     document.getElementById("gobackbutton").style.opacity = 0;
-    //     document.getElementById("gobackbuttonblack").style.opacity = 1;
-    //   }
-    //   function gobackbuttonMouseDown_Up() {
-    //     document.getElementById("gobackbutton").style.opacity = 1;
-    //     document.getElementById("gobackbuttonblack").style.opacity = 0;
-    //   }
-    //   function gobackbuttonMouseClick_handler() {
-    //     document.getElementById("netbadbackground").style.visibility = "hidden";
-    //     document.getElementById("gobackbutton").onmousedown = null;
-    //     document.getElementById("gobackbutton").onmouseup = null;
-    //     document.getElementById("gobackbutton").ontouchstart = null;
-    //     document.getElementById("gobackbutton").ontouchend = null;
-    //     document.getElementById("gobackbutton").onclick = null;
-    //   }
-    //   PIXI.utils.skipHello();
-  },
-  //弹窗事件说明事件结束
   mounted() {
     this.createCanvasApp();
     console.log("url>>>", this.baseUrl);
@@ -109,7 +57,6 @@ export default {
 
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
-      SceneManager.pushScene("boot", new GameBoot());
       SceneManager.pushScene("HomePages", new HomePages());
       SceneManager.pushScene("EasyGameSelectPages", new EasyGameSelectPages());
       SceneManager.pushScene("EasyGameIntroPages", new EasyGameIntroPages());
@@ -120,7 +67,7 @@ export default {
       SceneManager.pushScene(
         "HardGamePlayingPages",
         new HardGamePlayingPages()
-      );
+      ); //这句话有疑问......
       this.gameStart().then(() => {
         //单个页面测试
         SceneManager.run("HomePages");
@@ -155,10 +102,11 @@ export default {
           PIXI.loader
             .add(response.data)
             .on("progress", loader => {
-              loader.progress;
-              if (document.getElementById("loading")) {
-                document.getElementById("loading").style.width =
-                  loader.progress * 0.054 + "rem";
+              if (document.getElementById("loadingPosition")) {
+                document.getElementById("ProMid").style.width =
+                  loader.progress * 0.0515 + 0.25 + "rem";
+                document.getElementById("ProLef").style.left =
+                  loader.progress * 2.56 + 44 + "%";
               }
             })
             .load(() => {

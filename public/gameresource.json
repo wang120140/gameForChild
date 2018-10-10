@@ -1,7 +1,4 @@
 [{
-    "name": "bgHome_png",
-    "url": "./img/bgHome.png"
-}, {
     "name": "btnEasy_png",
     "url": "./img/BtnEasy.png"
 }, {
@@ -20,21 +17,6 @@
     "name": "btnHardClick_png",
     "url": "./img/BtnHardClick.png"
 }, {
-    "name": "RecyclableSelect_png",
-    "url": "./img/litterBox/RecyclableSelect.png"
-}, {
-    "name": "KitchenSelect_png",
-    "url": "./img/litterBox/KitchenSelect.png"
-}, {
-    "name": "HarmfulSelect_png",
-    "url": "./img/litterBox/HarmfulSelect.png"
-}, {
-    "name": "OtherSelect_png",
-    "url": "./img/litterBox/OtherSelect.png"
-}, {
-    "name": "Arrow_png",
-    "url": "./img/Arrow.png"
-}, {
     "name": "BoardPaint_png",
     "url": "./img/BoardPaint.png"
 }, {
@@ -46,9 +28,6 @@
 }, {
     "name": "bggame_png",
     "url": "./img/bggaming.png"
-}, {
-    "name": "house_png",
-    "url": "./img/house.png"
 }, {
     "name": "wheel_png",
     "url": "./img/wheel.png"
@@ -70,36 +49,6 @@
 }, {
     "name": "BtnBackClick_png",
     "url": "./img/buttonBackClick.png"
-}, {
-    "name": "RecyclableLitter",
-    "url": "./img/litterBox/RecyclableLitter.png"
-}, {
-    "name": "RecyclableLitterCap",
-    "url": "./img/litterBox/RecyclableLitterCap.png"
-}, {
-    "name": "KitchenLitter",
-    "url": "./img/litterBox/KitchenLitter.png"
-}, {
-    "name": "KitchenLitterCap",
-    "url": "./img/litterBox/KittenLitterCap.png"
-}, {
-    "name": "HarmfulLitter",
-    "url": "./img/litterBox/HarmfulLitter.png"
-}, {
-    "name": "HarmfulLitterCap",
-    "url": "./img/litterBox/HarmfulLitterCap.png"
-}, {
-    "name": "OtherLitter",
-    "url": "./img/litterBox/OtherLitter.png"
-}, {
-    "name": "OtherLitterCap",
-    "url": "./img/litterBox/OtherLitterCap.png"
-}, {
-    "name": "Happy_jpg",
-    "url": "./img/Happy.jpg"
-}, {
-    "name": "unHappy_jpg",
-    "url": "./img/unHappy.jpg"
 }, {
     "name": "paper",
     "url": "./img/litter/paper.png"
@@ -230,20 +179,8 @@
     "name": "noBtn_0_png",
     "url": "./img/dialog/noBtn_0.png"
 }, {
-    "name": "Timeout_png",
-    "url": "./img/dialog/Timeout.png"
-}, {
-    "name": "alarmclock_png",
-    "url": "./img/dialog/alarmclock.png"
-}, {
     "name": "endPop_png",
     "url": "./img/dialog/endPop.png"
-}, {
-    "name": "success_png",
-    "url": "./img/dialog/success.png"
-}, {
-    "name": "backBtn_0_png",
-    "url": "./img/dialog/backBtn_0.png"
 }, {
     "name": "againBtn_0",
     "url": "./img/dialog/againBtn_0.png"
@@ -308,6 +245,9 @@
     "name": "EndScreen_spine",
     "url": "./img/spine/endscreen.json"
 }, {
-    "name": "bg_Select_Introduce_png",
-    "url": "./img/bg_Select_Introduce.png"
+    "name": "Leaf_spine",
+    "url": "./img/spine/leaf.json"
+}, {
+    "name": "Alarm_mp3",
+    "url": "./sound/bg/Alarm.mp3"
 }]

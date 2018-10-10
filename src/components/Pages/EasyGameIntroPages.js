@@ -12,21 +12,38 @@ export default class EasyGameIntroPages extends PIXI.Container {
     constructor() {
         super();
         this.on("added", this.addStage, this)
-        this.ChineseText;
-        this.contentText;
-        this.title;
-        this.RecyclableWaste;
-        this.BtnBackClick;
-        this.playButtonClick;
-        this.soundBg;
+        this.ChineseText = null;
+        this.contentText = null;
+        this.title = null;
+        this.RecyclableWaste = null;
+        this.BtnBackClick = null;
+        this.playButtonClick = null;
+        this.soundBg = null;
         this.animateSpineName = ["RecyceleAnimate_spine", "KitchenAnimate_spine", "HarmfullAnimate_spine", "OtherAnimate_spine"]
         this.animateSpineArr = [];
-        this.animateSpine;
-        this.animateSpineNum;
+        this.animateSpine = null;
+        this.animateSpineNum = null;
         this.animateSpineNumName = "RecyceleAnimate_spine";
-        this.loop;
+        this.loop = null;
+        console.log("介绍页面类数据...")
     }
     addStage() {
+        (() => {
+            this.ChineseText = null;
+            this.contentText = null;
+            this.title = null;
+            this.RecyclableWaste = null;
+            this.BtnBackClick = null;
+            this.playButtonClick = null;
+            this.soundBg = null;
+            this.animateSpineName = ["RecyceleAnimate_spine", "KitchenAnimate_spine", "HarmfullAnimate_spine", "OtherAnimate_spine"]
+            this.animateSpineArr = [];
+            this.animateSpine = null;
+            this.animateSpineNum = null;
+            this.animateSpineNumName = "RecyceleAnimate_spine";
+            this.loop = null;
+            console.log("介绍页面进入自掉事件...")
+        })();
         let self = this;
         (() => {
             //console.log("跳转页面......")
@@ -81,8 +98,15 @@ export default class EasyGameIntroPages extends PIXI.Container {
         //背景图
         createdSprite({
             $this: self,
+            $x: -522,
             $alias: "bggame_png"
         });
+        //叶子位置
+        this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
+        this.Leaf_spine.x = 2000;
+        this.Leaf_spine.y = 20;
+        this.Leaf_spine.state.setAnimation(0, "animation", true);
+        this.addChild(this.Leaf_spine);
         createdSprite({
             $this: self,
             $alias: "BoardPaint_png",
@@ -113,6 +137,22 @@ export default class EasyGameIntroPages extends PIXI.Container {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            (() => {
+                this.ChineseText = null;
+                this.contentText = null;
+                this.title = null;
+                this.RecyclableWaste = null;
+                this.BtnBackClick = null;
+                this.playButtonClick = null;
+                this.soundBg = null;
+                this.animateSpineName = null;
+                this.animateSpineArr = null;
+                this.animateSpine = null;
+                this.animateSpineNum = null;
+                this.animateSpineNumName = null;
+                this.loop = null;
+                console.log("介绍页面进入选择页面自掉事件......")
+            })();
             SceneManager.run("EasyGameSelectPages")
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
@@ -141,6 +181,22 @@ export default class EasyGameIntroPages extends PIXI.Container {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            (() => {
+                this.ChineseText = null;
+                this.contentText = null;
+                this.title = null;
+                this.RecyclableWaste = null;
+                this.BtnBackClick = null;
+                this.playButtonClick = null;
+                this.soundBg = null;
+                this.animateSpineName = null;
+                this.animateSpineArr = null;
+                this.animateSpine = null;
+                this.animateSpineNum = null;
+                this.animateSpineNumName = null;
+                this.loop = null;
+                console.log("介绍页面进入开始页面自掉事件......")
+            })();
             SceneManager.run("EasyGamePlayingPages");
         }).on("pointerout", () => {
             this.playButtonClick.visible = false;
@@ -206,7 +262,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             case 3:
                 this.animateSpine.state.setAnimation(0, "walking1", true);
         }
-        this.animateSpine.x = -100;
+        this.animateSpine.x = 2000; //改了这个位置
         this.animateSpine.y = 800;
         this.addChild(this.animateSpine);
         //循环效果
@@ -216,10 +272,10 @@ export default class EasyGameIntroPages extends PIXI.Container {
 
     }
     gameloop() {
-        this.animateSpine.x += 15;
-        if (this.animateSpine.x >= 1400) {
+        this.animateSpine.x -= 15;
+        if (this.animateSpine.x <= 1400) {
             this.loop.stop();
-            this.animateSpine.state.setAnimation(0, "movehand", true);
+            this.animateSpine.state.setAnimation(0, "showing", true);
         }
     }
 }

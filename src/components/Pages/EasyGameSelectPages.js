@@ -10,25 +10,40 @@ export default class EasyGameSelectPages extends PIXI.Container {
     constructor() {
         super();
         this.RubbishBoxNameSumArr = ["RecyclableSelect_png", "KitchenSelect_png", "HarmfulSelect_png", "OtherSelect_png"]
-        this.Arrow;
+        this.Arrow = null;
         this.ArrowArr = [];
-        this.BtnBackClick;
+        this.BtnBackNormal = null;
+        this.BtnBackClick = null;
         this.on("added", this.addedStage, this);
-        this.soundBg;
-        this.loop;
+        this.soundBg = null;
+        this.loop = null;
         this.animateSpineName = ["RecyceleAnimate_spine", "KitchenAnimate_spine", "HarmfullAnimate_spine", "OtherAnimate_spine"]
         this.animateSpineArr = [];
-        this.animateSpineMoveNum;
-        this.bg;
+        this.animateSpineMoveNum = null;
+        this.bg = null;
         this.RubbishBoxSkin = ["blue", "green", "red", "orange"];
         this.RubbishBoxAnimateArr = [];
+        console.log("选择页面类事件...")
     }
     addedStage() {
         let self = this;
+        console.log("选择页面......");
         (() => {
+            this.RubbishBoxNameSumArr = ["RecyclableSelect_png", "KitchenSelect_png", "HarmfulSelect_png", "OtherSelect_png"]
+            this.Arrow = null;
             this.ArrowArr = [];
+            this.BtnBackNormal = null;
+            this.BtnBackClick = null;
+            this.on("added", this.addedStage, this);
+            this.soundBg = null;
+            this.loop = null;
+            this.animateSpineName = ["RecyceleAnimate_spine", "KitchenAnimate_spine", "HarmfullAnimate_spine", "OtherAnimate_spine"]
             this.animateSpineArr = [];
-            this.RubbishBoxAnimateArr = []
+            this.animateSpineMoveNum = null;
+            this.bg = null;
+            this.RubbishBoxSkin = ["blue", "green", "red", "orange"];
+            this.RubbishBoxAnimateArr = [];
+            console.log("选择页面进入自掉事件......")
         })();
         this.soundBg = PIXI.sound.play("RubbishSecletHome", {
             start: Garbage.getGarBage("SoundProgress"),
@@ -37,11 +52,17 @@ export default class EasyGameSelectPages extends PIXI.Container {
         //背景图
         this.bg = createdSprite({
             $this: self,
-            $x: -1900,
-            $alias: "bg_Select_Introduce_png"
+            $x: -522,
+            $alias: "bggame_png"
         });
+        //叶子位置
+        this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
+        this.Leaf_spine.x = 2000;
+        this.Leaf_spine.y = 20;
+        this.Leaf_spine.state.setAnimation(0, "animation", true);
+        this.addChild(this.Leaf_spine);
         //返回按钮
-        createdSprite({
+        this.BtnBackNormal = createdSprite({
             $this: self,
             $alias: "BtnBackNormal_png",
             $x: 100,
@@ -65,6 +86,22 @@ export default class EasyGameSelectPages extends PIXI.Container {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            (() => {
+                this.RubbishBoxNameSumArr = null;
+                this.Arrow = null;
+                this.ArrowArr = null;
+                this.BtnBackNormal = null;
+                this.BtnBackClick = null;
+                this.soundBg = null;
+                this.loop = null;
+                this.animateSpineName = null;
+                this.animateSpineArr = null;
+                this.animateSpineMoveNum = null;
+                this.bg = null;
+                this.RubbishBoxSkin = null;
+                this.RubbishBoxAnimateArr = null;
+                console.log("选择页面跳转到首页页面自掉事件...")
+            })();
             SceneManager.run("HomePages")
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
@@ -142,14 +179,10 @@ export default class EasyGameSelectPages extends PIXI.Container {
                         break;
                     case 3:
                         this.animateSpineArr[i].state.setAnimation(0, "walking1", true); //改变动物摇手的状态
-                        // this.animateSpineArr[i].state.tracks[0].listener = { //动作摇手
-                        //     complete: () => {
-                        //         this.animateSpineArr[i].state.setAnimation(1, "walking2", true)
-                        //     }
-                        // };
                         break;
                 }
                 this.loop.start(); //开启循环函数
+                this.Arrow.interactive = false //添加了这句话
             })
             this.ArrowArr.push(this.Arrow);
             this.addChild(this.Arrow);
@@ -177,12 +210,29 @@ export default class EasyGameSelectPages extends PIXI.Container {
     gameloop() {
         this.animateSpineArr[this.animateSpineMoveNum].x -= 15 + 2.5 * this.animateSpineMoveNum;
         if (this.animateSpineArr[this.animateSpineMoveNum].x <= -100) {
+            //if(this.bg.x <=300)
             this.loop.stop();
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             Garbage.clearGarBage("position");
             Garbage.setGarBage('position', this.animateSpineMoveNum);
+            (() => {
+                this.RubbishBoxNameSumArr = null;
+                this.Arrow = null;
+                this.ArrowArr = null;
+                this.BtnBackNormal = null;
+                this.BtnBackClick = null;
+                this.soundBg = null;
+                this.loop = null;
+                this.animateSpineName = null;
+                this.animateSpineArr = null;
+                this.animateSpineMoveNum = null;
+                this.bg = null;
+                this.RubbishBoxSkin = null;
+                this.RubbishBoxAnimateArr = null;
+                console.log("选择页面跳转到介绍页面自掉事件...")
+            })()
             SceneManager.run("EasyGameIntroPages");
         }
 

@@ -2,19 +2,22 @@
     <div class="bigbox">
         <div class="swiper-container" ref="carousel">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="(item,index) in slide" :key="index">
+                <div class="swiper-slide" v-for="(item,index) in slide" :key="index" :class="{active:index == slide.length-1}">
                     <div class="slide" >
                         <div class="swiper-title" >
                             <div class="title">{{item.title}}</div>
                         </div>
                         <pre>
-                        <div class="swiper-content">{{item.content}}</div>
-                        <div class="swiper-classfiy"><span v-for="(items,index) in item.classfiy" class="text" :key=index>{{items}}</span></div>
-                        <div class="swiper-classfiy_yw"><span v-for="(items,index) in item.classfiy_yw" class="text" :key=index>{{items}}</span></div>
-                        <div class="skipAtt" @click="skip()"> 点击事件</div>
+                            <div class="swiper-contentE">{{item.contentE}}</div>
+                            <div class="swiper-contentC">{{item.contentC}}</div>
+                            <div class="swiper-fiyimg" ><img v-for="(items) in item.fiyimg" v-bind:src="items.url" width="100%" height="auto"></div>
+                            <div class="swiper-classfiy"><div v-for="(items,index) in item.classfiy" :key=index class="text" > {{items}} </div></div>
+                            <div class="skipAtt" v-if ="slide.length-1 == index"><img  src="../../../public/img/playButton.png" alt="" @click="skip()"></div>
                         </pre>
                     </div>
+
                 </div>
+
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -26,34 +29,99 @@ export default {
   name: "HelloWorld",
   data() {
     return {
+      isShow:false,
       slide: [
         {
           title: "Recyclable Waste",
-          content:
-            "再生利用价值较高，能进入废品回收渠道的垃圾。\n Waste that has high recycling value and can \n enter waste recycling channels.",
-          classfiy: ["纸品", "布料", "玻璃", "塑料", "金属"],
-          classfiy_yw: ["paper", "cloth", "glass", "plastics", "metal"]
+          contentE:"再生利用价值较高，能进入废品回收渠道的垃圾。",
+          contentC:"Waste that has high recycling value and can \n enter waste recycling channels.",
+          fiyimg:[
+                {
+                    url:"./img/litter/toiletPaper.png"
+                },
+                {
+                    url:"./img/litter/cloth.png"
+                },
+                {
+                    url:"./img/litter/glass.png"
+                },
+                {
+                    url:"./img/litter/plastics.png"
+                },
+                {
+                    url:"./img/litter/metal.png"
+                }
+            ],
+          classfiy: ["纸品 \n paper", "布料 \n cloth", "玻璃 \n glass", "塑料 \n plastics", "金属 \n metal"],
         },
         {
           title: "kitchen Waste",
-          content:
-            "厨房产生的食物类垃圾以及果皮。\n  Food waste and fruit peels from \n the kitchen",
-          classfiy: ["果皮", "骨头", "菜叶", "剩饭", "蛋壳"],
-          classfiy_yw: ["paper", "cloth", "glass", "plastics", "metal"]
+          contentE:"厨房产生的食物类垃圾以及果皮。",
+          contentC:"Food waste and fruit peels from the kitchen",
+          fiyimg:[
+              {
+                  url:"./img/litter/fruitPeels.png"
+              },
+              {
+                  url:"./img/litter/bones.png"
+              },
+              {
+                  url:"./img/litter/vegetableLeaves.png"
+              },
+              {
+                  url:"./img/litter/leftovers.png"
+              },
+              {
+                  url:"./img/litter/eggshells.png"
+              }
+            ],
+          classfiy: ["果皮 \n paper", "骨头 \n cloth", "菜叶 \n glass", "剩饭 \n plastics", "蛋壳 \n metal"],
         },
         {
-          title: "Callable Waste",
-          content:
-            "含有有毒有害化学物质的垃圾。\nWaste that contains toxic and harmful \n  chemicals",
-          classfiy: ["纸品", "布料", "玻璃", "塑料", "金属"],
-          classfiy_yw: ["paper", "cloth", "glass", "plastics", "metal"]
+          title: "Hazardous Waste",
+          contentE:"含有有毒有害化学物质的垃圾。",
+          contentC:" Waste that contains toxic and harmful like \n chemicals,",
+          fiyimg:[
+              {
+                  url:"./img/litter/medicines.png"
+              },
+              {
+                  url:"./img/litter/batteries.png"
+              },
+              {
+                  url:"./img/litter/thermometers.png"
+              },
+              {
+                  url:"./img/litter/lightBulbs.png"
+              },
+              {
+                  url:"./img/litter/oilPaints.png"
+              }
+            ],
+          classfiy: ["药品 \n medicines", "电池 \n batteries", "温度计 \n thermometers", "灯泡 \n light bulbs", "油漆 \n oil paints"],
         },
         {
-          title: "Harmful Waste",
-          content:
-            "除上述几类垃圾之外的砖瓦陶瓷、 渣土、 卫生纸等等。\nIn addition to the above types of waste, waste \nlike bricks, ceramics, muck, toilet paper, etc.",
-          classfiy: ["纸品", "布料", "玻璃", "塑料", "金属"],
-          classfiy_yw: ["paper", "cloth", "glass", "plastics", "metal"]
+          title: "Other Waste",
+          contentE: "除上述几类垃圾之外的砖瓦陶瓷、 渣土、 卫生纸 \n 等等。",
+          contentC:"In addition to the above types of waste, waste \n like bricks, ceramics, muck, toilet paper, etc.",
+          fiyimg:[
+              {
+                  url:"./img/litter/toiletPaper.png"
+              },
+              {
+                  url:"./img/litter/sands.png"
+              },
+              {
+                  url:"./img/litter/ceramics.png"
+              },
+              {
+                  url:"./img/litter/bricks.png"
+              },
+              {
+                  url:"./img/litter/crocks.png"
+              }
+            ],
+          classfiy: ["卫生纸 \n toilet paper", "沙土 \n sands soil", "陶瓷碗 \n ceramics", "砖块 \n bricks", "瓦罐 \n crocks"],
         }
       ]
     };
@@ -79,10 +147,10 @@ export default {
 </script>
 
 <style>
-html,
-body {
+html,body{
   position: relative;
 }
+
 body {
   background: #eee;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -91,63 +159,117 @@ body {
   margin: 0;
   padding: 0;
 }
-.skipAtt {
-  width: 1rem;
-  height: 1rem;
-  border: 1px solid blue;
-  text-align: center;
-}
+
 .bigbox {
   width: 100%;
   height: 10.8rem;
   background-color: rgba(0, 0, 0, 0.6);
   margin: 0 auto;
 }
+
 .swiper-container {
-  width: 12.44rem;
+  width:12.44rem;
   height: auto;
 }
+
 .swiper-title {
   width: 5.25rem;
   height: 1.52rem;
-  margin-left: 3.46rem;
-  margin-right: 3.73rem;
+  position: absolute;
+  top:-.8rem;
+  left:3.5rem;
   background: url("../../../public/img/Swiper/TitleBG.png") no-repeat center;
   background-size: contain;
 }
 
 .title {
-  font-size: 0.45rem;
-  padding-top: 0.45rem;
-  color: #fff;
-}
-
-.text {
-  margin-right: 0.1rem;
+  font-size: 0.63rem;
+  padding-top: 0.35rem;
   text-align: center;
+  color: #FFECCE;
 }
 
 .slide {
   font-size: 0.18rem;
   width: 12.44rem;
-  height: auto;
-  background: url("../../../public/img/Swiper/IntroBoard.png") no-repeat;
+  height: 9.9rem;
+  background: url("../../../public/img/dialog/pop.png") no-repeat;
   background-size: contain;
-  margin-top: 1rem;
+  position: relative;
+  top: 1.8rem;
 }
-.swiper-content {
-  font-size: 0.48rem;
-  color: #766c3d;
-  padding: 0.5rem;
+.swiper-contentE {
+    width:10.55rem;
+    height: 1.06rem;
+    position: absolute;
+    top: 1.2rem;
+    left: 1rem;
+    font-family: Yuanti SC;
+    font-size: 0.48rem;
+    color: #766C3D;
 }
+
+.swiper-contentC{
+    width:10.55rem;
+    height: 1.06rem;
+    font-size: 0.48rem;
+    color: #766C3D;
+    position: absolute;
+    top: 2.5rem;
+    left: 1rem;
+    font-family: Yuanti SC;
+}
+
+.swiper-fiyimg{
+    width: 10rem;
+    height: 1.7rem;
+    position: absolute;
+    top: 4.6rem;
+    left: 1.5rem;
+}
+
+.swiper-fiyimg img{
+    width: 1rem;
+    height: 1rem;
+    margin-left: .4rem;
+    margin-right: .6rem;
+}
+
+.swiper-classfiy{
+    width:10rem;
+    position: absolute;
+    top: 5.9rem;
+    left: 1.6rem;
+    font-family: STYuanti-SC-Regular;
+    font-size: .29rem;
+    color: #766C3D;
+}
+
+.text {
+    width:2rem;
+    float: left;
+    text-align: center;
+}
+
+.skipAtt img{
+    width: 2rem;
+    height: 2rem;
+    cursor:pointer;
+    position: absolute;
+    bottom: 2rem;
+    right: -0.5rem;
+    z-index: 999999;
+}
+
 .swiper-pagination-bullet {
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 50%;
-  margin-right: 0.1rem;
-  background-color: red;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    margin-right: 0.1rem;
+    background-color: red;
 }
+
 .swiper-pagination-bullet-active {
-  background-color: pink;
+    background-color: pink;
 }
 </style>
