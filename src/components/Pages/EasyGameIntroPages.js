@@ -8,6 +8,8 @@ import {
     createdText,
     createdStyle,
 } from "./Common.js"
+import EasyGameSelectPages from './EasyGameSelectPages.js';
+import EasyGamePlayingPages from './EasyGamePlayingPages.js';
 export default class EasyGameIntroPages extends PIXI.Container {
     constructor() {
         super();
@@ -25,9 +27,9 @@ export default class EasyGameIntroPages extends PIXI.Container {
         this.animateSpineNum = null;
         this.animateSpineNumName = "RecyceleAnimate_spine";
         this.loop = null;
-        console.log("介绍页面类数据...")
     }
     addStage() {
+        let self = this;
         (() => {
             this.ChineseText = null;
             this.contentText = null;
@@ -42,9 +44,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             this.animateSpineNum = null;
             this.animateSpineNumName = "RecyceleAnimate_spine";
             this.loop = null;
-            console.log("介绍页面进入自掉事件...")
         })();
-        let self = this;
         (() => {
             //console.log("跳转页面......")
             //测试使用
@@ -98,7 +98,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         //背景图
         createdSprite({
             $this: self,
-            $x: -522,
+            $scale: 2,
             $alias: "bggame_png"
         });
         //叶子位置
@@ -151,9 +151,8 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 this.animateSpineNum = null;
                 this.animateSpineNumName = null;
                 this.loop = null;
-                console.log("介绍页面进入选择页面自掉事件......")
             })();
-            SceneManager.run("EasyGameSelectPages")
+            SceneManager.run(new EasyGameSelectPages())
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
         });
@@ -195,9 +194,9 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 this.animateSpineNum = null;
                 this.animateSpineNumName = null;
                 this.loop = null;
-                console.log("介绍页面进入开始页面自掉事件......")
+
             })();
-            SceneManager.run("EasyGamePlayingPages");
+            SceneManager.run(new EasyGamePlayingPages());
         }).on("pointerout", () => {
             this.playButtonClick.visible = false;
         });

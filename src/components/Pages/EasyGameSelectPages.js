@@ -6,6 +6,8 @@ import {
 import {
     createdSprite,
 } from "./Common.js"
+import HomePages from './HomePages.js';
+import EasyGameIntroPages from './EasyGameIntroPages.js';
 export default class EasyGameSelectPages extends PIXI.Container {
     constructor() {
         super();
@@ -23,11 +25,9 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.bg = null;
         this.RubbishBoxSkin = ["blue", "green", "red", "orange"];
         this.RubbishBoxAnimateArr = [];
-        console.log("选择页面类事件...")
     }
     addedStage() {
         let self = this;
-        console.log("选择页面......");
         (() => {
             this.RubbishBoxNameSumArr = ["RecyclableSelect_png", "KitchenSelect_png", "HarmfulSelect_png", "OtherSelect_png"]
             this.Arrow = null;
@@ -43,8 +43,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             this.bg = null;
             this.RubbishBoxSkin = ["blue", "green", "red", "orange"];
             this.RubbishBoxAnimateArr = [];
-            console.log("选择页面进入自掉事件......")
-        })();
+        })()
         this.soundBg = PIXI.sound.play("RubbishSecletHome", {
             start: Garbage.getGarBage("SoundProgress"),
             loop: true,
@@ -52,7 +51,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
         //背景图
         this.bg = createdSprite({
             $this: self,
-            $x: -522,
+            $scale: 2,
             $alias: "bggame_png"
         });
         //叶子位置
@@ -86,30 +85,13 @@ export default class EasyGameSelectPages extends PIXI.Container {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
-            (() => {
-                this.RubbishBoxNameSumArr = null;
-                this.Arrow = null;
-                this.ArrowArr = null;
-                this.BtnBackNormal = null;
-                this.BtnBackClick = null;
-                this.soundBg = null;
-                this.loop = null;
-                this.animateSpineName = null;
-                this.animateSpineArr = null;
-                this.animateSpineMoveNum = null;
-                this.bg = null;
-                this.RubbishBoxSkin = null;
-                this.RubbishBoxAnimateArr = null;
-                console.log("选择页面跳转到首页页面自掉事件...")
-            })();
-            SceneManager.run("HomePages")
+            SceneManager.run(new HomePages())
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
         });
         //垃圾箱动画Box_spine
         this.RubbishBoxSkin.forEach((item, index) => {
             this.RubbishBoxSpriteItem = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
-            //console.log(this.RubbishBoxSpriteItem);
             this.RubbishBoxSpriteItem.state.setAnimation(0, "box1_normal", true); //设置状态
             this.RubbishBoxSpriteItem.skeleton.setSkinByName(item); //给动画添加衣服
             this.RubbishBoxSpriteItem.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
@@ -217,23 +199,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             Garbage.clearGarBage("position");
             Garbage.setGarBage('position', this.animateSpineMoveNum);
-            (() => {
-                this.RubbishBoxNameSumArr = null;
-                this.Arrow = null;
-                this.ArrowArr = null;
-                this.BtnBackNormal = null;
-                this.BtnBackClick = null;
-                this.soundBg = null;
-                this.loop = null;
-                this.animateSpineName = null;
-                this.animateSpineArr = null;
-                this.animateSpineMoveNum = null;
-                this.bg = null;
-                this.RubbishBoxSkin = null;
-                this.RubbishBoxAnimateArr = null;
-                console.log("选择页面跳转到介绍页面自掉事件...")
-            })()
-            SceneManager.run("EasyGameIntroPages");
+            SceneManager.run(new EasyGameIntroPages());
         }
 
     }

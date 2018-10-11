@@ -250,4 +250,7 @@
 }, {
     "name": "Alarm_mp3",
     "url": "./sound/bg/Alarm.mp3"
+}, {
+    "name": "HomeBg_png",
+    "url": "./img/HomeBg.png"
 }]

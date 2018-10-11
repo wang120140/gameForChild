@@ -14,10 +14,11 @@ import {
     createdStyle,
     PlayGameBasePage,
 } from "./Common.js";
+import HomePages from './HomePages.js';
 export default class HardGamePlayingPages extends PIXI.Container {
     constructor() {
         super();
-        console.log("困难页面类数据...")
+
         this.track = [];
         this.wheelSprite = [];
         this.BtnBackNormal;
@@ -319,7 +320,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.Dialog.yesBtn.on('pointertap', () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
-            SceneManager.run("HomePages");
+            SceneManager.run(new HomePages());
         });
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
 
@@ -340,14 +341,15 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.Dialog.yesBtn.on('pointertap', () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
-            SceneManager.run("HomePages");
+
+            SceneManager.run(new HomePages());
         });
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
         this.Dialog.fhBtn.on('pointertap', () => { //返回事件
             PIXI.sound.pause("RubbishSuccess");
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.fhBtn, this.Dialog.againBtn)
-            SceneManager.run("HomePages");
+            SceneManager.run(new HomePages());
         });
         this.Dialog.againBtn.on("pointertap", () => { //再来一次事件
                 PIXI.sound.pause("RubbishSuccess")
@@ -357,7 +359,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 this.DialogSummarySpriteArr.forEach((item) => {
                     this.removeChild(item)
                 })
-                SceneManager.run("HardGamePlayingPages")
+                SceneManager.run(new HardGamePlayingPages());
             })
             ///////////////////弹窗结束/////////////////////////////
     }
@@ -492,9 +494,11 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 }
                 this.ScoreMessage.text = this.ScoreNum; //成绩多少
                 this.removeChild(item); //先移除原有的精灵
-                let RandomIndex;
+                //item.destroy();
+                // item = null;
+                let RandomIndex, newItem;
                 RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
-                item = createdSprite({
+                newItem = createdSprite({
                     $this: self,
                     $alias: self.Waster[RandomIndex],
                     $x: arr[arr.length - 1].x + 387,
@@ -503,20 +507,20 @@ export default class HardGamePlayingPages extends PIXI.Container {
                     $interactive: true,
                     $buttonMode: true
                 })
-                item.Class = this.WasterClass[Math.floor(RandomIndex / 5)]; //定义属性
-                item.CheckClass = null; //定义检查属性
-                item.ButtonClick = false; //是否点击了事件发生
-                item.StartPostion = null; //开始位置 
-                item.EndPostion = null; //结束位置
-                item.on("pointerdown", () => { //定义精灵事件
+                newItem.Class = this.WasterClass[Math.floor(RandomIndex / 5)]; //定义属性
+                newItem.CheckClass = null; //定义检查属性
+                newItem.ButtonClick = false; //是否点击了事件发生
+                newItem.StartPostion = null; //开始位置
+                newItem.EndPostion = null; //结束位置
+                newItem.on("pointerdown", () => { //定义精灵事件
                     PIXI.sound.play(self.Waster[RandomIndex] + "_mp3"); //播放单词音频
-                    this.WasterGather.forEach((item) => {
-                        (item.y == 870) && (item.ButtonClick = false);
+                    this.WasterGather.forEach((newItem) => {
+                        (newItem.y == 870) && (newItem.ButtonClick = false);
                     })
-                    item.ButtonClick = true;
+                    newItem.ButtonClick = true;
                 })
                 arr.splice(index, 1);
-                arr.push(item)
+                arr.push(newItem)
             }
         })
     }

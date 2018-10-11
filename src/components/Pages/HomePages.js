@@ -7,6 +7,8 @@ import {
     createdSprite,
 } from "./Common.js";
 import 'pixi-spine';
+import EasyGameSelectPages from './EasyGameSelectPages.js';
+import HardGamePlayingPages from './HardGamePlayingPages.js';
 export default class HomePages extends PIXI.Container {
     constructor() {
         super();
@@ -17,20 +19,28 @@ export default class HomePages extends PIXI.Container {
         this.soundBg = null;
         this.closeButtonClick = null;
         this.Leaf_spine = null;
-        console.log("首页类数据")
+        //this.mainContainer = null;
+    }
+
+    destroy() {
+        if (this.mainContainer) {
+            this.mainContainer.destroy();
+            this.mainContainer = null;
+        }
     }
     addedHomePageStage() {
         (() => {
+            this.vueInstance = null;
             this.btnEasyClick = null;
             this.BtnHardClick = null;
             this.soundBg = null;
             this.closeButtonClick = null;
             this.Leaf_spine = null;
-            console.log("home页面进入事件...")
         })();
-        console.log("首页页面......")
         let self = this;
-        //消除背景音乐
+        this.mainContainer = new PIXI.Container();
+        this.addChild(this.mainContainer)
+            //消除背景音乐
         this.soundBg = PIXI.sound.play("RubbishSecletHome", {
             start: Garbage.getGarBage("SoundProgress"),
             loop: true,
@@ -39,8 +49,8 @@ export default class HomePages extends PIXI.Container {
         //背景图
         createdSprite({
             $this: self,
-            $x: -522,
-            $alias: 'bggame_png'
+            $alias: "HomeBg_png",
+            $scale: 2,
         });
         //风车动画
         this.windmill_spine = new PIXI.spine.Spine(PIXI.loader.resources['windmill_spine'].spineData);
@@ -107,15 +117,14 @@ export default class HomePages extends PIXI.Container {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
-            (() => { //清除变量...
-                this.btnEasyClick = null;
-                this.BtnHardClick = null;
-                this.soundBg = null;
-                this.closeButtonClick = null;
-                this.Leaf_spine = null;
-                console.log("home发生页面跳转到简单事件.....")
-            })();
-            SceneManager.run("EasyGameSelectPages");
+            // (() => { //清除变量...
+            //this.btnEasyClick = null;
+            this.BtnHardClick = null;
+            this.soundBg = null;
+            this.closeButtonClick = null;
+            this.Leaf_spine = null;
+            // })();
+            SceneManager.run(new EasyGameSelectPages());
             //跳转选择页面
         }).on("pointerout", () => {
             this.btnEasyClick.visible = false;
@@ -149,13 +158,12 @@ export default class HomePages extends PIXI.Container {
             Garbage.setGarBage("startPlayHardGame", false);
             (() => { //清除变量...
                 this.btnEasyClick = null;
-                this.BtnHardClick = null;
+                //this.BtnHardClick = null;
                 this.soundBg = null;
                 this.closeButtonClick = null;
                 this.Leaf_spine = null;
-                console.log("home发生页面跳转到困难事件.....")
             })();
-            SceneManager.run("HardGamePlayingPages");
+            SceneManager.run(new HardGamePlayingPages());
         }).on("pointerout", () => {
             this.BtnHardClick.visible = false;
         })

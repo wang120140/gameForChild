@@ -23,9 +23,10 @@ export default {
   data() {
     return {
       baseUrl: process.env.BASE_URL,
-      Waster: [],
+      Waster: null,
       HardObject: {},
-      ControlHardDialog: false
+      ControlHardDialog: false,
+      LoadingAgain: true
     };
   },
   beforeCreate() {
@@ -34,7 +35,6 @@ export default {
   },
   mounted() {
     this.createCanvasApp();
-    console.log("url>>>", this.baseUrl);
   },
   methods: {
     ControlHardGarm() {
@@ -54,23 +54,13 @@ export default {
       this.$refs.gameMain.appendChild(CanvasApp.view);
 
       Garbage.setGarBage("vueInstance", self);
-
+      console.log(Garbage);
+      console.log("这个文件...");
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
-      SceneManager.pushScene("HomePages", new HomePages());
-      SceneManager.pushScene("EasyGameSelectPages", new EasyGameSelectPages());
-      SceneManager.pushScene("EasyGameIntroPages", new EasyGameIntroPages());
-      SceneManager.pushScene(
-        "EasyGamePlayingPages",
-        new EasyGamePlayingPages()
-      );
-      SceneManager.pushScene(
-        "HardGamePlayingPages",
-        new HardGamePlayingPages()
-      ); //这句话有疑问......
       this.gameStart().then(() => {
         //单个页面测试
-        SceneManager.run("HomePages");
+        SceneManager.run(new HomePages());
         //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run("EasyGameIntroPages");
         //SceneManager.run("EasyGamePlayingPages");
@@ -96,7 +86,13 @@ export default {
     //这是网络缓慢时弹窗事件结束
     getPromise_resource() {
       var self = this;
+
+      // if (Garbage.getGarBage("LoadingAgain")) {
+      //   this.LoadingAgain = false;
+      // }
       return new Promise(resolve => {
+        //if (this.LoadingAgain) {
+        Garbage.setGarBage("LoadingAgain", true);
         self.axios.get("./gameresource.json").then(response => {
           this.Waster = response.data;
           PIXI.loader
@@ -113,6 +109,9 @@ export default {
               resolve();
             });
         });
+        // } else {
+        //   console.log("已经加载了...");
+        // }
       });
     }
   }

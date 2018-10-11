@@ -23,7 +23,7 @@ function createdSprite({
     $name.scale.set($scale);
     $name.anchor.set($anchor);
     $pivotY && ($name.pivot.y = $name.height);
-    $addChild && $this.addChild($name)
+    $addChild && $this.addChild($name);
     return $name;
 }
 
@@ -125,7 +125,7 @@ class PlayGameBasePage {
     }) {
         this.bg = createdSprite({
             $this: _this,
-            $x: -522,
+            $scale: 2,
             $alias: 'bggame_png'
         })
         this.score = createdSprite({

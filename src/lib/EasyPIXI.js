@@ -48,75 +48,93 @@ class PIXIEffect {
 
 
 }
+// class SceneManager {
+//     static stage = null;
+//     static scenes = [];
+//     static currentScene = null;
+//     static pushScene($name, $scene) {
+//         for (let i = 0; i < SceneManager.scenes.length; i++) {
+//             if (SceneManager.scenes[i].name === $name) {
+//                 SceneManager.scenes.splice(i, 1);
+//             }
+//         }
+
+//         SceneManager.scenes.push({
+//             name: $name,
+//             scene: $scene
+//         })
+//     }
+//     static run($name) {
+//         if (SceneManager.currentScene && SceneManager.currentScene.parent) {
+
+//             SceneManager.currentScene.parent.removeChild(SceneManager.currentScene);
+
+//             SceneManager.currentScene = null;
+//         }
+
+//         let myscene = null;
+
+//         for (let i = 0; i < SceneManager.scenes.length; i++) {
+//             if (SceneManager.scenes[i].name == $name) {
+//                 myscene = SceneManager.scenes[i].scene;
+//                 myscene["sceneName"] = $name;
+//                 break;
+//             }
+//         }
+//         if (SceneManager.stage && myscene) {
+//             SceneManager.stage.removeChildren();
+
+//             SceneManager.stage.addChild(myscene);
+
+//         }
+//         SceneManager.currentScene = myscene;
+
+
+//     }
+//     static hasScene($sceneName) {
+//         var unique = SceneManager.scenes.some((item) => {
+//             return item.name === $sceneName;
+//         });
+//         return unique;
+
+//     }
+//     static getCurrentScene() {
+//         if (SceneManager.currentScene) {
+//             return SceneManager.currentScene;
+//         }
+
+//     }
+//     static destroyScene($name) {
+//         for (let i = 0; i < SceneManager.scenes.length; i++) {
+//             if (SceneManager.scenes[i].name == $name) {
+//                 //SceneManager.scenes[i].scene.destroyed();
+//                 SceneManager.scenes[i].scene.destroy();
+//                 SceneManager.scenes[i].scene = null;
+//                 SceneManager.scenes.splice(i, 1);
+//             }
+//         };
+//     }
+
+// }
 class SceneManager {
-    static stage = null;
-    static scenes = [];
     static currentScene = null;
-    static pushScene($name, $scene) {
-        for (let i = 0; i < SceneManager.scenes.length; i++) {
-            if (SceneManager.scenes[i].name === $name) {
-                SceneManager.scenes.splice(i, 1);
+    static stage = null;
+    static stageArr = [];
+    static run(sceneObj) {
+        SceneManager.currentScene = sceneObj;
+        SceneManager.stageArr.push(sceneObj);
+        if (SceneManager.stageArr.length >= 2) {
+            if (SceneManager.stageArr[0].removedFromStage) {
+                SceneManager.stageArr[0].removedFromStage();
             }
+            SceneManager.stageArr[0].destroy();
+            SceneManager.stageArr[0] = null;
+            SceneManager.stageArr.shift();
+            //这句话
         }
-
-        SceneManager.scenes.push({
-            name: $name,
-            scene: $scene
-        })
+        SceneManager.stage.addChild(sceneObj);
     }
-    static run($name) {
-        if (SceneManager.currentScene && SceneManager.currentScene.parent) {
-
-            SceneManager.currentScene.parent.removeChild(SceneManager.currentScene);
-
-            SceneManager.currentScene = null;
-        }
-
-        let myscene = null;
-
-        for (let i = 0; i < SceneManager.scenes.length; i++) {
-            if (SceneManager.scenes[i].name == $name) {
-                myscene = SceneManager.scenes[i].scene;
-                myscene["sceneName"] = $name;
-                break;
-            }
-        }
-        if (SceneManager.stage && myscene) {
-            SceneManager.stage.removeChildren();
-
-            SceneManager.stage.addChild(myscene);
-
-        }
-        SceneManager.currentScene = myscene;
-
-
-    }
-    static hasScene($sceneName) {
-        var unique = SceneManager.scenes.some((item) => {
-            return item.name === $sceneName;
-        });
-        return unique;
-
-    }
-    static getCurrentScene() {
-        if (SceneManager.currentScene) {
-            return SceneManager.currentScene;
-        }
-
-    }
-    static destroyScene($name) {
-        for (let i = 0; i < SceneManager.scenes.length; i++) {
-            if (SceneManager.scenes[i].name == $name) {
-                //SceneManager.scenes[i].scene.destroyed();
-                SceneManager.scenes[i].scene.destroy();
-                SceneManager.scenes[i].scene = null;
-                SceneManager.scenes.splice(i, 1);
-            }
-        };
-    }
-
 }
-
 /**
  * 全局的存储器，Garbage
  */
