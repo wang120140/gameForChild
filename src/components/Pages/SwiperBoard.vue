@@ -1,4 +1,5 @@
 ﻿<template>
+    <keep-alive>
     <div class="bigbox">
         <div class="swiper-container" ref="carousel">
             <div class="swiper-wrapper">
@@ -17,28 +18,26 @@
                         <!--分类图片-->
                         <div class="swiper-fiyimg">
                             <div class="figimg">
-                                <img v-for="(items) in item.fiyimg" v-bind:src="items.url"   width="100%" height="auto">
+                                <img v-for="(items,key,index) in item.fiyimg" :key="index" v-bind:src="items.url"   width="100%" height="auto">
                             </div>
                             <!--分类中文和英文-->
                             <div class="swiper-classfiy">
-                                <div v-for="(items) in item.classfiy"   class="text" > {{items.split("\n")[0]}} </div>
-                                <div v-for="(items) in item.classfiy"   class="text" > {{items.split("\n")[1]}} </div>
+                                <div v-for="(items,key,index) in item.classfiy"  :key="index" class="text" > {{items.split("\n")[0]}} </div>
+                                <div v-for="(items,key,index) in item.classfiy"  :key="index" class="text" > {{items.split("\n")[1]}} </div>
                             </div>
                             <!--在最后一页中显示开始按钮-->
                             <div class="skipAtt" v-if ="slide.length-1 == index">
                                 <img  src="../../../public/img/playButton.png" alt="" @click="skip()">
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
 
             </div>
             <div class="swiper-pagination"></div>
         </div>
     </div>
+    </keep-alive>
 </template>
 <script>
 import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";

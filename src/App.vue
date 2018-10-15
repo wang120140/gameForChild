@@ -1,9 +1,11 @@
 <template>
+<keep-alive>
     <div id="app">
         <div ref="gameMain">
         </div>
         <SwiperBoard class="SwiperDialog"  @StartHardGarm="ControlHardGarm" v-if="ControlHardDialog"></SwiperBoard>
     </div>
+    </keep-alive>
 </template>
 <script>
 // import { createdSprite } from "../src/components/Pages/Common.js";
