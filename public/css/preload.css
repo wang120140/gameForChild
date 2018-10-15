@@ -82,7 +82,7 @@
 #loadingPosition .ProBorde {
     position: absolute;
     left: 15%;
-    top: 35%;
+    top: 34.5%;
     width: 6rem;
     height: 0.5rem;
 }
@@ -90,25 +90,25 @@
 #loadingPosition .ProRig {
     position: absolute;
     left: 20%;
-    top: 37%;
+    top: 37.8%;
     width: 0.25rem;
-    height: 0.4rem;
+    height: 0.36rem;
 }
 
 #ProMid {
     position: absolute;
     left: 32%;
-    top: 37%;
+    top: 37.8%;
     width: 0.25rem;
-    height: 0.4rem;
+    height: 0.36rem;
 }
 
 #ProLef {
     position: absolute;
-    left: 44%;
-    top: 37%;
+    left: 44.5%;
+    top: 37.8%;
     width: 0.25rem;
-    height: 0.4rem;
+    height: 0.36rem;
 }
 
 #netbadpopupband #gobackbutton {

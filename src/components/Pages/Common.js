@@ -71,8 +71,8 @@ class BackDialog {
         this.yesBtn = createdSprite({
             $this: _this,
             $alias: 'yesBtn_0_png',
-            $x: 600,
-            $y: 700,
+            $x: 650,
+            $y: 600,
             $interactive: true,
             $buttonMode: true,
             $addChild: false,
@@ -80,8 +80,8 @@ class BackDialog {
         this.noBtn = createdSprite({
             $this: _this,
             $alias: 'noBtn_0_png',
-            $x: 1200,
-            $y: 700,
+            $x: 1150,
+            $y: 600,
             $interactive: true,
             $buttonMode: true,
             $addChild: false
@@ -132,7 +132,7 @@ class PlayGameBasePage {
             $this: _this,
             $alias: 'score_png',
             $x: 1000,
-            $y: 40,
+            $y: 0,
         })
         this.flower = createdSprite({
             $this: _this,
@@ -150,7 +150,7 @@ class PlayGameBasePage {
             $this: _this,
             $alias: "BtnBackNormal_png",
             $x: 100,
-            $y: 70,
+            $y: 30,
             $interactive: true,
             $buttonMode: true
         })
@@ -158,7 +158,7 @@ class PlayGameBasePage {
             $this: _this,
             $alias: "BtnBackClick_png",
             $x: 100,
-            $y: 70,
+            $y: 30,
             $visible: false,
             $interactive: true,
             $buttonMode: true

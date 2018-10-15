@@ -15,9 +15,12 @@ export default class EasyGameIntroPages extends PIXI.Container {
         super();
         this.on("added", this.addStage, this)
         this.ChineseText = null;
+        this.EnglishText = null;
         this.contentText = null;
         this.title = null;
         this.RecyclableWaste = null;
+        this.RecyclableWasteX = null;
+        this.RecyclableWasteTextX = null;
         this.BtnBackClick = null;
         this.playButtonClick = null;
         this.soundBg = null;
@@ -32,9 +35,12 @@ export default class EasyGameIntroPages extends PIXI.Container {
         let self = this;
         (() => {
             this.ChineseText = null;
+            this.EnglishText = null;
             this.contentText = null;
             this.title = null;
             this.RecyclableWaste = null;
+            this.RecyclableWasteX = null;
+            this.RecyclableWasteTextX = null;
             this.BtnBackClick = null;
             this.playButtonClick = null;
             this.soundBg = null;
@@ -42,6 +48,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
             this.animateSpineArr = [];
             this.animateSpine = null;
             this.animateSpineNum = null;
+            this.titleX = null;
             this.animateSpineNumName = "RecyceleAnimate_spine";
             this.loop = null;
         })();
@@ -53,12 +60,15 @@ export default class EasyGameIntroPages extends PIXI.Container {
             //switch (a) {
             switch (Garbage.getGarBage("position")) {
                 case 0:
-
                     this.animateSpineNumName = this.animateSpineName[0]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Recyclable Waste"
-                    this.ChineseText = ["纸品\npaper", "布料\ncloth", "玻璃\nglass", "塑料\nplastics", "金属\nmetal"];
+                    this.titleX = 500;
+                    //this.ChineseText = ["纸品\npaper", "布料\ncloth", "玻璃\nglass", "塑料\nplastics", "金属\nmetal"];
+                    this.ChineseText = ["纸品", "布料", "玻璃", "塑料", "金属"];
                     this.RecyclableWaste = ['paper', 'cloth', 'glass', 'plastics', 'metal'];
+                    this.RecyclableWasteX = [300, 300, 270, 330, 290];
+                    this.RecyclableWasteTextX = [320, 320, 320, 300, 300];
                     this.contentText = "再生利用价值较高，能进入废品回收渠\n道的垃圾。\nWaste that has high recycling value and can \n enter waste recycling channels"
                     break;
                 case 1:
@@ -66,17 +76,24 @@ export default class EasyGameIntroPages extends PIXI.Container {
                     this.animateSpineNumName = this.animateSpineName[1]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Kitchen Waste"
-                    this.ChineseText = ["果皮\nfruit peels", "骨头\nbones", "菜叶\nvegetale leaves", "剩饭\nleftovers", "蛋壳\neggshells"]
+                    this.titleX = 550;
+                    //this.ChineseText = ["果皮\nfruit peels", "骨头\nbones", "菜叶\nvegetale leaves", "剩饭\nleftovers", "蛋壳\neggshells"];
+                    this.ChineseText = ["果皮", "骨头", "菜叶", "剩饭", "蛋壳"];
                     this.RecyclableWaste = ['fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells'];
+                    this.RecyclableWasteX = [300, 300, 300, 300, 300]
+                    this.RecyclableWasteTextX = [290, 310, 250, 300, 290];
                     this.contentText = "厨房产生的食物类垃圾以及果皮。\nFood waste and fruit peels from the kitchen"
                     break;
                 case 2:
-
                     this.animateSpineNumName = this.animateSpineName[2]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Hazardous Waste"
-                    this.ChineseText = ["药品\nmedicines", "电池\nbatteries", "温度计\nthermometers", "灯泡\nlight bulbs", "油漆\noil paints"];
+                    this.titleX = 500;
+                    //this.ChineseText = ["药品\nmedicines", "电池\nbatteries", "温度计\nthermometers", "灯泡\nlight bulbs", "油漆\noil paints"];
+                    this.ChineseText = ["药品", "电池", "温度计", "灯泡", "油漆"];
                     this.RecyclableWaste = ['medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints'];
+                    this.RecyclableWasteX = [300, 300, 320, 300, 300];
+                    this.RecyclableWasteTextX = [290, 300, 275, 290, 295];
                     this.contentText = "含有有毒有害化学物质的垃圾。\nWaste that contains toxic and harmful \nchemicals"
                     break;
                 case 3:
@@ -84,8 +101,12 @@ export default class EasyGameIntroPages extends PIXI.Container {
                     this.animateSpineNumName = this.animateSpineName[3]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Other Waste"
-                    this.ChineseText = ["卫生纸\ntoilet paper", "沙土\nsands and soil", "陶瓷碗\nceramics", "砖块\nbricks", "瓦罐\ncrocks"];
+                    this.titleX = 570;
+                    //this.ChineseText = ["卫生纸\ntoilet paper", "沙土\nsands and soil", "陶瓷碗\nceramics", "砖块\nbricks", "瓦罐\ncrocks"];
+                    this.ChineseText = ["卫生纸", "沙土", "陶瓷碗", "砖块", "瓦罐"];
                     this.RecyclableWaste = ["toiletPaper", "sands", "ceramics", "bricks", "crocks"];
+                    this.RecyclableWasteX = [290, 260, 310, 300, 300];
+                    this.RecyclableWasteTextX = [290, 310, 310, 310, 310];
                     this.contentText = "除上述几类垃圾之外的砖瓦陶瓷、 渣土、 卫生\n纸等等。\nIn addition to the above types of waste, waste \nlike bricks, ceramics, muck, toilet paper, etc."
                     break;
             }
@@ -101,12 +122,6 @@ export default class EasyGameIntroPages extends PIXI.Container {
             $scale: 2,
             $alias: "bggame_png"
         });
-        //叶子位置
-        this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
-        this.Leaf_spine.x = 2000;
-        this.Leaf_spine.y = 20;
-        this.Leaf_spine.state.setAnimation(0, "animation", true);
-        this.addChild(this.Leaf_spine);
         createdSprite({
             $this: self,
             $alias: "BoardPaint_png",
@@ -117,8 +132,8 @@ export default class EasyGameIntroPages extends PIXI.Container {
         createdSprite({
             $this: self,
             $alias: "BtnBackNormal_png",
-            $x: 0,
-            $y: 70,
+            $x: 65,
+            $y: 50,
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
@@ -128,8 +143,8 @@ export default class EasyGameIntroPages extends PIXI.Container {
         this.BtnBackClick = createdSprite({
             $this: self,
             $alias: "BtnBackClick_png",
-            $x: 0,
-            $y: 70,
+            $x: 65,
+            $y: 50,
             $visible: false,
             $interactive: true,
             $buttonMode: true,
@@ -152,6 +167,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 this.animateSpineNumName = null;
                 this.loop = null;
             })();
+            this.parent.removeChildren();
             SceneManager.run(new EasyGameSelectPages())
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
@@ -196,6 +212,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 this.loop = null;
 
             })();
+            this.parent.removeChildren()
             SceneManager.run(new EasyGamePlayingPages());
         }).on("pointerout", () => {
             this.playButtonClick.visible = false;
@@ -204,22 +221,21 @@ export default class EasyGameIntroPages extends PIXI.Container {
         createdText({
             $this: self,
             $text: self.title,
-            $x: 500,
-            $y: 100,
+            $x: self.titleX + 40,
+            $y: 108,
             $style: createdStyle({
                 $fontSize: 60,
                 $fill: "#FFECCA",
             })
         });
+
         //内容字体
         createdText({
             $this: self,
             $text: self.contentText,
-            $x: 300,
-            $y: 300,
-            $style: createdStyle({
-
-            })
+            $x: 340,
+            $y: 308,
+            $style: createdStyle({})
         });
         //垃圾物品
         this.RecyclableWaste.forEach((item, index) => {
@@ -227,27 +243,47 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 $this: self,
                 $name: {},
                 $alias: item,
-                $x: index * 200 + 300,
-                $y: 600,
+                $x: index * 190 + self.RecyclableWasteX[index] + 40,
+                $y: 608,
                 $scale: 0.5,
                 $pivotY: true
             });
-
         });
         this.ChineseText.forEach((item, index) => {
             createdText({
                 $this: self,
                 $text: item,
-                $x: index * 200 + 300,
-                $y: 700,
+                $x: index * 190 + 360,
+                $y: 688,
                 $style: createdStyle({
                     $fontSize: 28
                 })
             })
         });
+        this.RecyclableWaste.forEach((item, index) => {
+            //console.log(item)
+            createdText({
+                $this: self,
+                $text: item,
+                $x: index * 190 + self.RecyclableWasteTextX[index] + 40,
+                $y: 728,
+                $style: createdStyle({
+                    $fontSize: 28
+                })
+            })
+        });
+
         //添加小动物事件
         //小动物动画
         //console.log(this.animateSpine.state)  为什么会卡？？？？？？？？
+        if (this.animateSpineNum == 3) {
+            this.animateSpine.scale.x = 0.5;
+            this.animateSpine.scale.y = 0.5;
+        } else {
+            this.animateSpine.scale.x = 0.8;
+            this.animateSpine.scale.y = 0.8;
+        }
+
         switch (this.animateSpineNum) {
             case 0:
                 this.animateSpine.state.setAnimation(0, "walking2", true);
@@ -272,7 +308,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
     }
     gameloop() {
         this.animateSpine.x -= 15;
-        if (this.animateSpine.x <= 1400) {
+        if (this.animateSpine.x <= 1440) {
             this.loop.stop();
             this.animateSpine.state.setAnimation(0, "showing", true);
         }

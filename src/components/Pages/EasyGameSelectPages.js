@@ -56,7 +56,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
         });
         //叶子位置
         this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
-        this.Leaf_spine.x = 2000;
+        this.Leaf_spine.x = 1910;
         this.Leaf_spine.y = 20;
         this.Leaf_spine.state.setAnimation(0, "animation", true);
         this.addChild(this.Leaf_spine);
@@ -64,8 +64,8 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.BtnBackNormal = createdSprite({
             $this: self,
             $alias: "BtnBackNormal_png",
-            $x: 100,
-            $y: 70,
+            $x: 64,
+            $y: 46,
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
@@ -76,8 +76,8 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.BtnBackClick = createdSprite({
             $this: self,
             $alias: "BtnBackClick_png",
-            $x: 100,
-            $y: 70,
+            $x: 64,
+            $y: 46,
             $visible: false,
             $interactive: true,
             $buttonMode: true,
@@ -85,6 +85,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            self.parent.removeChildren();
             SceneManager.run(new HomePages())
         }).on("pointerout", () => {
             this.BtnBackClick.visible = false;
@@ -95,7 +96,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             this.RubbishBoxSpriteItem.state.setAnimation(0, "box1_normal", true); //设置状态
             this.RubbishBoxSpriteItem.skeleton.setSkinByName(item); //给动画添加衣服
             this.RubbishBoxSpriteItem.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
-            this.RubbishBoxSpriteItem.x = 500 * index + 200; //设置动画的位置
+            this.RubbishBoxSpriteItem.x = 450 * index + 273; //设置动画的位置
             this.RubbishBoxSpriteItem.y = 650; //设置动画的位置
             this.RubbishBoxSpriteItem.interactive = true; //设置动画的鼠标事件
             this.RubbishBoxSpriteItem.buttonMode = true;
@@ -134,7 +135,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             this.Arrow = new PIXI.Graphics();
             this.Arrow.lineStyle(0);
             this.Arrow.beginFill(0xFFFF0B, 0.5);
-            this.Arrow.drawCircle(200 + i * 500, 300, 80);
+            this.Arrow.drawCircle(250 + i * 460, 300, 90);
             this.Arrow.endFill();
             this.Arrow.interactive = true;
             this.Arrow.buttonMode = true;
@@ -171,14 +172,22 @@ export default class EasyGameSelectPages extends PIXI.Container {
         }
         this.ArrowArr[0].visible = true; //设置默认效果
         //小动物动画
+        var a = [450, 920, 1350, 2000];
         this.animateSpineName.forEach((item, index) => {
             this.animateSpineItem = new PIXI.spine.Spine(PIXI.loader.resources[item].spineData);
             this.animateSpineItem.state.setAnimation(0, 'normal', true);
-            this.animateSpineItem.x = 450 + index * 500;
+            this.animateSpineItem.x = a[index];
             this.animateSpineItem.interactive = true;
             this.animateSpineItem.buttonMode = true;
+            this.animateSpineItem.scale.x = 0.6;
+            this.animateSpineItem.scale.y = 0.6;
             this.animateSpineItem.y = 800;
-
+            if (index == 3) {
+                //this.animateSpineItem.scale(0.5, 0.5);
+                this.animateSpineItem.scale.x = 0.4;
+                this.animateSpineItem.scale.y = 0.4;
+                this.animateSpineItem.x = 1760;
+            }
             this.animateSpineItem.visible = false;
             this.animateSpineArr.push(this.animateSpineItem);
             this.addChild(this.animateSpineItem)
@@ -199,6 +208,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             Garbage.clearGarBage("position");
             Garbage.setGarBage('position', this.animateSpineMoveNum);
+            this.parent.removeChildren();
             SceneManager.run(new EasyGameIntroPages());
         }
 

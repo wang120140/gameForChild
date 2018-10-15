@@ -127,6 +127,9 @@ class SceneManager {
             if (SceneManager.stageArr[0].removedFromStage) {
                 SceneManager.stageArr[0].removedFromStage();
             }
+            //console.log(SceneManager.stageArr[0])
+
+            //SceneManager.stageArr[0].removeChildren(); //第三种解决方法...
             SceneManager.stageArr[0].destroy();
             SceneManager.stageArr[0] = null;
             SceneManager.stageArr.shift();

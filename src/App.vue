@@ -6,11 +6,11 @@
     </div>
 </template>
 <script>
-import { createdSprite } from "../src/components/Pages/Common.js";
+// import { createdSprite } from "../src/components/Pages/Common.js";
 import SwiperBoard from "@/components/Pages/SwiperBoard";
 import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";
 import HomePages from "@/components/Pages/HomePages.js";
-import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
+// import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
 import EasyGameIntroPages from "@/components/Pages/EasyGameIntroPages.js";
 import EasyGamePlayingPages from "@/components/Pages/EasyGamePlayingPages.js";
 import HardGamePlayingPages from "@/components/Pages/HardGamePlayingPages.js";
@@ -42,7 +42,6 @@ export default {
     },
     createCanvasApp() {
       var self = this;
-      var a = this;
       CanvasApp = new PIXI.Application({
         width: 1920,
         height: 1080
@@ -54,17 +53,15 @@ export default {
       this.$refs.gameMain.appendChild(CanvasApp.view);
 
       Garbage.setGarBage("vueInstance", self);
-      console.log(Garbage);
-      console.log("这个文件...");
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       this.gameStart().then(() => {
         //单个页面测试
         SceneManager.run(new HomePages());
         //SceneManager.run("EasyGameSelectPages");
-        //SceneManager.run("EasyGameIntroPages");
-        //SceneManager.run("EasyGamePlayingPages");
-        //SceneManager.run("HardGamePlayingPages");
+        //SceneManager.run(new EasyGameIntroPages());
+        //SceneManager.run(new EasyGamePlayingPages());
+        //SceneManager.run(new HardGamePlayingPages());
       });
     },
     async gameStart() {

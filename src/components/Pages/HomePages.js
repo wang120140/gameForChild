@@ -47,7 +47,7 @@ export default class HomePages extends PIXI.Container {
         })
         this.vueInstance = Garbage.getGarBage('vueInstance');
         //背景图
-        createdSprite({
+        this.HomeBg = createdSprite({
             $this: self,
             $alias: "HomeBg_png",
             $scale: 2,
@@ -60,22 +60,22 @@ export default class HomePages extends PIXI.Container {
         this.addChild(this.windmill_spine);
         //叶子位置
         this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
-        this.Leaf_spine.x = 2000;
+        this.Leaf_spine.x = 1910;
         this.Leaf_spine.y = 20;
         this.Leaf_spine.state.setAnimation(0, "animation", true);
         this.addChild(this.Leaf_spine);
         // 动画房子以及小动物
         this.startScreen_spine = new PIXI.spine.Spine(PIXI.loader.resources['StartScreen_spine'].spineData);
-        this.startScreen_spine.y = 500;
-        this.startScreen_spine.x = 950;
+        this.startScreen_spine.y = 510;
+        this.startScreen_spine.x = 1000;
         this.startScreen_spine.state.setAnimation(0, 'animation', true);
         this.addChild(this.startScreen_spine);
         //关闭按钮
         createdSprite({
             $this: self,
             $alias: "CloseButtonNormal_png",
-            $x: 1670,
-            $y: 50,
+            $x: 1666,
+            $y: 47,
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
@@ -85,8 +85,8 @@ export default class HomePages extends PIXI.Container {
         this.closeButtonClick = createdSprite({
             $this: self,
             $alias: "CloseButtonLight_png",
-            $x: 1670,
-            $y: 50,
+            $x: 1666,
+            $y: 47,
             $visible: false,
             $interactive: true,
             $buttonMode: true,
@@ -97,8 +97,8 @@ export default class HomePages extends PIXI.Container {
         createdSprite({
             $this: self,
             $alias: "btnEasy_png",
-            $x: 300,
-            $y: 850,
+            $x: 444,
+            $y: 848,
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
@@ -108,8 +108,8 @@ export default class HomePages extends PIXI.Container {
         this.btnEasyClick = createdSprite({
             $this: self,
             $alias: "btnEasyClick_png",
-            $x: 300,
-            $y: 850,
+            $x: 444,
+            $y: 848,
             $visible: false,
             $interactive: true,
             $buttonMode: true,
@@ -123,7 +123,16 @@ export default class HomePages extends PIXI.Container {
             this.soundBg = null;
             this.closeButtonClick = null;
             this.Leaf_spine = null;
+            // this.HomeBg.destroy();
+            // this.HomeBg = null;
             // })();
+            //this.destroy();
+            // console.log("发生了此函数...")
+            this.visible = false; //可以解决问题1
+            //可以解决此问题
+            // console.log(this);
+            //this.removeChildren();
+            this.parent.removeChildren();
             SceneManager.run(new EasyGameSelectPages());
             //跳转选择页面
         }).on("pointerout", () => {
@@ -133,8 +142,8 @@ export default class HomePages extends PIXI.Container {
         createdSprite({
             $this: self,
             $alias: "btnHard_png",
-            $x: 1200,
-            $y: 850,
+            $x: 1070,
+            $y: 848,
             $interactive: true,
             $buttonMode: true,
         }).on("pointerdown", () => {
@@ -144,8 +153,8 @@ export default class HomePages extends PIXI.Container {
         this.BtnHardClick = createdSprite({
             $this: self,
             $alias: "btnHardClick_png",
-            $x: 1200,
-            $y: 850,
+            $x: 1070,
+            $y: 848,
             $interactive: true,
             $buttonMode: true,
             $visible: false,
@@ -163,6 +172,8 @@ export default class HomePages extends PIXI.Container {
                 this.closeButtonClick = null;
                 this.Leaf_spine = null;
             })();
+            //this.removeChildren();
+            this.parent.removeChildren();
             SceneManager.run(new HardGamePlayingPages());
         }).on("pointerout", () => {
             this.BtnHardClick.visible = false;

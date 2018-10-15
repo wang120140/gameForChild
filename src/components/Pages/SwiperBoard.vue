@@ -17,12 +17,12 @@
                         <!--分类图片-->
                         <div class="swiper-fiyimg">
                             <div class="figimg">
-                                <img v-for="(items,index) in item.fiyimg" v-bind:src="items.url"  width="100%" height="auto">
+                                <img v-for="(items) in item.fiyimg" v-bind:src="items.url"   width="100%" height="auto">
                             </div>
                             <!--分类中文和英文-->
                             <div class="swiper-classfiy">
-                                <div v-for="(items,index) in item.classfiy"  class="text" > {{items.split("\n")[0]}} </div>
-                                <div v-for="(items ,index) in item.classfiy"   class="text" > {{items.split("\n")[1]}} </div>
+                                <div v-for="(items) in item.classfiy"   class="text" > {{items.split("\n")[0]}} </div>
+                                <div v-for="(items) in item.classfiy"   class="text" > {{items.split("\n")[1]}} </div>
                             </div>
                             <!--在最后一页中显示开始按钮-->
                             <div class="skipAtt" v-if ="slide.length-1 == index">
@@ -55,7 +55,7 @@ export default {
             "Waste that has high recycling value and can \n enter waste recycling channels.",
           fiyimg: [
             {
-              url: "./img/litter/toiletPaper.png"
+              url: "./img/litter/paper.png"
             },
             {
               url: "./img/litter/cloth.png"
