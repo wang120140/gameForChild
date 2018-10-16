@@ -72,7 +72,6 @@ export default class EasyGameIntroPages extends PIXI.Container {
                     this.contentText = "再生利用价值较高，能进入废品回收渠\n道的垃圾。\nWaste that has high recycling value and can \n enter waste recycling channels"
                     break;
                 case 1:
-
                     this.animateSpineNumName = this.animateSpineName[1]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Kitchen Waste"

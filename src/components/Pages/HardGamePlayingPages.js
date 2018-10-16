@@ -89,6 +89,20 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.palyBase = new PlayGameBasePage({
             _this: self
         });
+        //时间闹铃图片
+        createdSprite({
+            $this: self,
+            $alias: "alarm_png",
+            $x: 1050,
+            $y: 45
+        });
+        //花背景图片
+        createdSprite({
+            $this: self,
+            $alias: "flower_png",
+            $x: 1500,
+            $y: 45
+        });
         (() => {
             this.TimeNum = 60;
             this.WasterGather = [];

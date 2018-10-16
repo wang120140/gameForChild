@@ -158,18 +158,32 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.Leaf_spine.y = 20;
         this.Leaf_spine.state.setAnimation(0, "animation", true);
         this.addChild(this.Leaf_spine);
-        //小动物动画
+        //时间背景
         createdSprite({
             $this: self,
             $alias: 'score_png',
             $x: 1000,
             $y: 0,
-        })
+        });
+        //时间闹铃图片
+        createdSprite({
+            $this: self,
+            $alias: "alarm_png",
+            $x: 1050,
+            $y: 45
+        });
+        //花背景图片
+        createdSprite({
+            $this: self,
+            $alias: "flower_png",
+            $x: 1500,
+            $y: 45
+        });
+        //小动物动画
         this.animateSpineNameItem = new PIXI.spine.Spine(PIXI.loader.resources[this.animateSpineName[this.animalNum]].spineData);
         if (this.animalNum == 3) {
             this.animateSpineNameItem.scale.x = 0.5;
             this.animateSpineNameItem.scale.y = 0.5;
-
         } else {
             this.animateSpineNameItem.scale.x = 0.8;
             this.animateSpineNameItem.scale.y = 0.8;
@@ -373,7 +387,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             RecyclableItem.ClassItem = this.WasterClass[Math.floor(index / 5)]; //定义垃圾属性
             RecyclableItem.on("pointerdown", () => { //垃圾点击事件
                 PIXI.sound.play(self.Waster[index] + "_mp3"); //播放单词音频
-
                 this.RecyclableSprite.forEach((item) => {
                     if (item.y == 870) {
                         item.EventChange = false;
@@ -381,7 +394,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 })
                 RecyclableItem.EventChange = true;
                 RecyclableItem.EventChangePosition = RecyclableItem.x //点击位置
+
             });
+
             this.RecyclableSprite.push(RecyclableItem);
         }
         this.loop = new PIXI.ticker.Ticker();
@@ -595,6 +610,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         });
     }
     BornSprite = (item, index, arr) => {
+        //item.off(e.type, arguments.callee, false);
+        //item.off(event.type, arguements.callee);
         this.removeChild(item); //先移除原有的精灵
         let RandomIndex, NewItem, self = this;
         RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵

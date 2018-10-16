@@ -129,23 +129,23 @@ class PlayGameBasePage {
             $alias: 'bggame_png'
         })
         this.score = createdSprite({
-            $this: _this,
-            $alias: 'score_png',
-            $x: 1000,
-            $y: 0,
-        })
-        this.flower = createdSprite({
-            $this: _this,
-            $alias: "flower_png",
-            $x: 1500,
-            $y: 95
-        })
-        this.alarm = createdSprite({
-            $this: _this,
-            $alias: "alarm_png",
-            $x: 1050,
-            $y: 95
-        })
+                $this: _this,
+                $alias: 'score_png',
+                $x: 1000,
+                $y: 0,
+            })
+            // this.flower = createdSprite({
+            //     $this: _this,
+            //     $alias: "flower_png",
+            //     $x: 1500,
+            //     $y: 95
+            // })
+            // this.alarm = createdSprite({
+            //     $this: _this,
+            //     $alias: "alarm_png",
+            //     $x: 1050,
+            //     $y: 95
+            // })
         this.BtnBackNormal = createdSprite({
             $this: _this,
             $alias: "BtnBackNormal_png",

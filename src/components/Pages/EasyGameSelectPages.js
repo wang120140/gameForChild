@@ -60,7 +60,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
         this.Leaf_spine.y = 20;
         this.Leaf_spine.state.setAnimation(0, "animation", true);
         this.addChild(this.Leaf_spine);
-        //返回按钮
+        //返回按钮 
         this.BtnBackNormal = createdSprite({
             $this: self,
             $alias: "BtnBackNormal_png",
@@ -68,7 +68,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             $y: 46,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointerdown", () => {
+        }).on("pointerdown", this.BtnBackNormalEvent = () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.BtnBackClick.visible = true;
         });
@@ -81,13 +81,14 @@ export default class EasyGameSelectPages extends PIXI.Container {
             $visible: false,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointerup", () => {
+        }).on("pointerup", this.BtnBackClickEventPointerup = () => {
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            self.clearEvent(); //清除事件绑定
             self.parent.removeChildren();
             SceneManager.run(new HomePages())
-        }).on("pointerout", () => {
+        }).on("pointerout", this.BtnBackClickEventPointerout = () => {
             this.BtnBackClick.visible = false;
         });
         //垃圾箱动画Box_spine
@@ -100,7 +101,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             this.RubbishBoxSpriteItem.y = 650; //设置动画的位置
             this.RubbishBoxSpriteItem.interactive = true; //设置动画的鼠标事件
             this.RubbishBoxSpriteItem.buttonMode = true;
-            this.RubbishBoxSpriteItem.on("pointertap", () => {
+            this.RubbishBoxSpriteItem.on("pointertap", this.RubbishBoxSpriteItemEvent = () => {
                 //添加点击声音
                 PIXI.sound.play("ClickSound") //添加点击效果音效
                     //设置箭头效果改变
@@ -141,7 +142,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
             this.Arrow.buttonMode = true;
             this.Arrow.visible = false;
             this.Arrow.alpha = 0.1
-            this.Arrow.on("pointertap", () => {
+            this.Arrow.on("pointertap", this.ArrowEvent = () => {
                 PIXI.sound.play("ClickSound") //添加点击效果音效
                 this.animateSpineMoveNum = i; //那个动物改变走
                 //动物事件
@@ -208,9 +209,24 @@ export default class EasyGameSelectPages extends PIXI.Container {
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
             Garbage.clearGarBage("position");
             Garbage.setGarBage('position', this.animateSpineMoveNum);
+            this.clearEvent() //清除事件绑定
             this.parent.removeChildren();
             SceneManager.run(new EasyGameIntroPages());
         }
+    }
+    clearEvent() {
+        //返回按钮事件
+        this.BtnBackNormal.off("pointerdown", this.BtnBackNormalEvent);
+        this.BtnBackClick.off("pointerup", this.BtnBackClickEventPointerup);
+        this.BtnBackClick.off("pointerout", this.BtnBackClickEventPointerout);
+        //垃圾箱按钮事件清除
+        this.RubbishBoxAnimateArr.forEach((item) => {
+            item.off("pointertap", this.RubbishBoxSpriteItemEvent);
+        });
+        //箭头事件清除
+        this.ArrowArr.forEach((item) => {
+            item.off("pontertap", this.ArrowEvent);
+        })
 
     }
 
