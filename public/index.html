@@ -38,13 +38,13 @@
         <div id="netbadpopupband" class="popupband">
             <img src="<%= BASE_URL %>img/dialog/pop.png" width="100%" height="100%">
             <div id="gobackbuttonblack" class="goback">
-                <img src="<%= BASE_URL %> img/buttonBackClick.png" width="100%" height="100%">
+                <img src="<%= BASE_URL %> img/NormalClickBack.png" width="100%" height="100%">
             </div>
             <div id="gobackbutton" class="goback">
-                <img src="<%= BASE_URL %> img/buttonBackNormal.png" width="100%" height="100%">
+                <img src="<%= BASE_URL %> img/NormalBack.png" width="100%" height="100%">
             </div>
             <div id="loadingPosition">
-                <img class="ProBorde" src="<%= BASE_URL %> img/boot/RrogressBord.png" alt="">
+                <img class="ProBorde" src="<%= BASE_URL %> img/boot/RrogressBord1.png" alt="">
                 <img class="ProRig" src="<%= BASE_URL %> img/boot/RrogressRight.png" alt="">
                 <img id="ProMid" src="<%= BASE_URL %> img/boot/ProgressMiddle.png" alt="">
                 <img id="ProLef" src="<%= BASE_URL %> img/boot/ProgressLeft.png" alt="">
@@ -101,10 +101,14 @@
             document.getElementById("netbadbackground").style.visibility = "hidden";
             document.getElementById("gobackbutton").onmousedown = null;
             document.getElementById("gobackbutton").onmouseup = null;
-
             document.getElementById("gobackbutton").ontouchstart = null;
             document.getElementById("gobackbutton").ontouchend = null;
             document.getElementById("gobackbutton").onclick = null;
+            //返回主目录;
+            window.parent.postMessage({
+                "type": "exitGame",
+                "game": 5,
+            }, "*");
         }
     </script>
 </body>

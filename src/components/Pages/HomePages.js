@@ -93,6 +93,12 @@ export default class HomePages extends PIXI.Container {
             $buttonMode: true,
         }).on("pointerup", () => {}).on("pointerout", () => {
             this.closeButtonClick.visible = false;
+            //返回主目录;
+            window.parent.postMessage({
+                "type": "exitGame",
+                "game": 5,
+            }, "*");
+
         });
         //按钮easy（Easy按钮事件切换至图片转换...）A03
         this.btnEasyClickNormal = createdSprite({

@@ -253,4 +253,10 @@
 }, {
     "name": "HomeBg_png",
     "url": "./img/HomeBg.png"
+}, {
+    "name": "NormalBack_png",
+    "url": "./img/NormalBack.png"
+}, {
+    "name": "NormalClickBack",
+    "url": "./img/NormalClickBack.png"
 }]

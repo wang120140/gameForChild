@@ -63,7 +63,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
         //返回按钮 
         this.BtnBackNormal = createdSprite({
             $this: self,
-            $alias: "BtnBackNormal_png",
+            $alias: "NormalBack_png",
             $x: 64,
             $y: 46,
             $interactive: true,
@@ -75,7 +75,7 @@ export default class EasyGameSelectPages extends PIXI.Container {
         //返回按钮事件
         this.BtnBackClick = createdSprite({
             $this: self,
-            $alias: "BtnBackClick_png",
+            $alias: "NormalClickBack",
             $x: 64,
             $y: 46,
             $visible: false,
@@ -163,6 +163,11 @@ export default class EasyGameSelectPages extends PIXI.Container {
                         break;
                     case 3:
                         this.animateSpineArr[i].state.setAnimation(0, "walking1", true); //改变动物摇手的状态
+                        this.animateSpineArr[i].state.tracks[0].listener = { //动作摇手
+                            complete: () => {
+                                this.animateSpineArr[i].state.setAnimation(1, "walking2", true)
+                            }
+                        };
                         break;
                 }
                 this.loop.start(); //开启循环函数

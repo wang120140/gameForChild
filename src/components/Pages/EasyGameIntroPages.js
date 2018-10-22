@@ -63,50 +63,74 @@ export default class EasyGameIntroPages extends PIXI.Container {
                     this.animateSpineNumName = this.animateSpineName[0]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Recyclable Waste"
-                    this.titleX = 500;
+                    this.titleX = 470;
                     //this.ChineseText = ["纸品\npaper", "布料\ncloth", "玻璃\nglass", "塑料\nplastics", "金属\nmetal"];
                     this.ChineseText = ["纸品", "布料", "玻璃", "塑料", "金属"];
+                    this.ChineseTextX = [360, 360, 360, 360, 320];
+                    this.ChineseTextY = [688, 688, 688, 688, 688];
                     this.RecyclableWaste = ['paper', 'cloth', 'glass', 'plastics', 'metal'];
-                    this.RecyclableWasteX = [300, 300, 270, 330, 290];
-                    this.RecyclableWasteTextX = [320, 320, 320, 300, 300];
-                    this.contentText = "再生利用价值较高，能进入废品回收渠\n道的垃圾。\nWaste that has high recycling value and can \n enter waste recycling channels"
+                    this.RecyclableWasteX = [300, 300, 280, 330, 270];
+                    this.RecyclableWasteY = [608, 608, 608, 608, 608]
+                    this.RecyclableWasteTextX = [320, 320, 320, 300, 275];
+                    this.RecyclableWasteTextY = [728, 728, 728, 728, 728];
+                    this.contentText = "再生利用价值较高，能进入废品回收渠道的 \n垃圾。"
+                    this.contentEnglishText = ["Waste that has high recycling value and \n can  enter waste recycling channels"]
+                    this.contentEnglishTextY = 400;
                     break;
                 case 1:
                     this.animateSpineNumName = this.animateSpineName[1]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Kitchen Waste"
-                    this.titleX = 550;
+                    this.titleX = 510;
                     //this.ChineseText = ["果皮\nfruit peels", "骨头\nbones", "菜叶\nvegetale leaves", "剩饭\nleftovers", "蛋壳\neggshells"];
                     this.ChineseText = ["果皮", "骨头", "菜叶", "剩饭", "蛋壳"];
+                    this.ChineseTextX = [360, 330, 330, 320, 300];
+                    this.ChineseTextY = [648, 648, 648, 648, 648];
                     this.RecyclableWaste = ['fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells'];
-                    this.RecyclableWasteX = [300, 300, 300, 300, 300]
-                    this.RecyclableWasteTextX = [290, 310, 250, 300, 290];
-                    this.contentText = "厨房产生的食物类垃圾以及果皮。\nFood waste and fruit peels from the kitchen"
+                    this.RecyclableWasteX = [290, 280, 250, 250, 250]
+                    this.RecyclableWasteY = [558, 558, 558, 558, 558]
+                    this.RecyclableWasteTextX = [290, 285, 210, 260, 230];
+                    this.RecyclableWasteTextY = [688, 688, 688, 688, 688];
+                    this.contentText = "厨房产生的食物类垃圾以及果皮。"
+                    this.contentEnglishText = ["Food waste and fruit peels from the \n kitchen"];
+                    this.contentEnglishTextY = 345;
                     break;
                 case 2:
                     this.animateSpineNumName = this.animateSpineName[2]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Hazardous Waste"
-                    this.titleX = 500;
+                    this.titleX = 470;
                     //this.ChineseText = ["药品\nmedicines", "电池\nbatteries", "温度计\nthermometers", "灯泡\nlight bulbs", "油漆\noil paints"];
                     this.ChineseText = ["药品", "电池", "温度计", "灯泡", "油漆"];
+                    this.ChineseTextX = [360, 340, 330, 340, 320];
+                    this.ChineseTextY = [628, 628, 628, 628, 628];
                     this.RecyclableWaste = ['medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints'];
-                    this.RecyclableWasteX = [300, 300, 320, 300, 300];
-                    this.RecyclableWasteTextX = [290, 300, 275, 290, 295];
-                    this.contentText = "含有有毒有害化学物质的垃圾。\nWaste that contains toxic and harmful \nchemicals"
+                    this.RecyclableWasteX = [300, 280, 280, 280, 280];
+                    this.RecyclableWasteY = [548, 548, 548, 548, 548]
+                    this.RecyclableWasteTextX = [290, 280, 245, 270, 250];
+                    this.RecyclableWasteTextY = [668, 668, 668, 668, 668];
+                    this.contentText = "含有有毒有害化学物质的垃圾。"
+                    this.contentEnglishText = ["Waste that contains toxic and harmful \n chemicals"];
+                    this.contentEnglishTextY = 345;
                     break;
                 case 3:
 
                     this.animateSpineNumName = this.animateSpineName[3]
                     this.animateSpine = new PIXI.spine.Spine(PIXI.loader.resources[self.animateSpineNumName].spineData);
                     this.title = "Other Waste"
-                    this.titleX = 570;
+                    this.titleX = 540;
                     //this.ChineseText = ["卫生纸\ntoilet paper", "沙土\nsands and soil", "陶瓷碗\nceramics", "砖块\nbricks", "瓦罐\ncrocks"];
                     this.ChineseText = ["卫生纸", "沙土", "陶瓷碗", "砖块", "瓦罐"];
+                    this.ChineseTextX = [350, 360, 360, 340, 330];
+                    this.ChineseTextY = [698, 698, 698, 698, 698];
                     this.RecyclableWaste = ["toiletPaper", "sands", "ceramics", "bricks", "crocks"];
-                    this.RecyclableWasteX = [290, 260, 310, 300, 300];
-                    this.RecyclableWasteTextX = [290, 310, 310, 310, 310];
-                    this.contentText = "除上述几类垃圾之外的砖瓦陶瓷、 渣土、 卫生\n纸等等。\nIn addition to the above types of waste, waste \nlike bricks, ceramics, muck, toilet paper, etc."
+                    this.RecyclableWasteX = [280, 260, 310, 280, 270];
+                    this.RecyclableWasteY = [628, 628, 628, 628, 628]
+                    this.RecyclableWasteTextX = [280, 310, 310, 290, 280];
+                    this.RecyclableWasteTextY = [738, 738, 738, 738, 738];
+                    this.contentText = "除上述几类垃圾之外的砖瓦陶瓷、 渣 \n 土、 卫生纸等等。"
+                    this.contentEnglishText = ["In addition to the above types of waste, \n waste like bricks, ceramics, muck, toilet \n paper, etc."]
+                    this.contentEnglishTextY = 400;
                     break;
             }
         })()
@@ -130,7 +154,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         //返回按钮
         createdSprite({
             $this: self,
-            $alias: "BtnBackNormal_png",
+            $alias: "NormalBack_png",
             $x: 65,
             $y: 50,
             $interactive: true,
@@ -141,7 +165,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         });
         this.BtnBackClick = createdSprite({
             $this: self,
-            $alias: "BtnBackClick_png",
+            $alias: "NormalClickBack",
             $x: 65,
             $y: 50,
             $visible: false,
@@ -227,23 +251,39 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 $fill: "#FFECCA",
             })
         });
-
         //内容字体
         createdText({
             $this: self,
             $text: self.contentText,
-            $x: 340,
-            $y: 308,
-            $style: createdStyle({})
+            $x: 327,
+            $y: 279,
+            $style: createdStyle({
+                $fontFamily: "Yuanti SC",
+                $fontSize: 45,
+                $fill: "#7F6643",
+                $lineHeight: 58,
+            })
         });
-        //垃圾物品
+        createdText({
+                $this: self,
+                $text: self.contentEnglishText,
+                $x: 327,
+                $y: self.contentEnglishTextY,
+                $style: createdStyle({
+                    $fontFamily: "Yuanti SC",
+                    $fontSize: 45,
+                    $fill: "#7F6643",
+                    $lineHeight: 45,
+                })
+            })
+            //垃圾物品
         this.RecyclableWaste.forEach((item, index) => {
             createdSprite({
                 $this: self,
                 $name: {},
                 $alias: item,
                 $x: index * 190 + self.RecyclableWasteX[index] + 40,
-                $y: 608,
+                $y: self.RecyclableWasteY[index],
                 $scale: 0.5,
                 $pivotY: true
             });
@@ -252,8 +292,8 @@ export default class EasyGameIntroPages extends PIXI.Container {
             createdText({
                 $this: self,
                 $text: item,
-                $x: index * 190 + 360,
-                $y: 688,
+                $x: index * 190 + self.ChineseTextX[index],
+                $y: self.ChineseTextY[index],
                 $style: createdStyle({
                     $fontSize: 28
                 })
@@ -265,7 +305,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 $this: self,
                 $text: item,
                 $x: index * 190 + self.RecyclableWasteTextX[index] + 40,
-                $y: 728,
+                $y: self.RecyclableWasteTextY[index],
                 $style: createdStyle({
                     $fontSize: 28
                 })
@@ -286,6 +326,7 @@ export default class EasyGameIntroPages extends PIXI.Container {
         switch (this.animateSpineNum) {
             case 0:
                 this.animateSpine.state.setAnimation(0, "walking2", true);
+
                 break;
             case 1:
                 this.animateSpine.state.setAnimation(0, "walking", true);
@@ -294,7 +335,9 @@ export default class EasyGameIntroPages extends PIXI.Container {
                 this.animateSpine.state.setAnimation(0, "walking", true);
                 break;
             case 3:
-                this.animateSpine.state.setAnimation(0, "walking1", true);
+                this.animateSpine.state.setAnimation(0, "walking2", true);
+
+                break;
         }
         this.animateSpine.x = 2000; //改了这个位置
         this.animateSpine.y = 800;

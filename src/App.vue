@@ -99,9 +99,9 @@ export default {
             .on("progress", loader => {
               if (document.getElementById("loadingPosition")) {
                 document.getElementById("ProMid").style.width =
-                  loader.progress * 0.0515 + 0.25 + "rem";
+                  loader.progress * 0.0495 + 0.3 + "rem";
                 document.getElementById("ProLef").style.left =
-                  loader.progress * 2.56 + 44 + "%";
+                  loader.progress * 2.464 + 49.2 + "%";
               }
             })
             .load(() => {

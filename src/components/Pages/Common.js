@@ -47,12 +47,16 @@ function createdStyle({
     $name = {},
     $fontFamily = "Arial",
     $fontSize = 35,
-    $fill = "#84653A"
+    $fill = "#84653A",
+    $lineHeight = 58,
+    $fontWeight = "normal"
 } = {}) {
     $name = new PIXI.TextStyle({
         fontFamily: $fontFamily,
         fontSize: $fontSize,
         fill: $fill,
+        lineHeight: $lineHeight,
+        fontWeight: $fontWeight,
     })
     return $name
 }
@@ -148,17 +152,17 @@ class PlayGameBasePage {
             // })
         this.BtnBackNormal = createdSprite({
             $this: _this,
-            $alias: "BtnBackNormal_png",
-            $x: 100,
-            $y: 30,
+            $alias: "NormalBack_png",
+            $x: 65,
+            $y: 46,
             $interactive: true,
             $buttonMode: true
         })
         this.BtnBackClick = createdSprite({
             $this: _this,
-            $alias: "BtnBackClick_png",
-            $x: 100,
-            $y: 30,
+            $alias: "NormalClickBack",
+            $x: 65,
+            $y: 46,
             $visible: false,
             $interactive: true,
             $buttonMode: true
