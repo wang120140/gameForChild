@@ -1,51 +1,83 @@
 ﻿<template>
-    <keep-alive>
-    <div class="bigbox">
-        <div class="swiper-container" ref="carousel">
+    <div class="bigbox"  >
+        <div class="swiper-container" ref="carousel" >
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(item,index) in slide" :key="index" :class="{active:index == slide.length-1}">
-                    <div class="slide" >
-                        <!--标题-->
+                    <audio id="questionSound" src='./sound/bg/hardfanye.mp3'></audio>
+                    <div class="slide">
+                        <!--标题 -->
                         <div class="swiper-title" >
                             <div class="title">{{item.title}}</div>
                         </div>
 
                         <!--中文介绍-->
                         <div class="swiper-contentE">{{item.contentE}}</div>
+
                         <!--英文介绍-->
-                        <div class="swiper-contentC">{{item.contentC}}</div>
+                        <div class="swiper-contentC" :style="{'position':'absolute',top:item.Top/100+'rem',}">{{item.contentC}}</div>
 
                         <!--分类图片-->
                         <div class="swiper-fiyimg">
-                            <div class="figimg">
-                                <img v-for="(items,key,index) in item.fiyimg" :key="index" v-bind:src="items.url"   width="100%" height="auto">
+                            <div class="FiyImg">
+                                <div class="figimg" v-for="(items,index) in item.fiyimg" :key="index" >
+                                    <img :src="items.url"
+                                         :style="{
+                                            width:items.x/100+'rem',
+                                            height:items.y/100+'rem',
+                                            'position':'absolute',
+                                            top:items.Tops/100+'rem',
+                                            left:items.Lefts/100+'rem',
+                                        }"
+                                    >
+                                </div>
                             </div>
                             <!--分类中文和英文-->
-                            <div class="swiper-classfiy">
-                                <div v-for="(items,key,index) in item.classfiy"  :key="index" class="text" > {{items.split("\n")[0]}} </div>
-                                <div v-for="(items,key,index) in item.classfiy"  :key="index" class="text" > {{items.split("\n")[1]}} </div>
+                            <div v-if = "slide.length-3 == index"  class="kitchen">
+                                <div v-for="(items) in item.classfiy" class="text" > {{items.split("\n")[0]}} </div>
+                                <div v-for="(items) in item.classfiy" class="text textE"> {{items.split("\n")[1]}} </div>
                             </div>
-                            <!--在最后一页中显示开始按钮-->
-                            <div class="skipAtt" v-if ="slide.length-1 == index">
-                                <img  src="../../../public/img/playButton.png" alt="" @click="skip()">
+                            <div v-if = "slide.length-2 == index"  class="Hazardous">
+                                <div v-for="(items) in item.classfiy" class="text" > {{items.split("\n")[0]}} </div>
+                                <div v-for="(items) in item.classfiy" class="text textE"> {{items.split("\n")[1]}} </div>
                             </div>
+
+                            <div v-if = "slide.length-3 != index && slide.length-2 != index" class="swiper-classfiy">
+                                <div v-for="(items) in item.classfiy" class="text" > {{items.split("\n")[0]}} </div>
+                                <div v-for="(items) in item.classfiy" class="text textE"> {{items.split("\n")[1]}} </div>
+                            </div>
+
                         </div>
+
                     </div>
+
                 </div>
 
             </div>
-            <div class="swiper-pagination"></div>
+            <div class="swiper-pagination" ></div>
+
         </div>
+
+        <!--最后一页出现开始按钮-->
+        <div class="skipAtt" v-show="lastIndex"
+             @mousedown="skip_start($event)"  @mouseup="skip_end"
+             @touchstart='skip_start($event)' @touchend="skip_end"
+        >
+            <img  src="../../../public/img/playButton.png"  alt=""  v-if = "isBoo">
+            <img  src="../../../public/img/playButtonClick.png" alt="" v-if = "!isBoo">
+        </div>
+
     </div>
-    </keep-alive>
 </template>
 <script>
-import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";
+import { SceneManager, Garbage, Browser } from "@/lib/EasyPIXI.js";
 import HardGamePlayingPages from "./HardGamePlayingPages.js";
+
 export default {
   name: "HelloWorld",
   data() {
     return {
+      isBoo: true,
+      lastIndex: false,
       slide: [
         {
           title: "Recyclable Waste",
@@ -54,19 +86,39 @@ export default {
             "Waste that has high recycling value and can \n enter waste recycling channels.",
           fiyimg: [
             {
-              url: "./img/litter/paper.png"
+              url: "./img/small/paper.png",
+              x: 116,
+              y: 67,
+              Tops: 20,
+              Lefts: 20
             },
             {
-              url: "./img/litter/cloth.png"
+              url: "./img/small/cloth.png",
+              x: 118,
+              y: 61,
+              Tops: 20,
+              Lefts: 210
             },
             {
-              url: "./img/litter/glass.png"
+              url: "./img/small/glass.png",
+              x: 169,
+              y: 66,
+              Tops: 20,
+              Lefts: 380
             },
             {
-              url: "./img/litter/plastics.png"
+              url: "./img/small/plastics.png",
+              x: 50,
+              y: 162,
+              Tops: -40,
+              Lefts: 620
             },
             {
-              url: "./img/litter/metal.png"
+              url: "./img/small/metal.png",
+              x: 89,
+              y: 84,
+              Tops: 20,
+              Lefts: 820
             }
           ],
           classfiy: [
@@ -78,24 +130,45 @@ export default {
           ]
         },
         {
-          title: "kitchen Waste",
+          title: "Kitchen Waste",
           contentE: "厨房产生的食物类垃圾以及果皮。",
           contentC: "Food waste and fruit peels from the kitchen",
+          Top: 200,
           fiyimg: [
             {
-              url: "./img/litter/fruitPeels.png"
+              url: "./img/small/fruitPeels.png",
+              x: 130,
+              y: 116,
+              Tops: -100,
+              Lefts: 20
             },
             {
-              url: "./img/litter/bones.png"
+              url: "./img/small/bones.png",
+              x: 91,
+              y: 66,
+              Tops: -80,
+              Lefts: 210
             },
             {
-              url: "./img/litter/vegetableLeaves.png"
+              url: "./img/small/vegetableLeaves.png",
+              x: 112,
+              y: 85,
+              Tops: -80,
+              Lefts: 380
             },
             {
-              url: "./img/litter/leftovers.png"
+              url: "./img/small/leftovers.png",
+              x: 125,
+              y: 67,
+              Tops: -80,
+              Lefts: 600
             },
             {
-              url: "./img/litter/eggshells.png"
+              url: "./img/small/eggshells.png",
+              x: 96,
+              y: 56,
+              Tops: -80,
+              Lefts: 810
             }
           ],
           classfiy: [
@@ -110,21 +183,42 @@ export default {
           title: "Hazardous Waste",
           contentE: "含有有毒有害化学物质的垃圾。",
           contentC: " Waste that contains toxic and harmful like \n chemicals,",
+          Top: 200,
           fiyimg: [
             {
-              url: "./img/litter/medicines.png"
+              url: "./img/small/medicines.png",
+              x: 78,
+              y: 90,
+              Tops: -20,
+              Lefts: 20
             },
             {
-              url: "./img/litter/batteries.png"
+              url: "./img/small/batteries.png",
+              x: 86,
+              y: 85,
+              Tops: -20,
+              Lefts: 210
             },
             {
-              url: "./img/litter/thermometers.png"
+              url: "./img/small/thermometers.png",
+              x: 93,
+              y: 92,
+              Tops: -20,
+              Lefts: 400
             },
             {
-              url: "./img/litter/lightBulbs.png"
+              url: "./img/small/lightBulbs.png",
+              x: 102,
+              y: 80,
+              Tops: -20,
+              Lefts: 600
             },
             {
-              url: "./img/litter/oilPaints.png"
+              url: "./img/small/oilPaints.png",
+              x: 74,
+              y: 86,
+              Tops: -20,
+              Lefts: 810
             }
           ],
           classfiy: [
@@ -142,19 +236,39 @@ export default {
             "In addition to the above types of waste, waste \n like bricks, ceramics, muck, toilet paper, etc.",
           fiyimg: [
             {
-              url: "./img/litter/toiletPaper.png"
+              url: "./img/small/toiletPaper.png",
+              x: 123,
+              y: 94,
+              Tops: 30,
+              Lefts: 0
             },
             {
-              url: "./img/litter/sands.png"
+              url: "./img/small/sands.png",
+              x: 211,
+              y: 106,
+              Tops: 30,
+              Lefts: 160
             },
             {
-              url: "./img/litter/ceramics.png"
+              url: "./img/small/ceramics.png",
+              x: 86,
+              y: 64,
+              Tops: 30,
+              Lefts: 420
             },
             {
-              url: "./img/litter/bricks.png"
+              url: "./img/small/bricks.png",
+              x: 115,
+              y: 86,
+              Tops: 30,
+              Lefts: 600
             },
             {
-              url: "./img/litter/crocks.png"
+              url: "./img/small/crocks.png",
+              x: 92,
+              y: 88,
+              Tops: 30,
+              Lefts: 810
             }
           ],
           classfiy: [
@@ -169,20 +283,59 @@ export default {
     };
   },
   mounted() {
+    var _this = this;
+    console.log("vs1.1");
     var swiper = new Swiper(".swiper-container", {
       pagination: {
         el: ".swiper-pagination",
         clickable: true
+      },
+      on: {
+        slideChange: function() {
+          var questionSound = document.getElementById("questionSound");
+          questionSound.play();
+          console.log(_this.slide[0].title);
+          if (swiper.activeIndex == _this.slide.length - 1) {
+            setTimeout(function() {
+              _this.lastIndex = true;
+            }, 200);
+          } else {
+            _this.lastIndex = false;
+          }
+        }
       }
     });
   },
+
   methods: {
-    skip() {
-      console.log(41);
+    skip_start($event) {
+      if (Browser.versions.mobile && $event.type == "mousedown") {
+        return false;
+      }
+      console.log("触发了鼠标按下效果");
+      if (this.isBoo) {
+        this.isBoo = false;
+      } else {
+        this.isBoo = true;
+      }
+    },
+
+    skip_end($event) {
+      if (Browser.versions.mobile && $event.type == "mouseup") {
+        console.info("1111");
+        return false;
+      }
+      console.log("触发了鼠标抬起效果", $event);
+      console.log("开始进入事件发生...");
+      this.isBoo = false;
+      this.changePage();
+    },
+
+    changePage() {
+      console.log("changePage事件发生...");
       this.$emit("StartHardGarm");
       Garbage.clearGarBage("startPlayHardGame");
       Garbage.setGarBage("startPlayHardGame", true);
-      // SceneManager.run("HardGamePlayingPages");
       SceneManager.run(new HardGamePlayingPages());
     }
   }
@@ -208,12 +361,11 @@ body {
   width: 100%;
   height: 10.8rem;
   background-color: rgba(0, 0, 0, 0.6);
-  margin: 0 auto;
 }
 
 .swiper-container {
-  width: 12.44rem;
-  height: auto;
+  width: 19.2rem;
+  height: 10.8rem;
 }
 
 .swiper-title {
@@ -227,7 +379,7 @@ body {
 }
 
 .title {
-  font-size: 0.63rem;
+  font-size: 0.55rem;
   padding-top: 0.35rem;
   text-align: center;
   color: #ffecce;
@@ -236,6 +388,7 @@ body {
 .slide {
   font-size: 0.18rem;
   width: 12.44rem;
+  margin: 0 auto;
   height: 9.9rem;
   background: url("../../../public/img/dialog/pop.png") no-repeat;
   background-size: contain;
@@ -264,33 +417,22 @@ body {
 }
 
 .swiper-fiyimg {
-  display: flex;
-  width: 10rem;
-  height: 1.5rem;
-  flex-direction: column;
   position: relative;
   top: 4.5rem;
 }
 
-.swiper-fiyimg .figimg {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 1rem;
-  height: 1rem;
+.swiper-fiyimg .FiyImg {
   position: absolute;
-  top: 0rem;
-  left: 5.7rem;
+  left: 1.2rem;
+}
+
+.swiper-fiyimg .figimg {
+  float: left;
 }
 
 .swiper-fiyimg .figimg img {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
+  margin-right: 0.5rem;
   margin-left: 0.4rem;
-  margin-right: 0.7rem;
-  text-align: center;
 }
 
 .swiper-classfiy {
@@ -299,7 +441,27 @@ body {
   top: 1.5rem;
   left: 1.1rem;
   font-family: STYuanti-SC-Regular;
-  font-size: 0.29rem;
+  font-size: 0.3rem;
+  color: #766c3d;
+}
+
+.kitchen {
+  width: 10rem;
+  position: absolute;
+  top: 0.5rem;
+  left: 1.1rem;
+  font-family: STYuanti-SC-Regular;
+  font-size: 0.3rem;
+  color: #766c3d;
+}
+
+.Hazardous {
+  width: 10rem;
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  font-family: STYuanti-SC-Regular;
+  font-size: 0.3rem;
   color: #766c3d;
 }
 
@@ -307,29 +469,43 @@ body {
   width: 2rem;
   float: left;
   text-align: center;
+  font-size: "华文圆体";
+}
+
+.textE {
+  font-size: "方正舒体";
+}
+
+.skipAtt {
+  width: 2.3rem;
+  height: 2.3rem;
+  cursor: pointer;
+  position: absolute;
+  bottom: 1rem;
+  right: 1.8rem;
 }
 
 .skipAtt img {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2.3rem;
+  height: 2.3rem;
   cursor: pointer;
   position: absolute;
-  bottom: -2rem;
-  right: -2.5rem;
-  z-index: 999999;
+  bottom: 0rem;
+  right: 0rem;
+  z-index: 99999999999999;
 }
 
 .swiper-pagination-bullet {
-  width: 0.35rem;
-  height: 0.35rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 50%;
   margin-right: 0.1rem;
+  margin-top: -0.5rem;
   background-color: #c69071;
   background: rgba(198, 144, 113, 1);
-  z-index: 999999;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: pink;
+  background-color: #fdfeaa;
 }
 </style>

@@ -30,7 +30,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.WasterBoxSkinAnimateArr = [];
         this.WasterBoxCap = ["RecyclableLitterCap", "KitchenLitterCap", "HarmfulLitterCap", "OtherLitterCap"];
         this.WasterBoxCapJumpment = false;
-        this.Waster = ['paper', 'cloth', 'glass', 'plastics', 'metal',
+        this.Waster = ['paper', 'plastics', 'cloth', 'glass', 'metal',
             'fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells',
             'medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints',
             "toiletPaper", "sands", "ceramics", "bricks", "crocks"
@@ -85,6 +85,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.EndScreen;
     }
     addedStage() {
+        console.log("hardPages页面中进入了...")
         let self = this;
         this.palyBase = new PlayGameBasePage({
             _this: self
@@ -152,7 +153,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.AnimateArr.push(Animate); //清空
             this.addChild(Animate);
         });
-        this.AnimateArr[0].visible = true;
+        // this.AnimateArr[0].visible = true;
         //传送带
         for (let i = 0; i < 2; i++) {
             this.track.push(createdSprite({ //清空
@@ -259,7 +260,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                                         x: item.EndPostion + 150,
                                         y: 600
                                     }, {
-                                        x: item.EndPostion,
+                                        x: item.EndPostion + 350,
                                         y: 450
                                     }],
                                 },
@@ -280,17 +281,20 @@ export default class HardGamePlayingPages extends PIXI.Container {
         });
         //创建垃圾物品
         for (let i = 0; i < 6; i++) {
-            let index = Math.floor(Math.random() * 20);
-
+            //蒙层使用
+            let index = i;
+            //let index = Math.floor(Math.random() * 20);
             let WasterItem = createdSprite({
                 $this: self,
                 $alias: this.Waster[index],
-                $x: i * 384,
+                $x: i * 434,
                 $y: 870,
                 $interactive: true,
                 $buttonMode: true,
                 $pivotY: true,
-            })
+                $pivotX: true,
+            });
+            WasterItem.pivot.y = WasterItem.height - 30;
             WasterItem.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
             WasterItem.CheckClass = null; //定义检查属性
             WasterItem.ButtonClick = false; //是否点击了事件发生
@@ -322,13 +326,15 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.Dialog = new BackDialog(self);
         this.DialogText = createdText({
             $this: self,
-            $text: "Do you really want  \n          to quit ? ", //这几个空格保留...
-            $x: 600,
-            $y: 320,
+            $text: "Do you really want  \n         to quit ? ", //这几个空格保留...
+            $x: 640,
+            $y: 280,
             $addChild: false,
             $style: createdStyle({
                 $fontSize: 100,
-                $fontFamily: "Times New Roman"
+                $fontWeight: 400,
+                $lineHeight: 128,
+                $fontFamily: "方正舒体",
             })
         })
         this.Dialog.yesBtn.on('pointertap', () => {
@@ -339,7 +345,106 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.clearEvent();
             SceneManager.run(new HomePages());
         });
-        this.Dialog.noBtn.on("pointertap", this.noButtonEvent)
+        this.Dialog.noBtn.on("pointertap", this.noButtonEvent);
+        //蒙层开始..........
+        this.coverLay = new PIXI.Container();
+        this.addChild(this.coverLay);
+        this.coverLayout = new PIXI.Graphics();
+        this.coverLayout.beginFill(0x000000, 0.5);
+        this.coverLayout.drawRect(0, 0, 1980, 2000);
+        this.coverLayout.endFill();
+        this.coverLay.addChild(this.coverLayout);
+        //垃圾箱开始
+        this.WasterBoxSkinAnimateArr[0].visible = false;
+        let WasterBoxAnimateItem = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
+        WasterBoxAnimateItem.state.setAnimation(0, "box2_normal", true);
+        WasterBoxAnimateItem.skeleton.setSkinByName("blue"); //给动画添加衣服
+        WasterBoxAnimateItem.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
+        WasterBoxAnimateItem.x = +210;
+        WasterBoxAnimateItem.y = 380;
+        WasterBoxAnimateItem.scale.x = 0.65;
+        WasterBoxAnimateItem.scale.y = 0.65;
+        this.coverLay.addChild(WasterBoxAnimateItem)
+            //对垃圾进行加蒙层
+        let RubbishBoxSpriteItem0rectMask = new PIXI.Graphics();
+        RubbishBoxSpriteItem0rectMask.beginFill(0xff0000, 0.5).drawRect(0, 250, 450, 480).endFill();
+        //this.coverLay.addChild(RubbishBoxSpriteItem0rectMask);
+        WasterBoxAnimateItem.mask = RubbishBoxSpriteItem0rectMask;
+        //添加瓶子
+        this.coverLay.addChild(this.WasterGather[1]);
+        //添加手指
+        this.Hand0 = createdSprite({
+            $this: self,
+            $alias: "Hand0_png",
+            $x: 417,
+            $y: 843,
+            $pivotY: true,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.Hand0);
+        this.Hand1 = createdSprite({
+            $this: self,
+            $alias: "Hand1_png",
+            $x: 411,
+            $y: 843,
+            $pivotY: true,
+            $visible: false,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.Hand1);
+        this.HandInterval = setInterval(() => {
+            if (this.HandControl) {
+                this.Hand0.visible = false;
+                this.Hand1.visible = true;
+                this.HandControl = false;
+            } else {
+                this.Hand0.visible = true;
+                this.Hand1.visible = false;
+                this.HandControl = true;
+            }
+        }, 500);
+        //添加图片
+        //小冒泡图片
+        this.LittleBubble = createdSprite({
+            $this: self,
+            $alias: "LitterBubble_png",
+            $x: 704,
+            $y: 718,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.LittleBubble);
+        //中冒泡图片
+        this.MilldleBubble = createdSprite({
+            $this: self,
+            $alias: "MiddleBubble_png",
+            $x: 750,
+            $y: 600,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.MilldleBubble);
+        //大冒泡图片
+        this.TextBubble = createdSprite({
+            $this: self,
+            $alias: "EasyPlayTip_png",
+            $x: 1000,
+            $y: 300,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.TextBubble);
+        //跳过按钮
+        this.SkipButton = createdSprite({
+            $this: self,
+            $alias: "SkipButton_png",
+            $x: 1643,
+            $y: 867,
+            $interactive: true,
+            $buttonMode: true,
+            $addChild: false
+        }).on("pointertap", () => {
+
+        });
+        this.coverLay.addChild(this.SkipButton);
+        //蒙层结束..........
 
         //第三个弹框 总结弹窗
         this.DialogSummaryArr.forEach((item) => {
@@ -351,7 +456,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 $addChild: false,
                 $style: createdStyle({
                     $fontSize: 80,
-                    $fontFamily: "Times New Roman"
+                    $fontFamily: "方正舒体",
+                    $fontWeight: 400,
                 })
             }))
         })
@@ -468,11 +574,9 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.WasterGather.forEach((item, index, arr) => {
             //放大垃圾效果
             if (item.ButtonClick) {
-                item.anchor.set(0.5, 0.5);
-                item.scale.set(1.2, 1.2)
+                item.scale.set(1.5, 1.5)
             } else {
-                item.anchor.set(0);
-                item.scale.set(1, 1);
+                item.scale.set(1.2, 1.2);
             }
             //正常走的情况下...
             (!((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null))) && (item.x -= 3);
@@ -525,7 +629,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                             bezier: {
                                 type: "cubic",
                                 values: [{
-                                    x: item.EndPostion,
+                                    x: item.EndPostion + 350,
                                     y: 460
                                 }, {
                                     x: item.EndPostion - 250,
@@ -556,12 +660,14 @@ export default class HardGamePlayingPages extends PIXI.Container {
         newItem = createdSprite({
             $this: self,
             $alias: self.Waster[RandomIndex],
-            $x: arr[arr.length - 1].x + 387,
+            $x: arr[arr.length - 1].x + 434,
             $y: 870,
             $pivotY: true,
+            $pivotX: true,
             $interactive: true,
             $buttonMode: true
         });
+        newItem.pivot.y = newItem.height - 30;
         (RandomIndex == 16) && (newItem.scale.x = 0.6);
         newItem.Class = this.WasterClass[Math.floor(RandomIndex / 5)]; //定义属性
         newItem.CheckClass = null; //定义检查属性

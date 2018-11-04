@@ -9,9 +9,11 @@ function createdSprite({
     $anchor = 0,
     $scale = 1,
     $pivotY = false,
+    $pivotX = false,
     $visible = true,
     $interactive = false,
     $buttonMode = false,
+    $alpha = 1,
     $addChild = true
 
 } = {}) {
@@ -22,6 +24,8 @@ function createdSprite({
     $name.buttonMode = $buttonMode;
     $name.scale.set($scale);
     $name.anchor.set($anchor);
+    $name.alpha = $alpha;
+    $pivotX && ($name.pivot.x = ($name.width) / 2);
     $pivotY && ($name.pivot.y = $name.height);
     $addChild && $this.addChild($name);
     return $name;
@@ -120,21 +124,25 @@ class BackDialog {
         })
         this.graphics = new PIXI.Graphics()
         this.graphics.beginFill(0x0000).drawRect(0, 0, 1920, 1080).endFill()
-        this.graphics.alpha = 0.2;
+        this.graphics.alpha = 0.7;
     }
 }
 class PlayGameBasePage {
     constructor({
         _this = self,
+        _alpha = 1,
     }) {
         this.bg = createdSprite({
             $this: _this,
             $scale: 2,
+            $alpha: _alpha,
             $alias: 'bggame_png'
+
         })
         this.score = createdSprite({
                 $this: _this,
                 $alias: 'score_png',
+                $alpha: _alpha,
                 $x: 1000,
                 $y: 0,
             })
@@ -155,6 +163,7 @@ class PlayGameBasePage {
             $alias: "NormalBack_png",
             $x: 65,
             $y: 46,
+            $alpha: _alpha,
             $interactive: true,
             $buttonMode: true
         })
@@ -163,6 +172,7 @@ class PlayGameBasePage {
             $alias: "NormalClickBack",
             $x: 65,
             $y: 46,
+            $alpha: _alpha,
             $visible: false,
             $interactive: true,
             $buttonMode: true
@@ -170,6 +180,8 @@ class PlayGameBasePage {
 
     }
 }
+
+
 export {
     createdSprite,
     createdText,

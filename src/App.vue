@@ -12,10 +12,11 @@
 import SwiperBoard from "@/components/Pages/SwiperBoard";
 import { SceneManager, Garbage } from "@/lib/EasyPIXI.js";
 import HomePages from "@/components/Pages/HomePages.js";
-// import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
+import EasyGameSelectPages from "@/components/Pages/EasyGameSelectPages.js";
 import EasyGameIntroPages from "@/components/Pages/EasyGameIntroPages.js";
 import EasyGamePlayingPages from "@/components/Pages/EasyGamePlayingPages.js";
 import HardGamePlayingPages from "@/components/Pages/HardGamePlayingPages.js";
+import EasyGameSelectAndIntroduce from "@/components/Pages/EasyGameSelectAndIntroduce.js";
 var CanvasApp;
 export default {
   name: "app",
@@ -53,17 +54,17 @@ export default {
       CanvasApp.view.style.height = "100%";
       CanvasApp.renderer.backgroundImage = "url(./img/timg.png)";
       this.$refs.gameMain.appendChild(CanvasApp.view);
-
       Garbage.setGarBage("vueInstance", self);
       SceneManager.App = CanvasApp;
       SceneManager.stage = CanvasApp.stage;
       this.gameStart().then(() => {
         //单个页面测试
-        SceneManager.run(new HomePages());
+        //SceneManager.run(new HomePages());
+        //SceneManager.run(new EasyGameSelectAndIntroduce());
         //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run(new EasyGameIntroPages());
         //SceneManager.run(new EasyGamePlayingPages());
-        //SceneManager.run(new HardGamePlayingPages());
+        SceneManager.run(new HardGamePlayingPages());
       });
     },
     async gameStart() {
@@ -101,7 +102,7 @@ export default {
                 document.getElementById("ProMid").style.width =
                   loader.progress * 0.0495 + 0.3 + "rem";
                 document.getElementById("ProLef").style.left =
-                  loader.progress * 2.464 + 49.2 + "%";
+                  loader.progress * 2.472 + 48.8 + "%";
               }
             })
             .load(() => {

@@ -14,7 +14,8 @@ import {
     createdStyle,
     PlayGameBasePage,
 } from "./Common.js"
-import EasyGameSelectPages from './EasyGameSelectPages.js';
+//import EasyGameSelectPages from './EasyGameSelectPages.js';
+import EasyGameSelectAndIntroduce from './EasyGameSelectAndIntroduce.js'
 export default class EasyGamePlayingPages extends PIXI.Container {
     constructor() {
         super();
@@ -36,7 +37,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.wheelSprite = [];
         this.RecyclableSprite = [];
         this.WasterClass = ['Recyclable', 'Kitchen', 'Hazardous', 'Others'];
-        this.Waster = ['paper', 'cloth', 'glass', 'plastics', 'metal',
+        this.Waster = ['paper', 'plastics', 'cloth', 'glass', 'metal',
             'fruitPeels', 'bones', 'vegetableLeaves', 'leftovers', 'eggshells',
             'medicines', 'batteries', 'thermometers', 'lightBulbs', 'oilPaints',
             "toiletPaper", "sands", "ceramics", "bricks", "crocks"
@@ -90,6 +91,12 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.RubbishBoxSkin = ["blue", "green", "red", "orange"];
         this.Timeout;
         this.EndScreen;
+        this.TimeSprite = null;
+        this.HandInterval = null;
+        this.Hand0 = null;
+        this.Hand1 = null;
+        this.HandControl = false;
+        this.LittleBubble = null;
 
     }
     removeFromStage() {
@@ -101,9 +108,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         let self = this;
         (() => {
             //测试使用
-            //this.animalNum = 0;
+            this.animalNum = 0;
             //正式使用
-            this.animalNum = Garbage.getGarBage("position");
+            //this.animalNum = Garbage.getGarBage("position");
             this.Dialog = null;
             this.TimeNum = 60;
             this.track = [];
@@ -119,9 +126,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 highScore: 0
             };
             //测试使用
-            //var Test = 0;
-            //switch (Test) {
-            switch (Garbage.getGarBage("position")) {
+            var Test = 0;
+            switch (Test) {
+                //switch (Garbage.getGarBage("position")) {
                 case 0:
                     this.RecyclablelitterName = "RecyclableLitter"
                     this.RecyclablelitterCapName = "RecyclableLitterCap"
@@ -150,7 +157,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         });
         //背景图
         this.palyBase = new PlayGameBasePage({
-            _this: self
+            _this: self,
         });
         //叶子动画
         this.Leaf_spine = new PIXI.spine.Spine(PIXI.loader.resources["Leaf_spine"].spineData);
@@ -159,38 +166,43 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.Leaf_spine.state.setAnimation(0, "animation", true);
         this.addChild(this.Leaf_spine);
         //时间背景
-        createdSprite({
+        this.TimeSprite = createdSprite({
             $this: self,
             $alias: 'score_png',
             $x: 1000,
             $y: 0,
         });
         //时间闹铃图片
-        createdSprite({
+        this.TimeAlarmSprite = createdSprite({
             $this: self,
             $alias: "alarm_png",
             $x: 1050,
-            $y: 45
+            $y: 45,
         });
         //花背景图片
         createdSprite({
             $this: self,
             $alias: "flower_png",
             $x: 1500,
-            $y: 45
+            $y: 45,
         });
         //小动物动画
         this.animateSpineNameItem = new PIXI.spine.Spine(PIXI.loader.resources[this.animateSpineName[this.animalNum]].spineData);
         if (this.animalNum == 3) {
-            this.animateSpineNameItem.scale.x = 0.5;
-            this.animateSpineNameItem.scale.y = 0.5;
+            this.animateSpineNameItem.scale.x = 0.55;
+            this.animateSpineNameItem.scale.y = 0.55;
         } else {
-            this.animateSpineNameItem.scale.x = 0.8;
-            this.animateSpineNameItem.scale.y = 0.8;
+            this.animateSpineNameItem.scale.x = 1;
+            this.animateSpineNameItem.scale.y = 1;
         }
         this.animateSpineNameItem.state.setAnimation(0, "normal", true);
+        // this.animateSpineNameItem.visible = false //遮罩层影响的事件...
         this.animateSpineNameItem.x = 900;
-        this.animateSpineNameItem.y = 580;
+        if (this.animalNum == 3) {
+            this.animateSpineNameItem.y = 560;
+        } else {
+            this.animateSpineNameItem.y = 630;
+        }
         this.addChild(this.animateSpineNameItem);
         //风车动画开始
         this.windmill_spine = new PIXI.spine.Spine(PIXI.loader.resources['windmill_spine'].spineData);
@@ -206,6 +218,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.RubbishBoxSpriteItem.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
         this.RubbishBoxSpriteItem.x = 400;
         this.RubbishBoxSpriteItem.y = 480;
+        //this.RubbishBoxSpriteItem.visible = false; //遮罩层事件影响
         this.addChild(this.RubbishBoxSpriteItem);
         //垃圾箱动画结束
         //垃圾箱的盖子开始
@@ -220,11 +233,11 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         //垃圾箱盖事件
         this.RecyclablelitterCap.on("pointertap", this.RecyclablelitterCapEvent = () => {
             this.RecyclableSprite.forEach((item) => {
-                    if (item.EventChange) {
-                        item.EventChangePickUp = true;
-                    }
-                })
-                //垃圾移动
+                if (item.EventChange) {
+                    item.EventChangePickUp = true;
+                }
+            });
+            //垃圾移动
             this.RecyclableSprite.forEach((item) => {
                 if (item.EventChange && item.EventChangePickUp) {
                     //垃圾移动事件
@@ -243,7 +256,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                                     x: 150,
                                     y: 600
                                 }, {
-                                    x: 250,
+                                    x: 330,
                                     y: 450
                                 }],
                             },
@@ -273,7 +286,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                                     x: 150,
                                     y: 600
                                 }, {
-                                    x: 250,
+                                    x: 330,
                                     y: 460
                                 }],
                             },
@@ -281,11 +294,23 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                         });
                         //垃圾飞出屏幕
                         this.setTimeOutNum = setTimeout(() => {
+                            if (this.animalNum == 0) {
+                                this.animateSpineNameItem.state.setAnimation(0, "sad2", false);
+                            } else {
+                                this.animateSpineNameItem.state.setAnimation(0, "sad", false);
+                            }
+
+                            this.animateSpineNameItem.state.tracks[0].listener = {
+                                complete: () => {
+                                    this.animateSpineNameItem.state.setAnimation(0, "normal", true);
+                                }
+                            };
+                            PIXI.sound.play("RubbishWrong");
                             TweenMax.to(item, 0.9, {
                                 bezier: {
                                     type: "cubic",
                                     values: [{
-                                        x: 250,
+                                        x: 330,
                                         y: 460
                                     }, {
                                         x: -100,
@@ -305,9 +330,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
 
                     }
                 }
-            })
-
-
+            });
         });
         //轮带
         for (let i = 0; i < 2; i++) {
@@ -315,7 +338,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 $this: self,
                 $alias: 'track_png',
                 $x: i * 1920,
-                $y: 715
+                $y: 715,
             }));
         }
         //轮子背景图
@@ -371,16 +394,21 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         });
         //添加垃圾
         for (let i = 0; i < 6; i++) {
-            let index = Math.floor(Math.random() * 20)
+            //把随机变成正常
+            let index = i;
+            //let index = Math.floor(Math.random() * 20);
             let RecyclableItem = createdSprite({
                 $this: self,
                 $alias: self.Waster[index],
-                $x: i * 384 + 1920,
+                $x: i * 434,
                 $y: 870,
                 $interactive: true,
                 $buttonMode: true,
+                $pivotX: true,
+                $scale: 1.2
             });
-            RecyclableItem.pivot.y = RecyclableItem.height;
+
+            RecyclableItem.pivot.y = RecyclableItem.height - 30;
             RecyclableItem.EventChange = false; //点击事件是否发生
             RecyclableItem.EventChangePickUp = false; //垃圾箱点击事件
             RecyclableItem.EventChangePosition = -200; //模拟点击事件的位置
@@ -394,26 +422,145 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 })
                 RecyclableItem.EventChange = true;
                 RecyclableItem.EventChangePosition = RecyclableItem.x //点击位置
-
             });
 
             this.RecyclableSprite.push(RecyclableItem);
         }
+        //添加遮罩层开始.......................
+        this.coverLay = new PIXI.Container();
+        this.addChild(this.coverLay);
+        this.coverLayout = new PIXI.Graphics();
+        this.coverLayout.beginFill(0x000000, 0.5);
+        this.coverLayout.drawRect(0, 0, 1980, 2000);
+        this.coverLayout.endFill();
+        this.coverLay.addChild(this.coverLayout);
+
+        // console.log(this.getChildIndex(this.coverLayout) + "遮罩层");
+        //显示垃圾桶
+        //this.setChildIndex(this.RubbishBoxSpriteItem, 38);
+        //显示垃圾
+        //this.setChildIndex(this.RecyclableSprite[1], 38); //显示瓶子
+        //this.RubbishBoxSpriteItem;
+        //垃圾箱
+        this.RubbishBoxSpriteItem.visible = false;
+        this.RubbishBoxSpriteItem0 = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
+        this.RubbishBoxSpriteItem0.state.setAnimation(0, "box2_normal", true); //设置状态
+        this.RubbishBoxSpriteItem0.skeleton.setSkinByName(this.RubbishBoxSkin[this.animalNum]); //给动画添加衣服
+        this.RubbishBoxSpriteItem0.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
+        this.RubbishBoxSpriteItem0.x = 400;
+        this.RubbishBoxSpriteItem0.y = 480;
+        this.coverLay.addChild(this.RubbishBoxSpriteItem0);
+        //对垃圾箱做遮罩层
+        let RubbishBoxSpriteItem0rectMask = new PIXI.Graphics();
+        RubbishBoxSpriteItem0rectMask.beginFill(0xff0000, 0.5).drawRect(70, 310, 660, 410).endFill();
+        this.RubbishBoxSpriteItem0.mask = RubbishBoxSpriteItem0rectMask;
+
+        //小动物
+        this.animateSpineNameItem.visible = false;
+        this.animateSpineNameItem0 = new PIXI.spine.Spine(PIXI.loader.resources[this.animateSpineName[this.animalNum]].spineData);
+        this.animateSpineNameItem0.state.setAnimation(0, "normal", true);
+        this.animateSpineNameItem0.x = 900;
+        this.animateSpineNameItem0.y = 630;
+        this.coverLay.addChild(this.animateSpineNameItem0);
+        //对小动物做遮罩层
+        let animateSpineNameItem0ReactMask = new PIXI.Graphics();
+        animateSpineNameItem0ReactMask.beginFill(0xff0000, 0.5).drawRect(660, 310, 700, 410).endFill();
+        this.animateSpineNameItem0.mask = animateSpineNameItem0ReactMask;
+        //添加瓶子
+        this.coverLay.addChild(this.RecyclableSprite[1]);
+        //小手指图片
+        // console.log(this)
+        // console.log(this.mask);
+        //this.mask = this.track[0];
+        this.Hand0 = createdSprite({
+            $this: self,
+            $alias: "Hand0_png",
+            $x: 417,
+            $y: 773,
+            $pivotY: true,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.Hand0);
+        this.Hand1 = createdSprite({
+            $this: self,
+            $alias: "Hand1_png",
+            $x: 411,
+            $y: 773,
+            $pivotY: true,
+            $visible: false,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.Hand1);
+        this.HandInterval = setInterval(() => {
+            if (this.HandControl) {
+                this.Hand0.visible = false;
+                this.Hand1.visible = true;
+                this.HandControl = false;
+            } else {
+                this.Hand0.visible = true;
+                this.Hand1.visible = false;
+                this.HandControl = true;
+            }
+        }, 500);
+        //小冒泡图片
+        this.LittleBubble = createdSprite({
+            $this: self,
+            $alias: "LitterBubble_png",
+            $x: 704,
+            $y: 718,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.LittleBubble);
+        //中冒泡图片
+        this.MilldleBubble = createdSprite({
+            $this: self,
+            $alias: "MiddleBubble_png",
+            $x: 750,
+            $y: 600,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.MilldleBubble);
+        //大冒泡图片
+        this.TextBubble = createdSprite({
+            $this: self,
+            $alias: "EasyPlayTip_png",
+            $x: 1000,
+            $y: 300,
+            $addChild: false
+        });
+        this.coverLay.addChild(this.TextBubble);
+        //跳过按钮
+        this.SkipButton = createdSprite({
+            $this: self,
+            $alias: "SkipButton_png",
+            $x: 1643,
+            $y: 867,
+            $interactive: true,
+            $buttonMode: true,
+            $addChild: false
+        }).on("pointertap", () => {
+
+        });
+        this.coverLay.addChild(this.SkipButton);
+        //添加遮罩层结束.......................
+
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
-        this.loop.start();
+        //this.loop.start();
         ///////////////////弹窗开始//////////////////////////////
         //第一个弹窗吧关闭按钮的弹窗
         this.Dialog = new BackDialog(self);
         this.DialogText = createdText({
             $this: self,
-            $text: "Do you really want  \n           to quit ? ", //这几个空格保留...
+            $text: "Do you really want  \n         to quit ? ", //这几个空格保留...
             $x: 640,
             $y: 280,
             $addChild: false,
             $style: createdStyle({
                 $fontSize: 100,
-                $fontFamily: "Times New Roman"
+                $fontWeight: 400,
+                $lineHeight: 128,
+                $fontFamily: "方正舒体",
             })
         });
         this.Dialog.yesBtn.on('pointertap', this.Dialog.yesBtnEvent = () => {
@@ -422,19 +569,19 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             clearTimeout(this.setTimeoutNum); //清除定时器
             this.parent.removeChildren();
             this.clearEvent();
-            SceneManager.run(new EasyGameSelectPages());
+            SceneManager.run(new EasyGameSelectAndIntroduce());
         });
         this.Dialog.noBtn.on("pointertap", this.Dialog.noBtnEvent = () => {
             this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
             this.RecyclableSprite.forEach((item) => {
                 item.interactive = true;
                 item.buttonMode = true;
-            })
+            });
             this.RecyclablelitterCap.interactive = true;
             this.palyBase.BtnBackNormal.interactive = true;
             PIXI.sound.play("RubbishPlaying", {
-                    loop: true
-                }) //游戏音乐背景
+                loop: true
+            }); //游戏音乐背景
             this.RubbishPlayingControl = true;
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.loop.start();
@@ -450,7 +597,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 $addChild: false,
                 $style: createdStyle({
                     $fontSize: 80,
-                    $fontFamily: "Times New Roman"
+                    $fontFamily: "方正舒体",
+                    $fontWeight: 400,
                 })
             }))
         });
@@ -461,7 +609,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             PIXI.sound.pause("RubbishSuccess"); //胜利音效结束
             this.parent.removeChildren();
             this.clearEvent();
-            SceneManager.run(new EasyGameSelectPages());
+            SceneManager.run(new EasyGameSelectAndIntroduce());
         });
         this.Dialog.againBtn.on("pointertap", this.Dialog.againBtnEvent = () => { //再来一次事件
             this.RubbishPlayingControl = true;
@@ -476,7 +624,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.parent.removeChildren();
             this.clearEvent();
             SceneManager.run(new EasyGamePlayingPages());
-        });
+        })
 
         ///////////////////弹窗结束/////////////////////////////
     }
@@ -559,7 +707,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             (Judgement) ? (this.RecyclablelitterCap.interactive = false) : (this.RecyclablelitterCap.interactive = true);
         }
         this.RecyclableSprite.forEach((item, index, arr) => {
-            item.EventChange ? item.scale.set(1.2, 1.2) : item.scale.set(0.9, 0.9);
+            item.EventChange ? item.scale.set(1.5, 1.5) : item.scale.set(1.2, 1.2);
             if (item.EventChange && item.EventChangePickUp) {
                 //定义点击事件后发生的事情
                 //选择对的话
@@ -574,7 +722,6 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                                 this.animateSpineNameItem.state.setAnimation(0, "normal", true);
                             }
                         }
-
                         PIXI.sound.play("RubbishRight");
                         this.DialogDetail.correct++;
                     }
@@ -587,19 +734,18 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                     //选择错误的话
                     (this.ScoreNum >= 5) && (this.ScoreNum = this.ScoreNum - 5);
                     //动物不高兴
-                    if (this.animalNum == 0) {
-                        this.animateSpineNameItem.state.setAnimation(0, "sad2", false);
-                    } else {
-                        this.animateSpineNameItem.state.setAnimation(0, "sad", false);
-                    }
+                    // if (this.animalNum == 0) {
+                    //     this.animateSpineNameItem.state.setAnimation(0, "sad2", false);
+                    // } else {
+                    //     this.animateSpineNameItem.state.setAnimation(0, "sad", false);
+                    // }
 
-                    this.animateSpineNameItem.state.tracks[0].listener = {
-                        complete: () => {
-                            this.animateSpineNameItem.state.setAnimation(0, "normal", true);
-                        }
-                    };
-
-                    PIXI.sound.play("RubbishWrong");
+                    // this.animateSpineNameItem.state.tracks[0].listener = {
+                    //     complete: () => {
+                    //         this.animateSpineNameItem.state.setAnimation(0, "normal", true);
+                    //     }
+                    // };
+                    // PIXI.sound.play("RubbishWrong");
 
                     this.DialogDetail.incorrect++;
                     this.ScoreMessage.text = this.ScoreNum;
@@ -622,12 +768,14 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         NewItem = createdSprite({
             $this: self,
             $alias: self.Waster[RandomIndex],
-            $x: self.RecyclableSprite[self.RecyclableSprite.length - 1].x + 384,
+            $x: self.RecyclableSprite[self.RecyclableSprite.length - 1].x + 434,
             $y: 870,
             $interactive: true,
             $buttonMode: true,
             $pivotY: true,
+            $pivotX: true,
         });
+        NewItem.pivot.y = NewItem.height - 30;
         (RandomIndex == 16) && (NewItem.scale.x = 0.6);
         NewItem.EventChangePosition = -200; //对创建的精灵定义属性
         NewItem.EventChange = false;
@@ -666,6 +814,18 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.Dialog.againBtn.off("pointertap", this.Dialog.againBtnEvent);
         //清除本屏幕事件
         this.off('added', this.addedToStage);
+
+    }
+    alphaSprite($num) {
+        //背景图
+        for (let item in this.PlayGameBasePage) {
+            item.alpha = $num;
+        }
+        //叶子图片
+
+        //时间背景
+        this.TimeSprite.alpha = $num;
+        //时间闹铃
 
     }
 }

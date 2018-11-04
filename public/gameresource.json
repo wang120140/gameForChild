@@ -259,4 +259,31 @@
 }, {
     "name": "NormalClickBack",
     "url": "./img/NormalClickBack.png"
+}, {
+    "name": "bgSelectAndIntroduce_png",
+    "url": "./img/bgSelectAndIntroduce.png"
+}, {
+    "name": "LitterBubble_png",
+    "url": "./img/LitterBubble.png"
+}, {
+    "name": "MiddleBubble_png",
+    "url": "./img/MiddleBubble.png"
+}, {
+    "name": "SelectTip_png",
+    "url": "./img/SelectTip.png"
+}, {
+    "name": "SkipButton_png",
+    "url": "./img/SkipButton.png"
+}, {
+    "name": "AgainBubble_png",
+    "url": "./img/AgainBubble.png"
+}, {
+    "name": "Hand0_png",
+    "url": "./img/Hand0.png"
+}, {
+    "name": "Hand1_png",
+    "url": "./img/Hand1.png"
+}, {
+    "name": "EasyPlayTip_png",
+    "url": "./img/EasyPlayTip.png"
 }]

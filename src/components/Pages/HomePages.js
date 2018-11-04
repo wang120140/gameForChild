@@ -7,7 +7,8 @@ import {
     createdSprite,
 } from "./Common.js";
 import 'pixi-spine';
-import EasyGameSelectPages from './EasyGameSelectPages.js';
+//import EasyGameSelectPages from './EasyGameSelectPages.js';
+import EasyGameSelectAndIntroduce from './EasyGameSelectAndIntroduce.js'
 import HardGamePlayingPages from './HardGamePlayingPages.js';
 export default class HomePages extends PIXI.Container {
     constructor() {
@@ -141,7 +142,7 @@ export default class HomePages extends PIXI.Container {
                 this.visible = false; //可以解决问题1    
                 this.parent.removeChildren();
             })();
-            SceneManager.run(new EasyGameSelectPages());
+            SceneManager.run(new EasyGameSelectAndIntroduce());
             //跳转选择页面
         }).on("pointerout", this.btnEasyClickEventPointerout = () => {
             this.btnEasyClick.visible = false;
