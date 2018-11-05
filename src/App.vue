@@ -59,12 +59,12 @@ export default {
       SceneManager.stage = CanvasApp.stage;
       this.gameStart().then(() => {
         //单个页面测试
-        //SceneManager.run(new HomePages());
+        SceneManager.run(new HomePages());
         //SceneManager.run(new EasyGameSelectAndIntroduce());
         //SceneManager.run("EasyGameSelectPages");
         //SceneManager.run(new EasyGameIntroPages());
         //SceneManager.run(new EasyGamePlayingPages());
-        SceneManager.run(new HardGamePlayingPages());
+        //SceneManager.run(new HardGamePlayingPages());
       });
     },
     async gameStart() {

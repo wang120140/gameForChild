@@ -184,16 +184,16 @@ export default class HardGamePlayingPages extends PIXI.Container {
             });
         //时间数据
         this.TimeMessage = createdText({
-                $this: self,
-                $text: "00:60",
-                $x: 1200,
-                $y: 65,
-                $style: createdStyle({
-                    $fontSize: 60,
-                    $fill: "#FDFFD0",
-                })
+            $this: self,
+            $text: "00:60",
+            $x: 1200,
+            $y: 65,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#FDFFD0",
             })
-            //在分数背景图下写分数
+        });
+        //在分数背景图下写分数
         this.ScoreMessage = createdText({
             $this: self,
             $text: self.ScoreNum,
@@ -218,7 +218,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.addChild(WasterBoxCapItem);
             WasterBoxCapItem.Class = this.WasterClass[index];
             WasterBoxCapItem.on("pointertap", this.WasterBoxCapEvent = () => {
-                //选择哪个箱子打开
+                this.CoverGameBegain()
+                    //选择哪个箱子打开
                 let a = this.WasterGather.filter((item) => {
                     return item.ButtonClick
                 })
@@ -294,6 +295,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 $pivotY: true,
                 $pivotX: true,
             });
+            WasterItem.scale.set(1.2);
             WasterItem.pivot.y = WasterItem.height - 30;
             WasterItem.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
             WasterItem.CheckClass = null; //定义检查属性
@@ -301,6 +303,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
             WasterItem.StartPostion = null; //开始位置 
             WasterItem.EndPostion = null; //结束位置
             WasterItem.on("pointertap", this.WasterItemEvent = () => { //垃圾点击事件
+                //对垃圾放大
+                WasterItem.scale.set(1.5);
                 PIXI.sound.play(self.Waster[index] + "_mp3"); //播放单词音频
                 this.WasterGather.forEach((item) => {
                     (item.y == 870) && (item.ButtonClick = false);
@@ -311,16 +315,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         }
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
-        //开始游戏界面判断
-        if (Garbage.getGarBage("startPlayHardGame")) { //开始游戏界面
-            this.loop.start();
-            //背景音乐
-            this.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                    loop: true
-                }) //游戏音乐背景
-        } else {
-            this.loop.stop();
-        }
+
         /////////////弹窗开始/////////////////////////
         //第一个弹窗吧关闭按钮的弹窗
         this.Dialog = new BackDialog(self);
@@ -343,35 +338,29 @@ export default class HardGamePlayingPages extends PIXI.Container {
             clearTimeout(this.setTimeOutNum);
             this.parent.removeChildren();
             this.clearEvent();
+            Garbage.setGarBage("HardPlayPages", "HadEnter");
             SceneManager.run(new HomePages());
         });
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent);
         //蒙层开始..........
         this.coverLay = new PIXI.Container();
-        this.addChild(this.coverLay);
+
         this.coverLayout = new PIXI.Graphics();
         this.coverLayout.beginFill(0x000000, 0.5);
         this.coverLayout.drawRect(0, 0, 1980, 2000);
         this.coverLayout.endFill();
         this.coverLay.addChild(this.coverLayout);
         //垃圾箱开始
-        this.WasterBoxSkinAnimateArr[0].visible = false;
-        let WasterBoxAnimateItem = new PIXI.spine.Spine(PIXI.loader.resources["Box_spine"].spineData);
-        WasterBoxAnimateItem.state.setAnimation(0, "box2_normal", true);
-        WasterBoxAnimateItem.skeleton.setSkinByName("blue"); //给动画添加衣服
-        WasterBoxAnimateItem.skeleton.setSlotsToSetupPose(); //给动画穿上衣服
-        WasterBoxAnimateItem.x = +210;
-        WasterBoxAnimateItem.y = 380;
-        WasterBoxAnimateItem.scale.x = 0.65;
-        WasterBoxAnimateItem.scale.y = 0.65;
-        this.coverLay.addChild(WasterBoxAnimateItem)
-            //对垃圾进行加蒙层
+
+        //对垃圾进行加蒙层
+        //垃圾箱
+        //this.coverLay.addChild(this.WasterBoxSkinAnimateArr[0]);
         let RubbishBoxSpriteItem0rectMask = new PIXI.Graphics();
-        RubbishBoxSpriteItem0rectMask.beginFill(0xff0000, 0.5).drawRect(0, 250, 450, 480).endFill();
+        RubbishBoxSpriteItem0rectMask.beginFill(0xff0000, 0.5).drawRect(0, 0, 450, 722).endFill();
         //this.coverLay.addChild(RubbishBoxSpriteItem0rectMask);
-        WasterBoxAnimateItem.mask = RubbishBoxSpriteItem0rectMask;
+        this.WasterBoxSkinAnimateArr[0].mask = RubbishBoxSpriteItem0rectMask;
         //添加瓶子
-        this.coverLay.addChild(this.WasterGather[1]);
+        //this.coverLay.addChild(this.WasterGather[1]);
         //添加手指
         this.Hand0 = createdSprite({
             $this: self,
@@ -381,7 +370,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             $pivotY: true,
             $addChild: false
         });
-        this.coverLay.addChild(this.Hand0);
+        //this.coverLay.addChild(this.Hand0);
         this.Hand1 = createdSprite({
             $this: self,
             $alias: "Hand1_png",
@@ -391,7 +380,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             $visible: false,
             $addChild: false
         });
-        this.coverLay.addChild(this.Hand1);
+        //this.coverLay.addChild(this.Hand1);
         this.HandInterval = setInterval(() => {
             if (this.HandControl) {
                 this.Hand0.visible = false;
@@ -441,7 +430,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
             $buttonMode: true,
             $addChild: false
         }).on("pointertap", () => {
-
+            this.CoverGameBegain()
         });
         this.coverLay.addChild(this.SkipButton);
         //蒙层结束..........
@@ -480,19 +469,39 @@ export default class HardGamePlayingPages extends PIXI.Container {
             SceneManager.run(new HomePages());
         });
         this.Dialog.againBtn.on("pointertap", this.Dialog.againBtnEvent = () => { //再来一次事件
-                PIXI.sound.pause("RubbishSuccess")
-                PIXI.sound.play("ClickSound") //添加点击效果音效
-                this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
-                    this.Dialog.fhBtn, this.Dialog.againBtn)
-                this.DialogSummarySpriteArr.forEach((item) => {
-                    this.removeChild(item)
-                })
-                clearTimeout(this.setTimeOutNum);
-                this.parent.removeChildren();
-                this.clearEvent();
-                SceneManager.run(new HardGamePlayingPages());
+            PIXI.sound.pause("RubbishSuccess")
+            PIXI.sound.play("ClickSound") //添加点击效果音效
+            this.removeChild(this.Dialog.graphics, this.Dialog.popSummary, this.Dialog.success,
+                this.Dialog.fhBtn, this.Dialog.againBtn)
+            this.DialogSummarySpriteArr.forEach((item) => {
+                this.removeChild(item)
             })
-            ///////////////////弹窗结束/////////////////////////////
+            clearTimeout(this.setTimeOutNum);
+            this.parent.removeChildren();
+            this.clearEvent();
+            SceneManager.run(new HardGamePlayingPages());
+        });
+        //开始游戏界面判断
+        if (Garbage.getGarBage("startPlayHardGame")) { //开始游戏界面
+            //遮罩层影响的
+            //this.loop.start();
+            //显示蒙层
+            this.coverLay.addChild(this.WasterBoxSkinAnimateArr[0]);
+            this.coverLay.addChild(this.WasterGather[1]);
+            this.coverLay.addChild(this.Hand0);
+            this.coverLay.addChild(this.Hand1);
+            this.addChild(this.coverLay);
+            //背景音乐
+            this.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
+                    loop: true
+                }) //游戏音乐背景
+        } else {
+            this.loop.stop();
+        }
+        if (Garbage.getGarBage("HardPlayPages") === "HadEnter" && Garbage.getGarBage("startPlayHardGame")) {
+            this.CoverGameBegain();
+        }
+        ///////////////////弹窗结束/////////////////////////////
     }
     gameloop(delta) {
         //关于时间的方法
@@ -651,6 +660,17 @@ export default class HardGamePlayingPages extends PIXI.Container {
             }
 
         })
+    }
+    CoverGameBegain() {
+        //开始游戏
+        this.loop.start();
+        //先移除遮罩层
+        this.removeChild(this.coverLay);
+        //添加垃圾箱
+        this.addChild(this.WasterBoxSkinAnimateArr[0]);
+        this.setChildIndex(this.WasterBoxSkinAnimateArr[0], 1);
+        //添加瓶子
+        this.addChild(this.WasterGather[1]);
     }
     BornSprite = (item, index, arr) => {
         let self = this;

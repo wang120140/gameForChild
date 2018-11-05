@@ -286,4 +286,7 @@
 }, {
     "name": "EasyPlayTip_png",
     "url": "./img/EasyPlayTip.png"
+}, {
+    "name": "ArrowTextBubble_png",
+    "url": "./img/ArrowTextBubble.png"
 }]

@@ -130,9 +130,11 @@ export default class HomePages extends PIXI.Container {
             //4.清除所有的事件绑定
             //5.清除所有变量
             //6.清除所有精灵舞台
+            //7.发送第一次进入添加引导层
             PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
             Garbage.clearGarBage("SoundProgress"); //清除声音数据
             Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            Garbage.setGarBage("CoverLayoutSet", "First");
             (() => {
                 this.clearEvent();
                 this.BtnHardClick = null;
