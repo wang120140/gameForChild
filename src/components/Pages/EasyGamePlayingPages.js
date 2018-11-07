@@ -520,10 +520,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.CoverGameBegain();
         });
         this.coverLay.addChild(this.SkipButton);
-
-
         //添加遮罩层结束.......................
-
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
         //this.loop.start();
@@ -609,6 +606,10 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         });
         if (Garbage.getGarBage("EnterPlayPages") === "SelectAgainPages") {
             console.log("这件事情发生了....")
+            this.CoverGameBegain();
+        }
+
+        if (Garbage.getGarBage("BackSelectPages") === "EasyPlayingGame") {
             this.CoverGameBegain();
         }
         ///////////////////弹窗结束/////////////////////////////

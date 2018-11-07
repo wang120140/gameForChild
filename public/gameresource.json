@@ -27,7 +27,7 @@
     "url": "./img/playButtonClick.png"
 }, {
     "name": "bggame_png",
-    "url": "./img/bggaming.png"
+    "url": "./img/bggaming.jpg"
 }, {
     "name": "wheel_png",
     "url": "./img/wheel.png"
@@ -252,7 +252,7 @@
     "url": "./sound/bg/Alarm.mp3"
 }, {
     "name": "HomeBg_png",
-    "url": "./img/HomeBg.png"
+    "url": "./img/HomeBg.jpg"
 }, {
     "name": "NormalBack_png",
     "url": "./img/NormalBack.png"
@@ -261,7 +261,7 @@
     "url": "./img/NormalClickBack.png"
 }, {
     "name": "bgSelectAndIntroduce_png",
-    "url": "./img/bgSelectAndIntroduce.png"
+    "url": "./img/bgSelectAndIntroduce.jpg"
 }, {
     "name": "LitterBubble_png",
     "url": "./img/LitterBubble.png"
