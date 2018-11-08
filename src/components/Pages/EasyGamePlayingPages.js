@@ -207,8 +207,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.addChild(this.animateSpineNameItem);
         //风车动画开始
         this.windmill_spine = new PIXI.spine.Spine(PIXI.loader.resources['windmill_spine'].spineData);
-        this.windmill_spine.y = 500;
-        this.windmill_spine.x = 1700;
+        this.windmill_spine.y = 610;
+        this.windmill_spine.x = 1900;
         this.windmill_spine.state.setAnimation(0, 'animation', true);
         this.addChild(this.windmill_spine);
         //风车动画结束
@@ -404,7 +404,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 $pivotX: true,
                 $scale: 1.2
             });
-            RecyclableItem.pivot.y = RecyclableItem.height - 30;
+            RecyclableItem.pivot.y = RecyclableItem.height - 50;
             RecyclableItem.EventChange = false; //点击事件是否发生
             RecyclableItem.EventChangePickUp = false; //垃圾箱点击事件
             RecyclableItem.EventChangePosition = -200; //模拟点击事件的位置
@@ -431,6 +431,11 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.coverLayout.drawRect(0, 0, 1980, 2000);
         this.coverLayout.endFill();
         this.coverLay.addChild(this.coverLayout);
+        //添加遮罩层对其的影响（关闭退出按钮和垃圾按钮）
+        this.palyBase.BtnBackNormal.interactive = false;
+        this.RecyclableSprite.forEach((item) => {
+            item.interactive = false;
+        });
         //垃圾箱
         this.coverLay.addChild(this.RubbishBoxSpriteItem);
         //对垃圾箱做遮罩层
@@ -445,6 +450,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         animateSpineNameItem0ReactMask.beginFill(0xff0000, 0.5).drawRect(660, 310, 700, 410).endFill();
         this.animateSpineNameItem.mask = animateSpineNameItem0ReactMask;
         //添加瓶子
+        this.RecyclableSprite[1].interactive = true;
         this.coverLay.addChild(this.RecyclableSprite[1]);
         //小手指图片
         // console.log(this)
@@ -753,6 +759,11 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.coverLay.removeChild(this.RubbishBoxSpriteItem);
         this.coverLay.removeChild(this.RecyclableSprite[1]);
         this.removeChild(this.coverLay);
+        //移除遮罩层对其的影响（关闭退出按钮和垃圾按钮）
+        this.palyBase.BtnBackNormal.interactive = true;
+        this.RecyclableSprite.forEach((item) => {
+            item.interactive = true;
+        });
         //添加垃圾箱
         //this.RubbishBoxSpriteItem.mask = null;
         this.addChild(this.RubbishBoxSpriteItem);
@@ -783,8 +794,9 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             $buttonMode: true,
             $pivotY: true,
             $pivotX: true,
+            $scale: 1.2
         });
-        NewItem.pivot.y = NewItem.height - 30;
+        NewItem.pivot.y = NewItem.height - 50;
         (RandomIndex == 16) && (NewItem.scale.x = 0.6);
         NewItem.EventChangePosition = -200; //对创建的精灵定义属性
         NewItem.EventChange = false;

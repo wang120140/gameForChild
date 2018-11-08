@@ -296,7 +296,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 $pivotX: true,
             });
             WasterItem.scale.set(1.2);
-            WasterItem.pivot.y = WasterItem.height - 30;
+
+            WasterItem.pivot.y = WasterItem.height - 50;
             WasterItem.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
             WasterItem.CheckClass = null; //定义检查属性
             WasterItem.ButtonClick = false; //是否点击了事件发生
@@ -344,12 +345,16 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.Dialog.noBtn.on("pointertap", this.noButtonEvent);
         //蒙层开始..........
         this.coverLay = new PIXI.Container();
-
         this.coverLayout = new PIXI.Graphics();
         this.coverLayout.beginFill(0x000000, 0.5);
         this.coverLayout.drawRect(0, 0, 1980, 2000);
         this.coverLayout.endFill();
         this.coverLay.addChild(this.coverLayout);
+        //蒙层对其的影响
+        this.palyBase.BtnBackNormal.interactive = false;
+        this.WasterGather.forEach((item) => {
+            item.interactive = false;
+        });
         //垃圾箱开始
 
         //对垃圾进行加蒙层
@@ -481,12 +486,13 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.clearEvent();
             SceneManager.run(new HardGamePlayingPages());
         });
-        //开始游戏界面判断
+        //轮播图点击开始按钮开始游戏界面判断
         if (Garbage.getGarBage("startPlayHardGame")) { //开始游戏界面
             //遮罩层影响的
             //this.loop.start();
             //显示蒙层
             this.coverLay.addChild(this.WasterBoxSkinAnimateArr[0]);
+            this.WasterGather[1].interactive = true;
             this.coverLay.addChild(this.WasterGather[1]);
             this.coverLay.addChild(this.Hand0);
             this.coverLay.addChild(this.Hand1);
@@ -671,6 +677,11 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.setChildIndex(this.WasterBoxSkinAnimateArr[0], 1);
         //添加瓶子
         this.addChild(this.WasterGather[1]);
+        //移除对瓶子和返回按钮的属性
+        this.palyBase.BtnBackNormal.interactive = true;
+        this.WasterGather.forEach((item) => {
+            item.interactive = true;
+        });
     }
     BornSprite = (item, index, arr) => {
         let self = this;
@@ -687,7 +698,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true
         });
-        newItem.pivot.y = newItem.height - 30;
+        newItem.scale.set(1.2);
+        newItem.pivot.y = newItem.height - 50;
         (RandomIndex == 16) && (newItem.scale.x = 0.6);
         newItem.Class = this.WasterClass[Math.floor(RandomIndex / 5)]; //定义属性
         newItem.CheckClass = null; //定义检查属性
