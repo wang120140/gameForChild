@@ -65,7 +65,7 @@
             <img  src="../../../public/img/playButton.png"  alt=""  v-if = "isBoo">
             <img  src="../../../public/img/playButtonClick.png" alt="" v-if = "!isBoo">
         </div>
-        <div id="Coverlay" ref="coverlay" @click="coverLayoutShow" >
+        <div v-show="coverlayControlShowOnce" id="Coverlay" ref="coverlay" @click="coverLayoutShow" >
           <img src="../../../public/img/LeftArrow.png" alt="">
           <img src="../../../public/img/RightArrow.png" alt="">
           <img ref="hand0" src="../../../public/img/Hand0.png" alt="">
@@ -86,6 +86,7 @@ export default {
     return {
       isBoo: true,
       lastIndex: false,
+      coverlayControlShowOnce: true,
       slide: [
         {
           title: "Recyclable Waste",
@@ -293,7 +294,7 @@ export default {
   },
   mounted() {
     let _this = this;
-    console.log("vs1.1");
+    //console.log("vs1.1");
     let swiper = new Swiper(".swiper-container", {
       pagination: {
         el: ".swiper-pagination",
@@ -303,7 +304,7 @@ export default {
         slideChange: function() {
           var questionSound = document.getElementById("questionSound");
           questionSound.play();
-          console.log(_this.slide[0].title);
+          //console.log(_this.slide[0].title);
           if (swiper.activeIndex == _this.slide.length - 1) {
             setTimeout(function() {
               _this.lastIndex = true;
@@ -314,7 +315,16 @@ export default {
         }
       }
     });
-    this.controlHand();
+    //Garbage.getGarBage("EnterHardSwiperPage");
+    //console.log(Garbage.getGarBage("EnterHardSwiperPage"));
+    if (Garbage.getGarBage("EnterHardSwiperPage")) {
+      //console.log("...有值");
+      this.coverlayControlShowOnce = false;
+    } else {
+      //le.log("为 null");
+      this.coverlayControlShowOnce = true;
+      this.controlHand();
+    }
   },
 
   methods: {
@@ -322,7 +332,7 @@ export default {
       if (Browser.versions.mobile && $event.type == "mousedown") {
         return false;
       }
-      console.log("触发了鼠标按下效果");
+      //console.log("触发了鼠标按下效果");
       if (this.isBoo) {
         this.isBoo = false;
       } else {
@@ -332,16 +342,16 @@ export default {
 
     skip_end($event) {
       if (Browser.versions.mobile && $event.type == "mouseup") {
-        console.info("1111");
+        // console.info("1111");
         return false;
       }
-      console.log("触发了鼠标抬起效果", $event);
-      console.log("开始进入事件发生...");
+      // console.log("触发了鼠标抬起效果", $event);
+      // console.log("开始进入事件发生...");
       this.isBoo = false;
       this.changePage();
     },
     changePage() {
-      console.log("changePage事件发生...");
+      //console.log("changePage事件发生...");
       this.$emit("StartHardGarm");
       Garbage.clearGarBage("startPlayHardGame");
       Garbage.setGarBage("startPlayHardGame", true);
@@ -363,6 +373,8 @@ export default {
     },
     coverLayoutShow() {
       clearInterval(this.timeControl);
+      Garbage.clearGarBage("EnterHardSwiperPage");
+      Garbage.setGarBage("EnterHardSwiperPage", true);
       this.$refs.coverlay.style.display = "none";
     },
     beforeDestroy() {

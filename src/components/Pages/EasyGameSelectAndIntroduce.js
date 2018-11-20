@@ -175,6 +175,30 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         });
         this.RubbishBoxAnimateArr[0].state.setAnimation(0, "box1_select", true); //设置默认的选中状态
 
+
+        //小动物动画
+        var a = [450, 920, 1350, 2000];
+        this.animateSpineName.forEach((item, index) => {
+            this.animateSpineItem = new PIXI.spine.Spine(PIXI.loader.resources[item].spineData);
+            this.animateSpineItem.state.setAnimation(0, 'normal', true);
+            this.animateSpineItem.x = a[index];
+            this.animateSpineItem.interactive = true;
+            this.animateSpineItem.buttonMode = true;
+            this.animateSpineItem.scale.x = 0.8;
+            this.animateSpineItem.scale.y = 0.8;
+            this.animateSpineItem.y = 800;
+            if (index == 3) {
+                //this.animateSpineItem.scale(0.5, 0.5);
+                this.animateSpineItem.x = 1700;
+                this.animateSpineItem.y = 750;
+                this.animateSpineItem.scale.x = 0.5;
+                this.animateSpineItem.scale.y = 0.5;
+            }
+            this.animateSpineItem.visible = false;
+            this.animateSpineArr.push(this.animateSpineItem);
+            this.addChild(this.animateSpineItem)
+        });
+        this.animateSpineArr[0].visible = true;
         //添加箭头事件
         for (let i = 0; i < 4; i++) {
             this.Arrow = new PIXI.Graphics();
@@ -241,29 +265,6 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
             this.addChild(this.Arrow);
         }
         this.ArrowArr[0].visible = true; //设置默认效果
-        //小动物动画
-        var a = [450, 920, 1350, 2000];
-        this.animateSpineName.forEach((item, index) => {
-            this.animateSpineItem = new PIXI.spine.Spine(PIXI.loader.resources[item].spineData);
-            this.animateSpineItem.state.setAnimation(0, 'normal', true);
-            this.animateSpineItem.x = a[index];
-            this.animateSpineItem.interactive = true;
-            this.animateSpineItem.buttonMode = true;
-            this.animateSpineItem.scale.x = 0.8;
-            this.animateSpineItem.scale.y = 0.8;
-            this.animateSpineItem.y = 800;
-            if (index == 3) {
-                //this.animateSpineItem.scale(0.5, 0.5);
-                this.animateSpineItem.x = 1700;
-                this.animateSpineItem.y = 750;
-                this.animateSpineItem.scale.x = 0.5;
-                this.animateSpineItem.scale.y = 0.5;
-            }
-            this.animateSpineItem.visible = false;
-            this.animateSpineArr.push(this.animateSpineItem);
-            this.addChild(this.animateSpineItem)
-        });
-        this.animateSpineArr[0].visible = true;
         //遮罩层开始********************************************/
         //遮罩层的影响
 
@@ -418,7 +419,9 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         });
         this.coverLay.addChild(this.SkipButton);
         this.CoverTransform = Garbage.getGarBage("BackSelectPages");
-        if (this.CoverTransform === "EasyPlayingGame") {
+        this.EnterSelectPages = Garbage.getGarBage("EnterSelectPage");
+        //console.log(this.EnterSelectPages);
+        if (this.CoverTransform === "EasyPlayingGame" || this.EnterSelectPages) {
             //console.log("这个EasyPlayingGame相等事件发生了...");
             //替换问题图片
             //添加垃圾箱
@@ -432,6 +435,12 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
             //设置事件发生
 
         }
+
+        //console.log(this.EnterSelectPages);
+        //console.log("...");
+        Garbage.clearGarBage("EnterSelectPage");
+        Garbage.setGarBage("EnterSelectPage", true);
+
         //遮罩层设置完毕*******************************************************/
         //循环效果
         this.loop = new PIXI.ticker.Ticker();
