@@ -85,7 +85,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.EndScreen;
     }
     addedStage() {
-        console.log("hardPages页面中进入了...")
+        //console.log("hardPages页面中进入了...")
         let self = this;
         this.palyBase = new PlayGameBasePage({
             _this: self
@@ -204,6 +204,30 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 $fill: "#FDFFD0",
             })
         });
+        this.AddScore = createdText({
+            $this: self,
+            $text: "+5",
+            $x: 1680,
+            $y: 200,
+            $visible: false,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#56E158"
+            })
+        });
+        this.AddScore.visible = false;
+        this.minScore = createdText({
+            $this: self,
+            $text: "-5",
+            $x: 1680,
+            $y: 85,
+            $visible: false,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#CF5D40"
+            })
+        });
+        this.minScore.visible = false;
         //箱子盖
         this.WasterBoxCap.forEach((item, index) => {
             let WasterBoxCapItem = new PIXI.Graphics();
@@ -497,10 +521,14 @@ export default class HardGamePlayingPages extends PIXI.Container {
             this.coverLay.addChild(this.Hand0);
             this.coverLay.addChild(this.Hand1);
             this.addChild(this.coverLay);
+            this.WasterBoxCapSprite.forEach((item) => {
+                item.interactive = false;
+            });
+            this.WasterBoxCapSprite[0].interactive = true;
             //背景音乐
             this.RubbishPlaying = PIXI.sound.play("RubbishPlaying", {
-                    loop: true
-                }) //游戏音乐背景
+                loop: true
+            }); //游戏音乐背景
         } else {
             this.loop.stop();
         }
@@ -599,11 +627,28 @@ export default class HardGamePlayingPages extends PIXI.Container {
             //点击飞出效果
             if (((item.ButtonClick) && (item.StartPostion != null) && (item.EndPostion != null))) {
                 //选择对的话
+                if (item.CheckClass == item.Class) {
+                    if (this.AddScore.y < 85) { // +5分飞出效果.......
+                        this.AddScore.visible = false;
+                    } else {
+                        this.AddScore.visible = true;
+                        this.AddScore.y -= 5;
+                    }
+                } else {
+                    //console.log("错误的事件...")
+                    if (this.minScore.y > 200) { //-5 分出效果
+                        this.minScore.visible = false;
+                    } else {
+                        this.minScore.visible = true;
+                        this.minScore.y += 3;
+                    }
+                }
                 if (item.y <= 450) {
                     //定义成绩
                     //选对的情况下
                     if (item.CheckClass == item.Class) { //选对得分事件
                         this.ScoreNum += 5;
+                        this.AddScore.y = 200;
                         //小动物高兴开始
                         this.AnimateArr.forEach((item) => {
                                 if (item.visible) {
@@ -622,6 +667,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
                     } else { //选错减分事件
                         //选错的情况下
                         (this.ScoreNum >= 5) && (this.ScoreNum -= 5);
+                        this.minScore.y = 85;
                         //小动物悲伤开始
                         this.AnimateArr.forEach((item, index) => {
                             if (item.visible) {
@@ -682,6 +728,9 @@ export default class HardGamePlayingPages extends PIXI.Container {
         this.WasterGather.forEach((item) => {
             item.interactive = true;
         });
+        this.WasterBoxCapSprite.forEach((item) => {
+            item.interactive = true;
+        })
     }
     BornSprite = (item, index, arr) => {
         let self = this;

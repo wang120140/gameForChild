@@ -92,9 +92,10 @@ export default class HomePages extends PIXI.Container {
             $visible: false,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointerup", () => {}).on("pointerout", () => {
+        }).on("pointerup", () => {
             this.closeButtonClick.visible = false;
             //返回主目录;
+            console.log(".....");
             window.parent.postMessage({
                 "type": "exitGame",
                 "game": 5,

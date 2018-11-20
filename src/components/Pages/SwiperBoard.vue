@@ -65,6 +65,14 @@
             <img  src="../../../public/img/playButton.png"  alt=""  v-if = "isBoo">
             <img  src="../../../public/img/playButtonClick.png" alt="" v-if = "!isBoo">
         </div>
+        <div id="Coverlay" ref="coverlay" @click="coverLayoutShow" >
+          <img src="../../../public/img/LeftArrow.png" alt="">
+          <img src="../../../public/img/RightArrow.png" alt="">
+          <img ref="hand0" src="../../../public/img/Hand0.png" alt="">
+          <img ref="hand1" src="../../../public/img/Hand1.png" alt="">
+          <img src="../../../public/img/HardCoverLay.png" alt="">
+          <img src="../../../public/img/SkipButton.png" alt="">
+        </div>
 
     </div>
 </template>
@@ -279,13 +287,14 @@ export default {
             "瓦罐 \n crocks"
           ]
         }
-      ]
+      ],
+      timeControl: null
     };
   },
   mounted() {
-    var _this = this;
+    let _this = this;
     console.log("vs1.1");
-    var swiper = new Swiper(".swiper-container", {
+    let swiper = new Swiper(".swiper-container", {
       pagination: {
         el: ".swiper-pagination",
         clickable: true
@@ -305,6 +314,7 @@ export default {
         }
       }
     });
+    this.controlHand();
   },
 
   methods: {
@@ -330,24 +340,45 @@ export default {
       this.isBoo = false;
       this.changePage();
     },
-
     changePage() {
       console.log("changePage事件发生...");
       this.$emit("StartHardGarm");
       Garbage.clearGarBage("startPlayHardGame");
       Garbage.setGarBage("startPlayHardGame", true);
       SceneManager.run(new HardGamePlayingPages());
+    },
+    controlHand() {
+      let control = true;
+      this.timeControl = setInterval(() => {
+        if (control) {
+          this.$refs.hand0.style.opacity = 0;
+          this.$refs.hand1.style.opacity = 1;
+          control = false;
+        } else {
+          this.$refs.hand0.style.opacity = 1;
+          this.$refs.hand1.style.opacity = 0;
+          control = true;
+        }
+      }, 300);
+    },
+    coverLayoutShow() {
+      clearInterval(this.timeControl);
+      this.$refs.coverlay.style.display = "none";
+    },
+    beforeDestroy() {
+      // console.log(timeControl);
+      // console.log("timeControl...");
+      // clearInterval(timeControl);
     }
   }
 };
 </script>
 
-<style>
+<style >
 html,
 body {
   position: relative;
 }
-
 body {
   background: #eee;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -356,7 +387,56 @@ body {
   margin: 0;
   padding: 0;
 }
-
+#Coverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+#Coverlay img {
+  position: absolute;
+}
+#Coverlay img:nth-child(1) {
+  top: 6.78rem;
+  left: 4.22rem;
+  width: 2.92rem;
+  height: 2.14rem;
+}
+#Coverlay img:nth-child(2) {
+  top: 6.78rem;
+  left: 12.44rem;
+  width: 2.92rem;
+  height: 2.14rem;
+}
+#Coverlay img:nth-child(3) {
+  top: 7.84rem;
+  left: 9.39rem;
+  width: 1.38rem;
+  height: 1.6rem;
+}
+#Coverlay img:nth-child(4) {
+  top: 8.15rem;
+  left: 9.35rem;
+  opacity: 0;
+  width: 1.44rem;
+  height: 1.23rem;
+}
+#Coverlay img:nth-child(5) {
+  top: 2.1rem;
+  left: 9.39rem;
+  width: 6.83rem;
+  height: 4.08rem;
+}
+#Coverlay img:last-child {
+  top: 8.67rem;
+  left: 16.43rem;
+  width: 1.76rem;
+  height: 1.33rem;
+}
 .bigbox {
   width: 100%;
   height: 10.8rem;

@@ -81,7 +81,7 @@ export default {
           .getElementById("netbadbackground")
           .parentNode.removeChild(document.getElementById("netbadbackground"));
       }
-      console.log("游戏资源加载完毕");
+      //console.log("游戏资源加载完毕");
     },
     //这是网络缓慢时弹窗事件结束
     getPromise_resource() {
@@ -102,7 +102,7 @@ export default {
                 document.getElementById("ProMid").style.width =
                   loader.progress * 0.0495 + 0.3 + "rem";
                 document.getElementById("ProLef").style.left =
-                  loader.progress * 2.472 + 48.8 + "%";
+                  loader.progress * 2.456 + 48 + "%";
               }
             })
             .load(() => {
@@ -110,7 +110,7 @@ export default {
             });
         });
         // } else {
-        //   console.log("已经加载了...");
+        //   //console.log("已经加载了...");
         // }
       });
     }
@@ -125,7 +125,7 @@ export default {
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
-  background: green;
+  background: black;
 }
 .SwiperDialog {
   position: absolute;

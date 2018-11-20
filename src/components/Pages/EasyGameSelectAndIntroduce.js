@@ -71,7 +71,7 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         });
         //获取CoveryLayoutSet 数据
         this.CoverLayoutSet = Garbage.getGarBage("CoverLayoutSet");
-        console.log(this.CoverLayoutSet);
+        //console.log(this.CoverLayoutSet);
         //改变场景...
         //背景图
         this.bg = createdSprite({
@@ -180,7 +180,8 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
             this.Arrow = new PIXI.Graphics();
             this.Arrow.lineStyle(0);
             this.Arrow.beginFill(0xFFFF0B, 0.5);
-            this.Arrow.drawCircle(250 + i * 460, 300, 90);
+            //this.Arrow.drawCircle(250 + i * 460, 300, 90);
+            this.Arrow.drawRect(50 + i * 460, 250, 400, 650);
             this.Arrow.endFill();
             this.Arrow.interactive = true;
             this.Arrow.buttonMode = true;
@@ -392,7 +393,7 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.ButtonCover.interactive = true;
         this.ButtonCover.buttonMode = true;
         this.ButtonCover.on("pointertap", () => {
-            console.log("遮罩层垃圾事件...");
+            //console.log("遮罩层垃圾事件...");
             this.Hand0.x = 264;
             this.Hand0.y = 458;
             this.Hand1.x = 264;
@@ -418,7 +419,7 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.coverLay.addChild(this.SkipButton);
         this.CoverTransform = Garbage.getGarBage("BackSelectPages");
         if (this.CoverTransform === "EasyPlayingGame") {
-            console.log("这个EasyPlayingGame相等事件发生了...");
+            //console.log("这个EasyPlayingGame相等事件发生了...");
             //替换问题图片
             //添加垃圾箱
             //this.addChild()
@@ -460,11 +461,11 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.BtnBackNormal.buttonMode = control;
         //添加小动物
         this.animateSpineArr[0].visible = control;
-        console.log("coverEffection事件发生了...")
+        //console.log("coverEffection事件发生了...")
     }
     coverButton() {
-        console.log("这个事件发生了...")
-            //点击效果声音
+        //console.log("这个事件发生了...")
+        //点击效果声音
         PIXI.sound.play("ClickSound") //添加点击效果音效
             //取消CoverLay遮罩层
         this.removeChild(this.coverLay);

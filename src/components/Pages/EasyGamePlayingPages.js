@@ -128,7 +128,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             //测试使用
             //var Test = 0;
             //switch (Test) {
-            console.log(Garbage.getGarBage("position") + "position位置")
+            //console.log(Garbage.getGarBage("position") + "position位置")
             switch (Garbage.getGarBage("position")) {
                 case 0:
                     this.RecyclablelitterName = "RecyclableLitter"
@@ -359,6 +359,30 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 $fill: "#FDFFD0",
             })
         });
+        this.AddScore = createdText({
+            $this: self,
+            $text: "+5",
+            $x: 1680,
+            $y: 200,
+            $visible: false,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#56E158"
+            })
+        });
+        this.AddScore.visible = false;
+        this.minScore = createdText({
+            $this: self,
+            $text: "-5",
+            $x: 1680,
+            $y: 85,
+            $visible: false,
+            $style: createdStyle({
+                $fontSize: 60,
+                $fill: "#CF5D40"
+            })
+        });
+        this.minScore.visible = false;
         //时间
         this.TimeMessage = createdText({
             $this: self,
@@ -611,7 +635,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             SceneManager.run(new EasyGamePlayingPages());
         });
         if (Garbage.getGarBage("EnterPlayPages") === "SelectAgainPages") {
-            console.log("这件事情发生了....")
+            //console.log("这件事情发生了....")
             this.CoverGameBegain();
         }
 
@@ -702,11 +726,38 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             item.EventChange ? item.scale.set(1.5, 1.5) : item.scale.set(1.2, 1.2);
             if (item.EventChange && item.EventChangePickUp) {
                 //定义点击事件后发生的事情
+                if (item.ClassItem == this.WasterClass[this.suitable]) { //正确的
+                    if (this.AddScore.y < 85) { // +5分飞出效果.......
+                        this.AddScore.visible = false;
+                    } else {
+                        this.AddScore.visible = true;
+                        this.AddScore.y -= 5;
+                    }
+                } else {
+                    //console.log("错误的事件...")
+                    if (this.minScore.y > 200) {
+                        this.minScore.visible = false;
+                    } else {
+                        this.minScore.visible = true;
+                        this.minScore.y += 5;
+                    }
+                }
                 //选择对的话
                 if (item.y <= 450) {
                     //选对加分
                     if (item.ClassItem == this.WasterClass[this.suitable]) { //选对的加分事件
                         this.ScoreNum += 5;
+                        this.AddScore.y = 200;
+                        // this.AddScore.visible = true;
+                        // this.AddScore.y -= 5;
+                        // if (this.AddScore.y < 85) {
+                        //     console.log("000")
+                        //     this.AddScore.visible = false;
+                        //     this.ScoreNum += 5;
+                        // } else {
+                        //     this.AddScore.visible = true;
+                        //     this.AddScore.y -= 5;
+                        // }
                         //动物高兴 怎么会少这句话呢？？？
                         this.animateSpineNameItem.state.setAnimation(0, "happy", false);
                         this.animateSpineNameItem.state.tracks[0].listener = {
@@ -724,6 +775,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
                 //选择错误的话
                 if (item.x <= -300) {
                     //选择错误的话
+                    this.minScore.y = 85;
                     (this.ScoreNum >= 5) && (this.ScoreNum = this.ScoreNum - 5);
                     //动物不高兴
                     // if (this.animalNum == 0) {
