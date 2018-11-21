@@ -403,7 +403,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.RubbishPlayingControl = false;
             PIXI.sound.pause("RubbishPlaying") //游戏音乐背景
             this.loop.stop();
-            this.addChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn)
+            //this.addChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn)
+            this.addChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.yesBtn, this.Dialog.noBtn) //删除DialogText文件
             this.RecyclableSprite.forEach((item) => {
                 item.interactive = false;
                 item.buttonMode = false;
@@ -557,19 +558,19 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         ///////////////////弹窗开始//////////////////////////////
         //第一个弹窗吧关闭按钮的弹窗
         this.Dialog = new BackDialog(self);
-        this.DialogText = createdText({
-            $this: self,
-            $text: "Do you really want  \n         to quit ? ", //这几个空格保留...
-            $x: 640,
-            $y: 280,
-            $addChild: false,
-            $style: createdStyle({
-                $fontSize: 100,
-                $fontWeight: 400,
-                $lineHeight: 128,
-                $fontFamily: "方正舒体",
-            })
-        });
+        // this.DialogText = createdText({
+        //     $this: self,
+        //     $text: "Do you really want  \n         to quit ? ", //这几个空格保留...
+        //     $x: 640,
+        //     $y: 280,
+        //     $addChild: false,
+        //     $style: createdStyle({
+        //         $fontSize: 100,
+        //         $fontWeight: 400,
+        //         $lineHeight: 128,
+        //         $fontFamily: "方正舒体",
+        //     })
+        // });
         this.Dialog.yesBtn.on('pointertap', this.Dialog.yesBtnEvent = () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
@@ -580,7 +581,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             SceneManager.run(new EasyGameSelectAndIntroduce());
         });
         this.Dialog.noBtn.on("pointertap", this.Dialog.noBtnEvent = () => {
-            this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+            //this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+            this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.yesBtn, this.Dialog.noBtn); //删除DialogTexrt文件
             this.RecyclableSprite.forEach((item) => {
                 item.interactive = true;
                 item.buttonMode = true;

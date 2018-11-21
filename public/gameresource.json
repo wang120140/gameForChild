@@ -283,4 +283,7 @@
 }, {
     "name": "ArrowTextBubble_png",
     "url": "./img/ArrowTextBubble.png"
+}, {
+    "name": "DialogPause_png",
+    "url": "./img/dialog/DialogPause.png"
 }]

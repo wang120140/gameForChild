@@ -307,7 +307,7 @@
     height: 0.4rem;
     display: inline-block;
     border-radius: 100%;
-    background: #000;
+    /* background: #000; */
 }
 
 button.swiper-pagination-bullet {

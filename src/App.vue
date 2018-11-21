@@ -1,11 +1,22 @@
 <template>
-<keep-alive>
+<!-- <keep-alive> -->
     <div id="app">
         <div ref="gameMain">
         </div>
         <SwiperBoard class="SwiperDialog"  @StartHardGarm="ControlHardGarm" v-if="ControlHardDialog"></SwiperBoard>
+        <div v-show="showTimeOut">
+          <div class = "timeOut"></div>
+          <div class="exitBar">
+            <div class="backBtn"
+                  @mousedown="exitGameDown_mousedown($event)" 
+                  @mouseup="exitGameUp_mouseup($event)" 
+                  @touchstart.stop ="exitGameDown_touch($event)" 
+                  @touchend.stop ="exitGameUp_touch($event)">
+            </div>
+          </div>
+        </div>
     </div>
-    </keep-alive>
+    <!-- </keep-alive> -->
 </template>
 <script>
 // import { createdSprite } from "../src/components/Pages/Common.js";
@@ -29,7 +40,10 @@ export default {
       Waster: null,
       HardObject: {},
       ControlHardDialog: false,
-      LoadingAgain: true
+      LoadingAgain: true,
+      showTimeOut: false,
+      Timeout0: null,
+      Timeout1: null
     };
   },
   beforeCreate() {
@@ -37,6 +51,7 @@ export default {
     Garbage.setGarBage("startPlayHardGame", false);
   },
   mounted() {
+    this.get_restTime();
     this.createCanvasApp();
   },
   methods: {
@@ -113,7 +128,70 @@ export default {
         //   //console.log("已经加载了...");
         // }
       });
+    },
+    //获取剩余时间
+    get_restTime() {
+      let self = this;
+      window.parent.postMessage(
+        {
+          type: "getPrepGameTime",
+          game: 5
+        },
+        "*"
+      );
+      //接受信息
+      window.addEventListener("message", changeBarStatus);
+      function changeBarStatus(event) {
+        if (event.data.type == "getPrepGameTime") {
+          var restTime = event.data.data.remain * 1000; //这个要改
+          self.Timeout0 = setTimeout(() => {
+            self.showTimeOut = true;
+            //window.removeEventListener("message", changeBarStatus);
+          }, restTime);
+          window.removeEventListener("message", changeBarStatus);
+        }
+      }
+      // self.Timeout1 = setTimeout(() => {
+      //   self.get_curClass();
+      // }, 1000);
+    },
+    //弹窗按钮......
+    exitGameDown_touch($event) {
+      if (Browser.versions.mobile && $event.type == "mousedown") {
+        return false;
+      }
+      $event.target.style.backgroundImage = 'url("./img/dialog/yesBtn_1.png")';
+    },
+    exitGameDown_mousedown($event) {
+      $event.target.style.backgroundImage = 'url("./img/dialog/yesBtn_1.png")';
+      window.parent.postMessage(
+        {
+          type: "exitGame",
+          game: 5
+        },
+        "*"
+      );
+    },
+    exitGameUp_touch($event) {
+      if (Browser.versions.mobile && $event.type == "mousedown") {
+        return false;
+      }
+      $event.target.style.backgroundImage = 'url("./img/dialog/yesBtn_1.png")';
+    },
+    exitGameUp_mouseup($event) {
+      $event.target.style.backgroundImage = 'url("./img/dialog/yesBtn_1.png")';
+      window.parent.postMessage(
+        {
+          type: "exitGame",
+          game: 5
+        },
+        "*"
+      );
     }
+  },
+  beforeDestroy() {
+    clearTimeout(this.Timeout0);
+    clearTimeout(this.Timeout1);
   }
 };
 </script>
@@ -130,5 +208,39 @@ export default {
 .SwiperDialog {
   position: absolute;
   top: 0rem;
+}
+.timeOut {
+  width: 19.2rem;
+  height: 10.8rem;
+  background-color: black;
+  opacity: 0.6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+.exitBar {
+  width: 8.72rem;
+  height: 5.56rem;
+  position: absolute;
+  z-index: 3;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  background-image: url("../public/img/dialog/DialogFoucePause.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.backBtn {
+  width: 2.88rem;
+  height: 1.41rem;
+  position: absolute;
+  left: 3.07rem;
+  top: 3.65rem;
+  cursor: pointer;
+  background-image: url("../public/img/dialog/yesBtn_0.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 </style>

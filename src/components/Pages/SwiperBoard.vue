@@ -68,8 +68,8 @@
         <div v-show="coverlayControlShowOnce" id="Coverlay" ref="coverlay" @click="coverLayoutShow" >
           <img src="../../../public/img/LeftArrow.png" alt="">
           <img src="../../../public/img/RightArrow.png" alt="">
-          <img ref="hand0" src="../../../public/img/Hand0.png" alt="">
-          <img ref="hand1" src="../../../public/img/Hand1.png" alt="">
+          <img ref="hand0" src="../../../public/img/LeftHand.png" alt="">
+          <img ref="hand1" src="../../../public/img/RightHand.png" alt="">
           <img src="../../../public/img/HardCoverLay.png" alt="">
           <img src="../../../public/img/SkipButton.png" alt="">
         </div>
@@ -425,8 +425,8 @@ body {
   height: 2.14rem;
 }
 #Coverlay img:nth-child(3) {
-  top: 7.84rem;
-  left: 9.39rem;
+  top: 8.15rem;
+  left: 9.35rem;
   width: 1.38rem;
   height: 1.6rem;
 }
@@ -434,8 +434,8 @@ body {
   top: 8.15rem;
   left: 9.35rem;
   opacity: 0;
-  width: 1.44rem;
-  height: 1.23rem;
+  width: 1.74rem;
+  height: 1.77rem;
 }
 #Coverlay img:nth-child(5) {
   top: 2.1rem;

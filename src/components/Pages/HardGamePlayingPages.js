@@ -344,19 +344,19 @@ export default class HardGamePlayingPages extends PIXI.Container {
         /////////////弹窗开始/////////////////////////
         //第一个弹窗吧关闭按钮的弹窗
         this.Dialog = new BackDialog(self);
-        this.DialogText = createdText({
-            $this: self,
-            $text: "Do you really want  \n         to quit ? ", //这几个空格保留...
-            $x: 640,
-            $y: 280,
-            $addChild: false,
-            $style: createdStyle({
-                $fontSize: 100,
-                $fontWeight: 400,
-                $lineHeight: 128,
-                $fontFamily: "方正舒体",
-            })
-        })
+        // this.DialogText = createdText({
+        //     $this: self,
+        //     $text: "Do you really want  \n         to quit ? ", //这几个空格保留...
+        //     $x: 640,
+        //     $y: 280,
+        //     $addChild: false,
+        //     $style: createdStyle({
+        //         $fontSize: 100,
+        //         $fontWeight: 400,
+        //         $lineHeight: 128,
+        //         $fontFamily: "方正舒体",
+        //     })
+        // })
         this.Dialog.yesBtn.on('pointertap', () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
@@ -773,7 +773,7 @@ export default class HardGamePlayingPages extends PIXI.Container {
         PIXI.sound.pause("RubbishPlaying") //暂停背景音乐
         this.loop.stop();
         this.addChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.yesBtn, this.Dialog.noBtn)
-        this.addChild(this.DialogText)
+            //this.addChild(this.DialogText)
         this.WasterGather.forEach((item) => {
             item.interactive = false;
             item.buttonMode = false;
@@ -785,7 +785,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
         PIXI.sound.play("RubbishPlaying", {
             loop: true
         }); //开始播放音乐背景事件
-        this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+        // this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.DialogText, this.Dialog.yesBtn, this.Dialog.noBtn);
+        this.removeChild(this.Dialog.graphics, this.Dialog.pop, this.Dialog.yesBtn, this.Dialog.noBtn); //删除DialogText 不要删除上面注释的 以防在改
         this.WasterGather.forEach((item) => {
             item.interactive = true;
             item.buttonMode = true;

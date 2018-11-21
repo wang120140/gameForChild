@@ -95,7 +95,7 @@ export default class HomePages extends PIXI.Container {
         }).on("pointerup", () => {
             this.closeButtonClick.visible = false;
             //返回主目录;
-            console.log(".....");
+            console.log("返回主页面按钮事件发生......");
             window.parent.postMessage({
                 "type": "exitGame",
                 "game": 5,

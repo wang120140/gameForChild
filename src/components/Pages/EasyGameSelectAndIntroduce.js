@@ -1,3 +1,4 @@
+//这个是选择和介绍页面
 import * as PIXI from 'pixi.js'
 import {
     SceneManager,
@@ -328,8 +329,8 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.ArrowLittleBubble = createdSprite({
             $this: self,
             $alias: "LitterBubble_png",
-            $x: 380,
-            $y: 300,
+            $x: 464,
+            $y: 478,
             $addChild: false
         });
         this.coverLay.addChild(this.ArrowLittleBubble);
@@ -337,8 +338,8 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.ArrowMiddleBubble = createdSprite({
             $this: self,
             $alias: "MiddleBubble_png",
-            $x: 480,
-            $y: 200,
+            $x: 537,
+            $y: 320,
             $addChild: false
         })
         this.coverLay.addChild(this.ArrowMiddleBubble);
@@ -346,8 +347,8 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.ArrowTestBubble = createdSprite({
             $this: self,
             $alias: "ArrowTextBubble_png",
-            $x: 700,
-            $y: 80,
+            $x: 800,
+            $y: 150,
             $addChild: false
         });
         this.coverLay.addChild(this.ArrowTestBubble);
@@ -387,6 +388,7 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         //遮罩层
         //先关闭箭头指引的方向
         this.CoverRubbishEvent();
+        //这个是第一次先点击垃圾箱后的
         this.ButtonCover = new PIXI.Graphics();
         this.ButtonCover.beginFill(0x000000, 0);
         this.ButtonCover.drawRect(90, 400, 400, 530);
@@ -395,17 +397,37 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.ButtonCover.buttonMode = true;
         this.ButtonCover.on("pointertap", () => {
             //console.log("遮罩层垃圾事件...");
-            this.Hand0.x = 264;
-            this.Hand0.y = 458;
-            this.Hand1.x = 264;
-            this.Hand1.y = 458;
+            // this.Hand0.x = 264;
+            // this.Hand0.y = 458;
+            // this.Hand1.x = 264;
+            // this.Hand1.y = 458;
             //隐藏小图片
             this.LittleBubble.visible = false;
             this.TextBubble.visible = false;
             this.CoverRubbishEvent(true);
+            //开启第二次的事件
+            this.ButtonCover.interactive = false;
+            this.ButtonCover.buttonMode = false;
+            this.ButtonCover.visible = false;
+            this.ButtonCoverSecond.interactive = true;
+            this.ButtonCoverSecond.buttonMode = true;
+            this.ButtonCoverSecond.visible = true;
         });
         this.coverLay.addChild(this.ButtonCover);
-        //跳过按钮
+        //设置第二次点击垃圾箱的效果
+        this.ButtonCoverSecond = new PIXI.Graphics();
+        this.ButtonCoverSecond.beginFill(0x050505, 0);
+        this.ButtonCoverSecond.drawRect(90, 250, 400, 630);
+        this.ButtonCoverSecond.endFill();
+        this.ButtonCoverSecond.visible = false;
+        this.ButtonCoverSecond.interactive = false;
+        this.ButtonCoverSecond.buttonMode = false;
+        this.ButtonCoverSecond.on("pointertap", () => {
+            //console.log("第二个事件发生......")
+            this.coverButton();
+        })
+        this.coverLay.addChild(this.ButtonCoverSecond)
+            //跳过按钮
         this.SkipButton = createdSprite({
             $this: self,
             $alias: "SkipButton_png",
