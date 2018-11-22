@@ -97,6 +97,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         this.Hand1 = null;
         this.HandControl = false;
         this.LittleBubble = null;
+        this.SelectLitterClass = null;
 
     }
     removeFromStage() {
@@ -119,6 +120,7 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             this.wheelSprite = [];
             this.RecyclableSprite = [];
             this.DialogSummarySpriteArr = [];
+            this.SelectLitterClass = null;
             this.RubbishPlayingControl = true;
             this.DialogDetail = {
                 correct: 0,
@@ -128,7 +130,8 @@ export default class EasyGamePlayingPages extends PIXI.Container {
             //测试使用
             //var Test = 0;
             //switch (Test) {
-            //console.log(Garbage.getGarBage("position") + "position位置")
+            //console.log(Garbage.getGarBage("position") + "position位置");
+            this.SelectLitterClass = Garbage.getGarBage("position");
             switch (Garbage.getGarBage("position")) {
                 case 0:
                     this.RecyclablelitterName = "RecyclableLitter"
@@ -838,7 +841,13 @@ export default class EasyGamePlayingPages extends PIXI.Container {
         //item.off(event.type, arguements.callee);
         this.removeChild(item); //先移除原有的精灵
         let RandomIndex, NewItem, self = this;
-        RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
+        //改变比例
+        this.SelectLitterClass;
+        if (Math.random() < 0.7) {
+            RandomIndex = Math.floor(Math.random() * 20); //创建新的精灵
+        } else {
+            RandomIndex = Math.floor(Math.random() * 5) + this.SelectLitterClass * 5; //创建新的精灵
+        }
         NewItem = createdSprite({
             $this: self,
             $alias: self.Waster[RandomIndex],

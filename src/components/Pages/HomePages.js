@@ -82,6 +82,12 @@ export default class HomePages extends PIXI.Container {
         }).on("pointerdown", () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.closeButtonClick.visible = true;
+            setTimeout(() => {
+                window.parent.postMessage({
+                    "type": "exitGame",
+                    "game": 5,
+                }, "*");
+            }, 200);
         });
         // 有一个事件（关闭按钮切换至垃圾收集页面...）A02
         this.closeButtonClick = createdSprite({
@@ -96,10 +102,10 @@ export default class HomePages extends PIXI.Container {
             this.closeButtonClick.visible = false;
             //返回主目录;
             console.log("返回主页面按钮事件发生......");
-            window.parent.postMessage({
-                "type": "exitGame",
-                "game": 5,
-            }, "*");
+            // window.parent.postMessage({
+            //     "type": "exitGame",
+            //     "game": 5,
+            // }, "*");
 
         });
         //按钮easy（Easy按钮事件切换至图片转换...）A03
@@ -110,9 +116,34 @@ export default class HomePages extends PIXI.Container {
             $y: 848,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointerdown", this.btnEasyClickNormalEvent = () => {
+        }).on("pointertap", this.btnEasyClickNormalEvent = () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.btnEasyClick.visible = true;
+            this.TimeOut0 = setTimeout(() => {
+                //跳转之前要干的事情：
+                //1.声音暂停
+                //2.清除声音
+                //3.发送声音播放进度
+                //4.清除所有的事件绑定
+                //5.清除所有变量
+                //6.清除所有精灵舞台
+                //7.发送第一次进入添加引导层
+                PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+                Garbage.clearGarBage("SoundProgress"); //清除声音数据
+                Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+                Garbage.setGarBage("CoverLayoutSet", "First");
+                (() => {
+                    this.clearEvent();
+                    this.BtnHardClick = null;
+                    this.soundBg = null;
+                    this.closeButtonClick = null;
+                    this.Leaf_spine = null;
+                    this.visible = false; //可以解决问题1    
+                    this.parent.removeChildren();
+                })();
+                SceneManager.run(new EasyGameSelectAndIntroduce());
+                //跳转选择页面
+            }, 200)
         });
         //按钮Easy (Easy按钮事件转换屏幕事件...) A04
         this.btnEasyClick = createdSprite({
@@ -124,29 +155,7 @@ export default class HomePages extends PIXI.Container {
             $interactive: true,
             $buttonMode: true,
         }).on("pointerup", this.btnEasyClickEventPointerup = () => {
-            //跳转之前要干的事情：
-            //1.声音暂停
-            //2.清除声音
-            //3.发送声音播放进度
-            //4.清除所有的事件绑定
-            //5.清除所有变量
-            //6.清除所有精灵舞台
-            //7.发送第一次进入添加引导层
-            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
-            Garbage.setGarBage("CoverLayoutSet", "First");
-            (() => {
-                this.clearEvent();
-                this.BtnHardClick = null;
-                this.soundBg = null;
-                this.closeButtonClick = null;
-                this.Leaf_spine = null;
-                this.visible = false; //可以解决问题1    
-                this.parent.removeChildren();
-            })();
-            SceneManager.run(new EasyGameSelectAndIntroduce());
-            //跳转选择页面
+
         }).on("pointerout", this.btnEasyClickEventPointerout = () => {
             this.btnEasyClick.visible = false;
         });
@@ -158,9 +167,26 @@ export default class HomePages extends PIXI.Container {
             $y: 848,
             $interactive: true,
             $buttonMode: true,
-        }).on("pointerdown", this.BtnHardClickNormalEvent = () => {
+        }).on("pointertap", this.BtnHardClickNormalEvent = () => {
             PIXI.sound.play("ClickSound") //添加点击效果音效
             this.BtnHardClick.visible = true;
+            this.TimeOut1 = setTimeout(() => {
+                this.vueInstance.ControlHardDialog = true;
+                PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+                Garbage.clearGarBage("SoundProgress"); //清除声音数据
+                Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+                Garbage.clearGarBage("startPlayHardGame"); //控制hard页面数据
+                Garbage.setGarBage("startPlayHardGame", false);
+                this.clearEvent(); //移除所有事件关联的对象
+                (() => { //清除变量...
+                    this.btnEasyClick = null;
+                    this.soundBg = null;
+                    this.closeButtonClick = null;
+                    this.Leaf_spine = null;
+                })();
+                this.parent.removeChildren(); //清除所有物品的事件
+                SceneManager.run(new HardGamePlayingPages());
+            }, 200)
         });
         //按钮Hard （Hard按钮事件装Hard场景...）A06
 
@@ -173,31 +199,33 @@ export default class HomePages extends PIXI.Container {
             $buttonMode: true,
             $visible: false,
         }).on("pointerup", this.BtnHardClickEventPointerup = () => {
-            this.vueInstance.ControlHardDialog = true;
-            PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
-            Garbage.clearGarBage("SoundProgress"); //清除声音数据
-            Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
-            Garbage.clearGarBage("startPlayHardGame"); //控制hard页面数据
-            Garbage.setGarBage("startPlayHardGame", false);
-            this.clearEvent(); //移除所有事件关联的对象
-            (() => { //清除变量...
-                this.btnEasyClick = null;
-                this.soundBg = null;
-                this.closeButtonClick = null;
-                this.Leaf_spine = null;
-            })();
-            this.parent.removeChildren(); //清除所有物品的事件
-            SceneManager.run(new HardGamePlayingPages());
+            // this.vueInstance.ControlHardDialog = true;
+            // PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
+            // Garbage.clearGarBage("SoundProgress"); //清除声音数据
+            // Garbage.setGarBage("SoundProgress", this.soundBg._duration * this.soundBg.progress); //发送声音数据
+            // Garbage.clearGarBage("startPlayHardGame"); //控制hard页面数据
+            // Garbage.setGarBage("startPlayHardGame", false);
+            // this.clearEvent(); //移除所有事件关联的对象
+            // (() => { //清除变量...
+            //     this.btnEasyClick = null;
+            //     this.soundBg = null;
+            //     this.closeButtonClick = null;
+            //     this.Leaf_spine = null;
+            // })();
+            // this.parent.removeChildren(); //清除所有物品的事件
+            // SceneManager.run(new HardGamePlayingPages());
         }).on("pointerout", this.BtnHardClickEventPointerout = () => {
             this.BtnHardClick.visible = false;
         })
     }
     clearEvent() {
-        this.btnEasyClickNormal.off("pointerdown", this.btnEasyClickNormalEvent); //移除容易按钮事件
+        this.btnEasyClickNormal.off("pointertap", this.btnEasyClickNormalEvent); //移除容易按钮事件
         this.btnEasyClick.off("pointerup", this.btnEasyClickEventPointerup);
         this.btnEasyClick.off("pointerout", this.btnEasyClickEventPointerout);
+        this.TimeOut0 && clearTimeout(this.TimeOut0);
+        this.TimeOut1 && clearTimeout(this.TimeOut1);
 
-        this.BtnHardClickNormal.off("pointerdown", this.BtnHardClickNormalEvent); //移除困难按钮事件
+        this.BtnHardClickNormal.off("pointertap", this.BtnHardClickNormalEvent); //移除困难按钮事件
         this.BtnHardClick.off("pointerup", this.BtnHardClickEventPointerup);
         this.BtnHardClick.off("pointerout", this.btnEasyClickEventPointerout);
         this.off("added", this.addedHomePageStage, this); //移除整体对象的事件

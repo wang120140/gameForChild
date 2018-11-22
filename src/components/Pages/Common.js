@@ -71,16 +71,16 @@ class BackDialog {
         this.pop = createdSprite({
             $this: _this,
             $alias: 'DialogPause_png',
-            $x: 400,
-            $y: 100,
+            $x: 459,
+            $y: 260,
             //$interactive: true,
             $addChild: false,
         })
         this.yesBtn = createdSprite({
             $this: _this,
             $alias: 'yesBtn_0_png',
-            $x: 950,
-            $y: 500,
+            $x: 975,
+            $y: 680,
             $interactive: true,
             $buttonMode: true,
             $addChild: false,
@@ -88,8 +88,8 @@ class BackDialog {
         this.noBtn = createdSprite({
             $this: _this,
             $alias: 'noBtn_0_png',
-            $x: 550,
-            $y: 500,
+            $x: 594,
+            $y: 680,
             $interactive: true,
             $buttonMode: true,
             $addChild: false

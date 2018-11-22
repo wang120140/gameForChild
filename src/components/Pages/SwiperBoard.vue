@@ -427,8 +427,8 @@ body {
 #Coverlay img:nth-child(3) {
   top: 8.15rem;
   left: 9.35rem;
-  width: 1.38rem;
-  height: 1.6rem;
+  width: 1.74rem;
+  height: 1.77rem;
 }
 #Coverlay img:nth-child(4) {
   top: 8.15rem;

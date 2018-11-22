@@ -320,7 +320,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
                 $pivotX: true,
             });
             WasterItem.scale.set(1.2);
-
             WasterItem.pivot.y = WasterItem.height - 50;
             WasterItem.Class = this.WasterClass[Math.floor(index / 5)]; //定义属性
             WasterItem.CheckClass = null; //定义检查属性
@@ -340,7 +339,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
         }
         this.loop = new PIXI.ticker.Ticker();
         this.loop.add(delta => this.gameloop(delta));
-
         /////////////弹窗开始/////////////////////////
         //第一个弹窗吧关闭按钮的弹窗
         this.Dialog = new BackDialog(self);
@@ -463,7 +461,6 @@ export default class HardGamePlayingPages extends PIXI.Container {
         });
         this.coverLay.addChild(this.SkipButton);
         //蒙层结束..........
-
         //第三个弹框 总结弹窗
         this.DialogSummaryArr.forEach((item) => {
             this.DialogSummarySpriteArr.push(createdText({ //清空
@@ -655,7 +652,8 @@ export default class HardGamePlayingPages extends PIXI.Container {
                                     item.state.setAnimation(0, "happy", false);
                                     item.state.tracks[0].listener = {
                                         complete: () => {
-                                            item.state.setAnimation(0, "normal", true);
+                                            //item.state.setAnimation(0, "normal", true);
+                                            item.visible = false;
                                         }
                                     }
                                 }
@@ -678,7 +676,9 @@ export default class HardGamePlayingPages extends PIXI.Container {
                                 }
                                 item.state.tracks[0].listener = {
                                     complete: () => {
-                                        item.state.setAnimation(0, "normal", true);
+                                        //item.state.setAnimation(0, "normal", true);
+                                        item.visible = false;
+
                                     }
                                 }
                             }

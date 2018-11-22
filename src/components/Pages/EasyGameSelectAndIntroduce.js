@@ -423,8 +423,15 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         this.ButtonCoverSecond.interactive = false;
         this.ButtonCoverSecond.buttonMode = false;
         this.ButtonCoverSecond.on("pointertap", () => {
-            //console.log("第二个事件发生......")
+            console.log("第二个事件发生......")
             this.coverButton();
+            this.animateSpineMoveNum = 0; //那个动物改变走
+            this.loop.start(); //开启循环函数
+            this.Arrow.interactive = false //添加了这句话
+            this.BtnBackNormal.visible = false //关闭按钮
+            this.Arrow.interactive = false; //关闭箭头事件
+            this.Arrow.buttonMode = false; //关闭箭头事件的效果
+            this.SpineRun(0);
         })
         this.coverLay.addChild(this.ButtonCoverSecond)
             //跳过按钮
@@ -554,7 +561,6 @@ export default class EasySelectAndIntroduce extends PIXI.Container {
         //发送动画位置数据...
         Garbage.clearGarBage("position");
         Garbage.setGarBage('position', this.animateSpineMoveNum);
-
         //发送声音的位置
         PIXI.sound.pause("RubbishSecletHome"); //声音暂停...
         Garbage.clearGarBage("SoundProgress"); //清除声音数据
